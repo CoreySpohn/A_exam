@@ -1,4 +1,5 @@
-%!TEX TS-program = pdflatexmk
+%!TEX TS-program = pdflatex
+
 \documentclass[aspectratio=169]{beamer}
 
 %packages
@@ -172,32 +173,31 @@
 %here's a normal slide:
 \frame{
 \frametitle{Exoplanet exploration}
-\tikzoverlay[text width = 8cm] at (0cm, 2.65cm){
-\begin{itemize}
-    \item  NASA's Exoplanet Exploration Program's primary goal is to ``discover and characterize
-        planetary systems and Earth-like planets around nearby stars''
-    \item Further, the program is looking for signs of possible life which is studied through
-        atmospheric characterization
-    \item To make detailed atmospheric characterization we need light from an exoplanet, either via
-        transmission spectroscopy or direct imaging.
-\end{itemize}
-};
-\tikzoverlay[text width = 5cm] at (8.35cm, 1.65cm){
-    \includegraphics[width=6cm]{figures/exoplanet_art.jpeg}
-};
+%\tikzoverlay[text width = 8cm] at (0cm, 2.65cm){
+%\begin{itemize}
+    %\item  NASA's Exoplanet Exploration Program's primary goal is to ``discover and characterize
+        %planetary systems and Earth-like planets around nearby stars''
+    %\item Further, the program is looking for signs of possible life which is studied through
+        %atmospheric characterization
+    %\item To make detailed atmospheric characterization we need light from an exoplanet, either via
+        %transmission spectroscopy or direct imaging.
+        %test
+%\end{itemize}
+%};
+%\tikzoverlay[text width = 5cm] at (8.35cm, 1.65cm){
+    %\includegraphics[width=6cm]{figures/exoplanet_art.jpeg}
+%};
 \footlineextra{https://exoplanets.nasa.gov/system/internal\_resources/details/original/852\_Super\_Earth.jpeg}
 }
 
 \frame{
 \frametitle{Direct Imaging}
-\tikzoverlay[text width = 8cm] at (0cm, 2.65cm){
-\begin{itemize}
-    \item  Detecting a planet as a point source of light
-\end{itemize}
-};
-\tikzoverlay[text width = 5cm] at (8.15cm, 2.65cm){
-    \animategraphics[loop, width=4cm]{10}{figures/HR_8799_gif/HR_8799-}{0}{6}
-};
+%\tikzoverlay[text width = 8cm] at (0cm, 2.65cm){
+%\begin{itemize}
+    %\item  Detecting a planet as a point source of light
+%\end{itemize}
+%};
+    \animategraphics[loop, controls, width=4cm]{5}{HR_8799_gif/HR_8799-}{0}{100}
 }
 
 \frame{
