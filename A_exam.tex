@@ -93,7 +93,8 @@
 \subject{Talks} %modify as desired
 
 %bib stuff 
-\usepackage[backend=bibtex, style=authoryear-comp]{biblatex}
+%\usepackage[backend=biber, style=authoryear-comp]{biblatex}
+\usepackage[style=authoryear]{biblatex}
 \addbibresource{library.bib} %change to your own bibliography file
 
 %custom cite command - change at will (change tiny to footnotesize to make bigger)
@@ -140,7 +141,7 @@
 % TikZ stuff
 \tikzset{
   every overlay node/.style={
-    draw=black,fill=white,rounded corners,anchor=north west,
+    draw=black,fill=white,anchor=north west,inner sep=0, outer sep=0,
   },
 }
 % Usage:
@@ -173,67 +174,70 @@
 %here's a normal slide:
 \frame{
 \frametitle{Exoplanet exploration}
-%\tikzoverlay[text width = 8cm] at (0cm, 2.65cm){
-%\begin{itemize}
-    %\item  NASA's Exoplanet Exploration Program's primary goal is to ``discover and characterize
-        %planetary systems and Earth-like planets around nearby stars''
-    %\item Further, the program is looking for signs of possible life which is studied through
-        %atmospheric characterization
-    %\item To make detailed atmospheric characterization we need light from an exoplanet, either via
-        %transmission spectroscopy or direct imaging.
-        %test
-%\end{itemize}
-%};
-%\tikzoverlay[text width = 5cm] at (8.35cm, 1.65cm){
-    %\includegraphics[width=6cm]{figures/exoplanet_art.jpeg}
-%};
+\tikzoverlay[text width = 8cm] at (0cm, 3cm+4.5pt){
+\begin{itemize}
+    \item  NASA's Exoplanet Exploration Program's primary goal is to ``discover and characterize
+        planetary systems and Earth-like planets around nearby stars''
+    \item Further, the program is looking for signs of possible life which is studied through
+        atmospheric characterization
+    \item To make detailed atmospheric characterization we need light from an exoplanet, either via
+        transmission spectroscopy or direct imaging.
+\end{itemize}
+};
+\tikzoverlay[text width = 5cm] at (8.35cm, 1.65cm){
+    \includegraphics[width=6cm]{figures/exoplanet_art.jpeg}
+};
 \footlineextra{https://exoplanets.nasa.gov/system/internal\_resources/details/original/852\_Super\_Earth.jpeg}
 }
 
 \frame{
 \frametitle{Direct Imaging}
-%\tikzoverlay[text width = 8cm] at (0cm, 2.65cm){
-%\begin{itemize}
-    %\item  Detecting a planet as a point source of light
-%\end{itemize}
-%};
-    \animategraphics[loop, controls, width=4cm]{5}{HR_8799_gif/HR_8799-}{0}{100}
-}
-
-\frame{
-\frametitle{Optimizing Observations}
+\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
 \begin{itemize}
-    \item Simulating missions (EXOSIMS)
-    \item Completeness
-    \item Precursor measurements
+    \item  Detecting a planet as a point source of light
+    %\item Sensitive to a different population of planets than indirect detection methods
+    \item Technical challenge, researching many different ways to increase the number of planets we
+        detect
 \end{itemize}
-}
- 
-%here's a slide with a full-width image
-\frame{
-\frametitle{Slide 2}
-\centering
-\vspace{-1ex}
-\hspace*{-\beamerleftmargin}%
-\includegraphics[width=\paperwidth,clip=true,trim= 0in 0in 0in 0in]{template/labgroup2021}
+};
+\tikzoverlay[text width = 8cm] at (2cm-3pt, 4.5pt+1cm){
+    \includegraphics[width=10cm]{figures/all_planets.pdf}
+};
+%\tikzoverlay[text width = 5cm] at (8.35cm, 1.65cm){
+    %\animategraphics[loop, controls, width=4cm]{5}{HR_8799_gif/HR_8799-}{0}{100}
+%};
 }
 
-%here's a slide with a full-width image and filled background
-{\setbeamercolor{background canvas}{bg=black} 
 \frame{
-\frametitle{Slide 2}
-\centering
-\vspace{-1ex}
-\hspace*{-\beamerleftmargin}%
-\includegraphics[width=\paperwidth,clip=true,trim= 0in 0in 0in 0in]{template/labgroup2021}
-}}
+\frametitle{Ways to image more exoplanets}
+\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+\begin{itemize}
+    \item Improve instruments
+    \item Use the limited observation time more effectively
+\end{itemize}
+};
+\tikzoverlay[text width = 3cm] at (4.5cm-3pt, 1.5cm+4.5pt){
+    \includegraphics[height=3cm]{figures/roman_space_telescope.jpg}
+};
+\tikzoverlay[text width = 10cm] at (2cm-7pt, -1.5cm+4.5pt){
+    \includegraphics[width=10cm]{figures/habex.png}
+};
+}
 
-%here's an example of using the BackgroundPicture and removing any nav symbols
-\setbeamertemplate{navigation symbols}{}
-\BackgroundPicture{template/labgroup2021}{1}{0.78} %need to match to image aspect ratio.  these are fractions of 16:9
-\frame[plain]{}
- \setbeamertemplate{background}{ \setbeamercolor{normal text}{bg=white} } %put the background back to white
-\setbeamertemplate{navigation symbols}{\insertframenumber{}/\inserttotalframenumber} %restore nav symbols
+\frame{
+    \frametitle{Precursor radial velocity detections}
+\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+\begin{itemize}
+    \item Detect planets ahead of time via the radial velocity method
+    \item Currently being used by the Nancy Grace Roman Space Telescope team to identify exoplanets
+        that the instrument may be able to detect
+    \item The HabEx team notes ``Precise precursor radial velocities (PRVs) will
+        provide multiple advantageous contributions to the scientific yield and optimization of
+        HabEx.''\parencite{HabEx2020}
+\end{itemize}
+};
+}
+
 
 \section{Results}
 \subsection{First Result}
