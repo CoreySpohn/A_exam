@@ -229,15 +229,51 @@
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
 \begin{itemize}
     \item Detect planets ahead of time via the radial velocity method
-    \item Currently being used by the Nancy Grace Roman Space Telescope team to identify exoplanets
-        that the instrument may be able to detect
+    \item Currently being used by the Nancy Grace Roman Space Telescope team to identify exoplanet targets
     \item The HabEx team notes ``Precise precursor radial velocities (PRVs) will
         provide multiple advantageous contributions to the scientific yield and optimization of
         HabEx.''\parencite{HabEx2020}
 \end{itemize}
 };
+\tikzoverlay[text width = 6cm] at (0cm-2pt, -0.4cm+4.5pt){
+    \includegraphics[height=3.75cm]{figures/RV_method_art.jpg}
+};
+\tikzoverlay[text width = 6cm] at (6cm, -0.4cm+4.5pt){
+    \includegraphics[height=3.75cm]{figures/export2.png}
+};
+%TODO FIX SECOND PICTURE
+\footlineextra{ESO, \textcite{EPRV2020}}
 }
 
+\frame{
+    \frametitle{Current radial velocity precision}
+\tikzoverlay[text width = 14cm] at (0cm, -2.8cm+4.5pt){
+\begin{itemize}
+    \item Need approximately 10 cm/s precision to detect Earth-like planets
+    \item Predicting detectability based on precision RV data
+\end{itemize}
+};
+\tikzoverlay[text width = 6cm] at (2cm, 3cm+4.5pt){
+    \includegraphics[height=6cm]{figures/RV_precision.png}
+};
+\footlineextra{\textcite{EPRV2020} }
+}
+
+\frame{
+    \frametitle{What's missing}
+\tikzoverlay[text width = 6cm] at (0.5cm, 3cm+4.5pt){
+    \animategraphics[loop, controls, width=6cm]{5}{edge_on_orbit/frame-}{0}{30}
+};
+\tikzoverlay[text width = 6cm] at (7.5cm-3pt, 3cm+4.5pt){
+    \animategraphics[loop, controls, width=6cm]{5}{face_on_orbit/frame-}{0}{30}
+};
+\tikzoverlay[text width = 14cm] at (0cm, -1cm+4.5pt){
+\begin{itemize}
+    \item How should we use the incomplete RV information to predict when a planet is detectable
+    \item How long will fitted orbital parameters accurately predict the planet’s location?
+\end{itemize}
+};
+}
 
 \section{Results}
 \subsection{First Result}
