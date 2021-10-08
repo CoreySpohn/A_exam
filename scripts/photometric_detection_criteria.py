@@ -1,0 +1,168 @@
+import numpy as np
+import astropy.units as u
+from astropy.time import Time
+import matplotlib.pyplot as plt
+from planet import Planet
+from pathlib import Path
+from matplotlib import cm
+import matplotlib.path as mpath
+import matplotlib.patches as mpatches
+
+def make_circle(r):
+    t = np.arange(0, np.pi * 2.0, 0.01)
+    t = t.reshape((len(t), 1))
+    x = r * np.cos(t)
+    y = r * np.sin(t)
+    return np.hstack((x, y))
+
+if __name__ == '__main__':
+    p1_inputs = {'a': 1*u.AU,
+                 'e': 0,
+                 'W': 0*u.rad,
+                 'I': 90*u.degree,
+                 'w': 0*u.rad,
+                 'Mp': 1*u.M_earth,
+                 'Rp': 1*u.R_earth,
+                 'f_sed': 0,
+                 'p': 0.367,
+                 'M0': 0*u.rad,
+                 't0': Time(2000, format='decimalyear'),
+                 'rv_error': 0.001*u.m/u.s}
+    p1 = Planet(r'1 $M_\oplus$', 10*u.pc, 1*u.M_sun, 0, {}, {}, keplerian_inputs=p1_inputs)
+    p2_inputs = {'a': 1*u.AU,
+                 'e': 0,
+                 'W': 0*u.rad,
+                 'I': 5.73917048*u.degree,
+                 'w': 0*u.rad,
+                 'Mp': 10*u.M_earth,
+                 'Rp': 1*u.R_earth,
+                 'f_sed': 0,
+                 'p': 0.367,
+                 'M0': 0*u.rad,
+                 't0': Time(2000, format='decimalyear'),
+                 'rv_error': 0.001*u.m/u.s}
+    p2 = Planet('10 $M_\oplus$', 10*u.pc, 1*u.M_sun, 0, {}, {}, keplerian_inputs=p2_inputs)
+    times = np.linspace(2000, 2001, 100)
+    plt.style.use("dark_background")
+    cc = plt.Circle((0, 0), 1)
+    my_cmap = plt.get_cmap('gray')
+    viridis_cmap = plt.get_cmap('viridis')
+    plt.set_cmap('gray')
+    font = {'size': 13}
+    plt.rc("font", **font)
+    for fnum, current_time in enumerate( times ):
+        time_jd = Time(Time(current_time, format='decimalyear').jd, format='jd')
+        p1_pos = p1.calc_position_vectors(time_jd)
+        p2_pos = p2.calc_position_vectors(time_jd)
+
+        # Get the beta values for photometry calculations
+        p1_r = np.linalg.norm(p1_pos, axis=0)
+        p1_beta = np.arccos(p1_pos[2, :].value / p1_r.value) * u.rad
+        p2_r = np.linalg.norm(p2_pos, axis=0)
+        p2_beta = np.arccos(p2_pos[2, :].value / p2_r.value) * u.rad
+        p1_phase = p1.lambert_func(p1_beta)
+        p2_phase = p2.lambert_func(p2_beta)
+
+        p1_edge_color = viridis_cmap(0.99)
+        p2_edge_color = viridis_cmap(0.75)
+
+        # Calculating dMag for photometry
+        p1_alpha, p1_dMag = p1.prop_for_imaging(time_jd)
+        p2_alpha, p2_dMag = p2.prop_for_imaging(time_jd)
+        p1_s = (np.tan(p1_alpha)*p1.dist_to_star).to(u.AU).value
+        p2_s = (np.tan(p2_alpha)*p2.dist_to_star).to(u.AU).value
+        p1_FR = 10**(p1_dMag/(-2.5))
+        p2_FR = 10**(p2_dMag/(-2.5))
+
+        fig, (p1_vis_ax, p2_vis_ax) = plt.subplots(ncols=2, figsize=[16/1.5, 9/1.5])
+
+        if p1_pos[2] < 0:
+            p1_order=1
+        else:
+            p1_order=3
+        # Set the star up in the center
+        p1_vis_ax.scatter(0, 0, s=250, zorder=2, color='white')
+        p2_vis_ax.scatter(0, 0, s=250, zorder=2, color='white')
+
+        p1_color = my_cmap(p1_phase)
+        p2_color = my_cmap(p2_phase)
+        threshold = my_cmap(0.75)
+
+        # Add the planets at their current location
+        p1_vis_ax.scatter(p1_pos[0].to(u.AU), p1_pos[1].to(u.AU), s=10+(5*(np.pi-p1_beta.value)), label=p1.planet_label, zorder=p1_order, color=p1_color, edgecolor=p1_edge_color)
+        p2_vis_ax.scatter(p2_pos[0].to(u.AU), p2_pos[1].to(u.AU), s=100+(5*(np.pi-p2_beta.value)), label=p2.planet_label, zorder=1, color=p2_color, edgecolor=p2_edge_color)
+
+        # Now set plot limits
+        p1_vis_ax.set_xlim([-2, 2])
+        p1_vis_ax.set_ylim([-2, 2])
+        p1_vis_ax.set_xlabel('AU')
+        p1_vis_ax.set_ylabel('AU')
+
+        p2_vis_ax.set_xlim([-2, 2])
+        p2_vis_ax.set_ylim([-2, 2])
+        p2_vis_ax.set_xlabel('AU')
+        # p2_vis_ax.set_ylabel('AU')
+
+        # Set up correct aspect ratio
+        p1_vis_ax.set_aspect('equal', 'box')
+        p2_vis_ax.set_aspect('equal', 'box')
+
+        # Add coronagraph feature
+        IWA = 0.5
+        OWA = 1.15
+        IWA_patch = mpatches.Circle((0,0), IWA, facecolor='grey', edgecolor='white', alpha=0.5, zorder=5)
+        p1_vis_ax.add_patch(IWA_patch)
+        IWA_patch = mpatches.Circle((0,0), IWA, facecolor='grey', edgecolor='white', alpha=0.5, zorder=5)
+        p2_vis_ax.add_patch(IWA_patch)
+        inner_OWA_vertices = make_circle(OWA)
+        outer_OWA_vertices = make_circle(3)
+        vertices = np.concatenate((outer_OWA_vertices[::1], inner_OWA_vertices[::-1]))
+        codes = np.ones( len(inner_OWA_vertices), dtype=mpath.Path.code_type) * mpath.Path.LINETO
+        codes[0] = mpath.Path.MOVETO
+        all_codes = np.concatenate((codes, codes))
+        path = mpath.Path(vertices, all_codes)
+        patch = mpatches.PathPatch(path, facecolor='grey', edgecolor='white', alpha=0.5, zorder=5)
+        p1_vis_ax.add_patch(patch)
+        patch = mpatches.PathPatch(path, facecolor='grey', edgecolor='white', alpha=0.5, zorder=5)
+        p2_vis_ax.add_patch(patch)
+
+        # if fnum == 0:
+            # p1_vis_ax.annotate(f'Outer working angle', (0, 1.3), va='top', ha='center', zorder=6)
+            # p1_vis_ax.annotate(f'Inner\nworking\nangle', (0, 0.49), va='top', ha='center', zorder=6)
+            # p2_vis_ax.annotate(f'Outer working angle', (0, 1.3), va='top', ha='center', zorder=6)
+            # p2_vis_ax.annotate(f'Inner\nworking\nangle', (0, 0.49), va='top', ha='center', zorder=6)
+        # OWA_vertices = make_circle(1)
+        # p1_vis_ax.scatter(0, 0, s=1000, facecolors='black', edgecolor='grey', zorder=5, alpha=0.9)
+        # p2_vis_ax.scatter(0, 0, s=1000, facecolors='black', edgecolor='grey', zorder=5, alpha=0.9)
+
+        # p1_vis_ax.scatter(0, 0, s=1499, facecolors='none', edgecolor='grey', zorder=5, alpha=0.9)
+        # p1_vis_ax.scatter(0, 0, s=1500, facecolors='none', edgecolor='black', linewidth=100, zorder=5, alpha=0.9)
+        # p2_vis_ax.scatter(0, 0, s=1500, facecolors='none', edgecolor='black', linewidth=100, zorder=5, alpha=0.9)
+
+        # Weird stuff to make colormap work
+        sm = plt.cm.ScalarMappable(cmap=my_cmap)
+        sm._A=[]
+        fig.subplots_adjust(left=0.1, right=0.9)
+        cbar_ax = fig.add_axes([0.915, 0.125, 0.02, 0.75])
+        cbar = fig.colorbar(sm, cax=cbar_ax, label='Normalized brightness ratio')
+        # Add bar on colorbar to indicate current brightness
+        cbar.ax.axhline(p1_phase, color=p1_edge_color, linewidth=2, markeredgecolor='white')
+        cbar.ax.axhline(p2_phase, color=p2_edge_color, linewidth=2, markeredgecolor='white')
+        if fnum > 1:
+            threshold_phase = 0.5
+            threshold_colors = { True: 'green',
+                                False: 'red'}
+            cbar.ax.axhline(threshold_phase, color=viridis_cmap(1), linewidth=2, markeredgecolor='white', label='Brightness ratio threshold')
+            # visibility threshold
+            p1_phot = (p1_phase > threshold_phase) & (OWA > p1_s > IWA)
+            p2_phot = (p2_phase > threshold_phase) & (OWA > p2_s > IWA)
+            # for spine in p1_vis_ax.spines.values():
+                # spine.set_edgecolor(threshold_colors[p1_phot[0]])
+            # for spine in p2_vis_ax.spines.values():
+                # spine.set_edgecolor(threshold_colors[p2_phot[0]])
+        # cbar.ax.plot([0, 0.1], [p2_phot-.1, p2_phot+0.1], color=p2_edge_color, linewidth=100)
+        # fig.tight_layout()
+        fig.legend(loc='upper center')
+        # fig.savefig(Path(f'../figures/mass_inclination_comparision/frame-{fnum:04}.png'))
+        fig.savefig(Path(f'../figures/photometric_detection_criteria/frame-{fnum}.png'))
+
