@@ -260,17 +260,19 @@
 }
 
 \frame{
-    \frametitle{What's missing}
-\tikzoverlay[text width = 6cm] at (0.5cm, 3cm+4.5pt){
-    \animategraphics[loop, controls, width=6cm]{5}{edge_on_orbit/frame-}{0}{30}
+    \frametitle{Mass/inclination ambiguity}
+\tikzoverlay[text width = 6cm] at (1cm, 3cm+4.5pt){
+    \animategraphics[loop, controls, width=12cm]{10}{mass_inclination_comparision/frame-}{0}{99}
 };
-\tikzoverlay[text width = 6cm] at (7.5cm-3pt, 3cm+4.5pt){
-    \animategraphics[loop, controls, width=6cm]{5}{face_on_orbit/frame-}{0}{30}
-};
-\tikzoverlay[text width = 14cm] at (0cm, -1cm+4.5pt){
+}
+
+\frame{
+    \frametitle{Questions for direct imaging}
+\tikzoverlay[text width = 14cm] at (0cm, 2.5cm+4.5pt){
 \begin{itemize}
-    \item How should we use the incomplete RV information to predict when a planet is detectable
-    \item How long will fitted orbital parameters accurately predict the planet’s location?
+    \item How should we use the incomplete RV information to predict when a planet is detectable?
+    \item How long will fitted orbital parameters be useful for predicting the planet’s
+        detectability?
 \end{itemize}
 };
 }
