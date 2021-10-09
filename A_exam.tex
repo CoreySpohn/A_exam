@@ -151,7 +151,18 @@
 \def\tikzoverlay{%
    \tikz[baseline,overlay]\node[every overlay node]
 }%
+\usetikzlibrary{decorations.pathreplacing,calc,tikzmark}
 
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
 
 \begin{document}
 
@@ -168,19 +179,19 @@
 \setbeamertemplate{navigation symbols}{\insertframenumber{}/\inserttotalframenumber}
 \beamertemplategridbackground[1cm]
 
-\section{Introduction}
-\subsection{Introduction} %note that you need both sections and subsection for the navigation to look good for this 
+\section{Radial velocity (RV)}
+\subsection{Why use RV} %note that you need both sections and subsection for the navigation to look good for this 
 
 %here's a normal slide:
 \frame{
 \frametitle{Exoplanet exploration}
 \tikzoverlay[text width = 8cm] at (0cm, 3cm+4.5pt){
 \begin{itemize}
-    \item  NASA's Exoplanet Exploration Program's primary goal is to ``discover and characterize
+    \item[\textbullet]  NASA's Exoplanet Exploration Program's primary goal is to ``discover and characterize
         planetary systems and Earth-like planets around nearby stars''
-    \item Further, the program is looking for signs of possible life which is studied through
+    \item[\textbullet] Further, the program is looking for signs of possible life which is studied through
         atmospheric characterization
-    \item To make detailed atmospheric characterization we need light from an exoplanet, either via
+    \item[\textbullet] To make detailed atmospheric characterization we need light from an exoplanet, either via
         transmission spectroscopy or direct imaging.
 \end{itemize}
 };
@@ -194,9 +205,9 @@
 \frametitle{Direct Imaging}
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
 \begin{itemize}
-    \item  Detecting a planet as a point source of light
+    \item[\textbullet]  Detecting a planet as a point source of light
     %\item Sensitive to a different population of planets than indirect detection methods
-    \item Technical challenge, researching many different ways to increase the number of planets we
+    \item[\textbullet] Technical challenge, researching many different ways to increase the number of planets we
         detect
 \end{itemize}
 };
@@ -212,8 +223,8 @@
 \frametitle{Ways to image more exoplanets}
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
 \begin{itemize}
-    \item Improve instruments
-    \item Use the limited observation time more effectively
+    \item[\textbullet] Improve instruments
+    \item[\textbullet] Use the limited observation time more effectively
 \end{itemize}
 };
 \tikzoverlay[text width = 3cm] at (4.5cm-3pt, 1.5cm+4.5pt){
@@ -228,74 +239,157 @@
     \frametitle{Precursor radial velocity detections}
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
 \begin{itemize}
-    \item Detect planets ahead of time via the radial velocity method
-    \item Currently being used by the Nancy Grace Roman Space Telescope team to identify exoplanet targets
-    \item The HabEx team notes ``Precise precursor radial velocities (PRVs) will
+    \item[\textbullet] Detect planets ahead of time via the radial velocity method
+    \item[\textbullet] Currently being used by the Nancy Grace Roman Space Telescope team to identify exoplanet targets
+    \item[\textbullet] The HabEx team notes ``Precise precursor radial velocities (PRVs) will
         provide multiple advantageous contributions to the scientific yield and optimization of
         HabEx.''\parencite{HabEx2020}
 \end{itemize}
 };
-\tikzoverlay[text width = 6cm] at (0cm-2pt, -0.4cm+4.5pt){
-    \includegraphics[height=3.75cm]{figures/RV_method_art.jpg}
-};
-\tikzoverlay[text width = 6cm] at (6cm, -0.4cm+4.5pt){
-    \includegraphics[height=3.75cm]{figures/export2.png}
-};
-\footlineextra{ESO, \textcite{EPRV2020}}
+%\tikzoverlay[text width = 6cm] at (2cm, -.4cm+4.5pt){
+    %\animategraphics[controls, height=3.5cm]{10}{rv_example/frame-}{0}{99}
+%};
 }
 
 \frame{
-    \frametitle{Current radial velocity precision}
-\tikzoverlay[text width = 14cm] at (0cm, -2.8cm+4.5pt){
+    \frametitle{Radial velocity error}
+\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
 \begin{itemize}
-    \item Need approximately 10 cm/s precision to detect Earth-like planets
-    \item Predicting detectability based on precision RV data
+    \item[\textbullet] Need approximately 10 cm/s precision to detect Earth-like planets
+    \item[\textbullet] For orbit fitting usually given as 1$\sigma $ error in m/s
+    \item[\textbullet] Many sources of error, primarily stellar variability
 \end{itemize}
 };
-\tikzoverlay[text width = 6cm] at (2cm, 3cm+4.5pt){
-    \includegraphics[height=6cm]{figures/RV_precision.png}
+%\tikzoverlay[text width = 6cm] at (-.75cm, .5cm+4.5pt){
+    %\animategraphics[controls, width=10cm]{10}{error_example/frame-}{0}{99}
+%};
+\tikzoverlay[text width = 6cm] at (9.2cm, .5cm+4.9pt){
+    \includegraphics[width=5.5cm]{figures/RV_precision.png}
 };
 \footlineextra{\textcite{EPRV2020} }
 }
 
+%\section{RV ambiguity}
+%\subsection{RV ambiguity} %note that you need both sections and subsection for the navigation to look good for this 
 \frame{
     \frametitle{Mass/inclination ambiguity}
-\tikzoverlay[text width = 6cm] at (1cm, 3cm+4.5pt){
-    \animategraphics[loop, controls, width=12cm]{20}{mass_inclination_comparision/frame-}{0}{99}
-};
-}
-%\frame{
-    %\frametitle{Impact on direct imaging: geometric constraint}
-%\tikzoverlay[text width = 6cm] at (-1cm, 3cm+4.5pt){
-    %\animategraphics[loop, controls, width=12cm]{20}{geometric_detection_criteria/frame-}{0}{99}
-%};
-%}
-%\frame{
-    %\frametitle{Impact on direct imaging: photometric constraint}
 %\tikzoverlay[text width = 6cm] at (1cm, 3cm+4.5pt){
-    %\animategraphics[loop, controls, width=12cm]{20}{photometric_detection_criteria/frame-}{0}{99}
+    %\animategraphics[loop, controls, width=12cm]{10}{mass_inclination_comparision/frame-}{0}{99}
 %};
-%}
+}
+
+\section{Direct imaging}
+\subsection{Direct imaging}
 
 \frame{
-    \frametitle{Questions for direct imaging}
+    \frametitle{Geometric constraint}
+%\tikzoverlay[text width = 6cm] at (-1cm, 3cm+4.5pt){
+    %\animategraphics[loop, controls, width=12cm]{10}{geometric_detection_criteria/frame-}{0}{99}
+%};
+\tikzoverlay[text width = 3cm] at (11cm, 1cm+4.5pt){
+    \center{distance = $d$}
+    \begin{align*}
+        \alpha = \tan^{-1}\left( \frac{s}{d} \right)
+    \end{align*}
+    \begin{align*}
+        \boxed{\textrm{IWA} < \alpha < \textrm{OWA}}
+    \end{align*}
+};
+}
+\frame{
+    \frametitle{Photometric constraint}
+%\tikzoverlay[text width = 6cm] at (-1cm, 3cm+4.5pt){
+    %\animategraphics[loop, controls, width=12cm]{10}{photometric_detection_criteria/frame-}{0}{99}
+%};
+\tikzoverlay[text width = 3cm] at (11cm, 1.5cm+4.5pt){
+    \begin{align*}
+        F_R = \frac{F_p}{F_s}
+    \end{align*}
+    \begin{align*}
+        \Delta \textrm{mag} = -2.5 \log_{10}F_R
+    \end{align*}
+
+    \begin{align*}
+            \boxed{\Delta \textrm{mag} < \Delta \textrm{mag}_0}
+    \end{align*}
+};
+}
+
+
+\frame{
+    \frametitle{Both constraints}
+%\tikzoverlay[text width = 6cm] at (1cm, 3cm+4.5pt){
+    %\animategraphics[loop, controls, width=12cm]{10}{both_detection_criteria/frame-}{0}{99}
+%};
+}
+
+\frame{
+    \frametitle{Questions for using RV data for imaging}
 \tikzoverlay[text width = 14cm] at (0cm, 2.5cm+4.5pt){
 \begin{itemize}
-    \item How should we use the incomplete RV information to predict when a planet is detectable?
-    \item How long will fitted orbital parameters be useful for predicting the planet’s
-        detectability?
+    \item[\textbullet] How should we use the incomplete RV information to predict when a planet is detectable?
+    \item[\textbullet] How long is RV data useful for scheduling direct imaging observations?
 \end{itemize}
 };
 }
 
-\section{Results}
-\subsection{First Result}
-%sometimes you'll want to link to a backup slide in case someone has extra questions
-\frame[label=mainslide1]{
-\frametitle{A Result Slide with Lots of Complexity Behind It}
-Here is my amazing result!
-\footlineextra{ \hyperlink{backup1}{\beamergotobutton{\tiny{Would You Like to Know More?}}}}
+\section{Predicting detectability}
+\subsection{Predicting detectability}
+\frame{
+\frametitle{Completeness, $C$}
+\tikzoverlay[text width = 6cm] at (0cm, 2.5cm+4.5pt){
+\begin{enumerate}
+    \item[\textbullet] Simulation based metric that calculates the probability of detecting a planet around a target
+        star, should a planet in the assumed population exist
+    \item[\textbullet] With enough simulated planets $C$ is constant
+\end{enumerate}
+\begin{align*}
+    C = \frac{\textrm{\# of detectable simulated planets}}{\textrm{\# of simulated planets}}
+\end{align*}
+};
+\tikzoverlay[text width = 7cm] at (7cm, 3.1cm+4.5pt){
+    \animategraphics[loop, controls, width=7cm]{10}{completeness/frame-}{0}{99}
+};
 }
+
+\section{RV fitting}%
+\subsection{RV fitting}
+\frame{
+\frametitle{Completeness}
+\tikzoverlay[text width = 14cm] at (0cm, 2.5cm+4.5pt){
+\begin{enumerate}
+    \item[\textbullet] ``The fraction of possible planets that will be detected for a given star''
+        \parencite{Brown2005d}
+    \item[\textbullet] 
+    \item[\textbullet] Convert software outputs for use in direct imaging 
+    \item[\textbullet] Analyze when the the conversion is harmful or useless
+\end{enumerate}
+};
+}
+
+
+\frame{
+\frametitle{Outline of work}
+\tikzoverlay[text width = 14cm] at (0cm, 2.5cm+4.5pt){
+\begin{enumerate}
+    \item[1)] Simulate RV observations of a simulated planet
+    \item[2)] Use software to fit orbital parameters to RV observations
+    \hrule
+    \item[3)] Convert software outputs for use in direct imaging \quad \quad \quad \quad
+        \quad \quad \quad \quad My work
+    \item[4)] Analyze when the the conversion is harmful or useless
+\end{enumerate}
+};
+}
+
+%\section{Results}
+%\subsection{First Result}
+%%sometimes you'll want to link to a backup slide in case someone has extra questions
+%\frame[label=mainslide1]{
+%\frametitle{A Result Slide with Lots of Complexity Behind It}
+%Here is my amazing result!
+%\footlineextra{ \hyperlink{backup1}{\beamergotobutton{\tiny{Would You Like to Know More?}}}}
+%}
 
 %%to include a video (will only play in Adobe Acrobat and a very few other PDF viewers (not macos Preview)
 %\frame{
@@ -317,69 +411,69 @@ Here is my amazing result!
 %
 
 %finally, let's compose a complicated slide with a mix of pictures equations and text:
-\frame{
-\frametitle{Reflected Light}
-\begin{picture}(440,210)
-\put(-15,-5){
-    \includegraphics[height=160pt]{template/reflection_diagram}
-}
+%\frame{
+%\frametitle{Reflected Light}
+%\begin{picture}(440,210)
+%\put(-15,-5){
+    %\includegraphics[height=160pt]{template/reflection_diagram}
+%}
 
-\put(-10,205){\begin{minipage}[t]{0.6\linewidth}
-\small{Energy per second per unit area per unit solid angle received by an observer =}
-\vspace{-8pt}
-\[ \frac{F R^2}{r^2} \int_{\beta - \pi/2}^{\pi/2} \cos(\beta - \delta) \cos\delta \intd{\delta}  \int_{-\pi/2}^{\pi/2} \rho(C_\mu,C_\gamma,\xi) \cos^3 \alpha \intd{\alpha} \]
-\end{minipage}}
+%\put(-10,205){\begin{minipage}[t]{0.6\linewidth}
+%\small{Energy per second per unit area per unit solid angle received by an observer =}
+%\vspace{-8pt}
+%\[ \frac{F R^2}{r^2} \int_{\beta - \pi/2}^{\pi/2} \cos(\beta - \delta) \cos\delta \intd{\delta}  \int_{-\pi/2}^{\pi/2} \rho(C_\mu,C_\gamma,\xi) \cos^3 \alpha \intd{\alpha} \]
+%\end{minipage}}
 
-\put(110,147){\begin{minipage}[t]{0.4\linewidth}
-\small{For isotropic scattering, $\rho$ = constant}
-\end{minipage}}
-\put(130,150){\begin{minipage}[t]{0.2\linewidth}
-\[ \Phi(\beta) = \frac{E(\beta)}{E(0)} =  \]
-\end{minipage}}
+%\put(110,147){\begin{minipage}[t]{0.4\linewidth}
+%\small{For isotropic scattering, $\rho$ = constant}
+%\end{minipage}}
+%\put(130,150){\begin{minipage}[t]{0.2\linewidth}
+%\[ \Phi(\beta) = \frac{E(\beta)}{E(0)} =  \]
+%\end{minipage}}
 
-\put(160,120){\begin{minipage}[t]{0.2\linewidth}\
-\[\frac{\sin(\beta)+(\pi-\beta)\cos(\beta)}{\pi} \]
-\end{minipage}}
+%\put(160,120){\begin{minipage}[t]{0.2\linewidth}\
+%\[\frac{\sin(\beta)+(\pi-\beta)\cos(\beta)}{\pi} \]
+%\end{minipage}}
 
-\put(170,90){\begin{minipage}[t]{0.2\linewidth}\
-\[\frac{F_p}{F_S} = p\Phi(\beta) \left(\frac{R}{r}\right)^2\]
-\end{minipage}}
+%\put(170,90){\begin{minipage}[t]{0.2\linewidth}\
+%\[\frac{F_p}{F_S} = p\Phi(\beta) \left(\frac{R}{r}\right)^2\]
+%\end{minipage}}
 
-\end{picture}
-}
+%\end{picture}
+%}
 
-\section{Conclusions}
-\subsection{Conclusions}
-\frame{
-\frametitle{Conclusions}
-In conclusion: Don't forget your conclusions!
-}
+%\section{Conclusions}
+%\subsection{Conclusions}
+%\frame{
+%\frametitle{Conclusions}
+%In conclusion: Don't forget your conclusions!
+%}
 
-%let's make an appendix with refs and backup slides
-%we don't want to count these in the slide total, so we'll stop counting here
-\newcounter{finalframe}
-\setcounter{finalframe}{\value{framenumber}}
+%%let's make an appendix with refs and backup slides
+%%we don't want to count these in the slide total, so we'll stop counting here
+%\newcounter{finalframe}
+%\setcounter{finalframe}{\value{framenumber}}
 
-\appendix
+%\appendix
 
-{
-\subsection{References}
-\frame[allowframebreaks]{
-\frametitle{References}
-\printbibliography  
-}}
+%{
+%\subsection{References}
+%\frame[allowframebreaks]{
+%\frametitle{References}
+%\printbibliography  
+%}}
 
-%backup slides:
-\section{Backup}
-\subsection{Backup}
+%%backup slides:
+%\section{Backup}
+%\subsection{Backup}
 
-\frame[label=backup1]{
-\frametitle{A Backup Slide with Additional Info}
-\framesubtitle{ \hyperlink{mainslide1}{\beamerreturnbutton{Return}} }
-Lots of nitty-gritty stuff that doesn't belong in the main talk
-}
+%\frame[label=backup1]{
+%\frametitle{A Backup Slide with Additional Info}
+%\framesubtitle{ \hyperlink{mainslide1}{\beamerreturnbutton{Return}} }
+%Lots of nitty-gritty stuff that doesn't belong in the main talk
+%}
 
 
-\setcounter{framenumber}{\value{finalframe}} %reset the counter
+%\setcounter{framenumber}{\value{finalframe}} %reset the counter
 
 \end{document}

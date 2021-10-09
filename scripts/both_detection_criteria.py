@@ -46,18 +46,26 @@ if __name__ == '__main__':
     times = np.linspace(2000, 2001, 100)
     plt.style.use("dark_background")
     cc = plt.Circle((0, 0), 1)
-    dMag_range = np.linspace(16, 30, 5)
+    dMag_range = np.linspace(16, 35, 5)
     # Making custom colormap for unnormalized values
     dMag_norm = mpl.colors.Normalize(vmin=dMag_range[0], vmax=dMag_range[-1])
     # colors = ['white', 'black']
     # tuples = list(zip(map(dMag_norm, dMag_range), colors))
     # my_cmap = mpl.colors.LinearSegmentedColormap.from_list("", tuples)
 
+    p1_rv_curve = p1.simulate_rv_observations(Time(times, format='decimalyear'), 0.001*u.m/u.s)
+    p2_rv_curve = p2.simulate_rv_observations(Time(times, format='decimalyear'), 0.001*u.m/u.s)
     my_cmap = plt.get_cmap('binary')
-    viridis_cmap = plt.get_cmap('viridis')
+    edge_cmap = plt.get_cmap('plasma')
     plt.set_cmap('binary')
     font = {'size': 13}
     plt.rc("font", **font)
+    norm = mpl.colors.Normalize(vmin=min(p1_rv_curve['truevel']), vmax=max(p1_rv_curve['truevel']))
+    rv_cmap = plt.get_cmap('coolwarm')
+    p1_alphas = []
+    p1_dMags = []
+    p2_alphas = []
+    p2_dMags = []
     for fnum, current_time in enumerate( times ):
         time_jd = Time(Time(current_time, format='decimalyear').jd, format='jd')
         p1_pos = p1.calc_position_vectors(time_jd)
@@ -71,8 +79,8 @@ if __name__ == '__main__':
         p1_phase = p1.lambert_func(p1_beta)
         p2_phase = p2.lambert_func(p2_beta)
 
-        p1_edge_color = viridis_cmap(0.99)
-        p2_edge_color = viridis_cmap(0.75)
+        p1_edge_color = edge_cmap(0.25)
+        p2_edge_color = edge_cmap(0.5)
 
         # Calculating dMag for photometry
         p1_alpha, p1_dMag = p1.prop_for_imaging(time_jd)
@@ -84,20 +92,22 @@ if __name__ == '__main__':
 
         fig, (p1_vis_ax, p2_vis_ax) = plt.subplots(nrows=2, figsize=[16/1.5, 9/1.5])
 
-        if p1_pos[2] < 0:
+        if p1_pos[2] > 0:
             p1_order=1
         else:
             p1_order=3
         # Set the star up in the center
-        p1_vis_ax.scatter(0, 0, s=250, zorder=2, color='white')
-        p2_vis_ax.scatter(0, 0, s=250, zorder=2, color='white')
+        p1_star_pos_offset = -0.05*np.array([p1_pos[0].to(u.AU), p1_pos[1].to(u.AU)])
+        p1_vis_ax.scatter(p1_star_pos_offset[0], p1_star_pos_offset[1], s=250, zorder=2, c=p1_rv_curve['vel'][fnum], cmap=rv_cmap, norm=norm)
+        p2_star_pos_offset = -0.05*np.array([p2_pos[0].to(u.AU), p2_pos[1].to(u.AU)])
+        p2_vis_ax.scatter(p2_star_pos_offset[0], p2_star_pos_offset[1], s=250, zorder=2, c=p2_rv_curve['vel'][fnum], cmap=rv_cmap, norm=norm)
 
         p1_color = my_cmap(dMag_norm(p1_dMag))
         p2_color = my_cmap(dMag_norm(p2_dMag))
 
         # Add the planets at their current location
-        p1_vis_ax.scatter(p1_pos[0].to(u.AU), p1_pos[1].to(u.AU), s=10+(5*(np.pi-p1_beta.value)), label=p1.planet_label, zorder=p1_order, color=p1_color, edgecolor=p1_edge_color)
-        p2_vis_ax.scatter(p2_pos[0].to(u.AU), p2_pos[1].to(u.AU), s=100+(5*(np.pi-p2_beta.value)), label=p2.planet_label, zorder=1, color=p2_color, edgecolor=p2_edge_color)
+        p1_vis_ax.scatter(p1_pos[0].to(u.AU), p1_pos[1].to(u.AU), s=10+(5*(p1_beta.value)), label=p1.planet_label, zorder=p1_order, color=p1_color, edgecolor=p1_edge_color)
+        p2_vis_ax.scatter(p2_pos[0].to(u.AU), p2_pos[1].to(u.AU), s=100+(5*(p2_beta.value)), label=p2.planet_label, zorder=1, color=p2_color, edgecolor=p2_edge_color)
 
         # Now set plot limits
         p1_vis_ax.set_xlim([-2, 2])
@@ -152,14 +162,14 @@ if __name__ == '__main__':
         sm.set_array(dMag_range)
         # breakpoint()
         fig.subplots_adjust(left=0.0, right=0.4)
-        cbar_ax = fig.add_axes([0.315, 0.125, 0.02, 0.75])
-        cbar = fig.colorbar(sm, cax=cbar_ax, label='dMag')
+        cbar_ax = fig.add_axes([0.315, 0.1, 0.02, 0.8])
+        cbar = fig.colorbar(sm, cax=cbar_ax, label=r'$\Delta$mag')
         # Add bar on colorbar to indicate current brightness
         cbar.ax.axhline(p1_dMag, color=p1_edge_color, linewidth=2, markeredgecolor='white')
         cbar.ax.axhline(p2_dMag, color=p2_edge_color, linewidth=2, markeredgecolor='white')
         dMag0 = 26.5
         threshold_colors = { True: 'green', False: 'red'}
-        cbar.ax.axhline(dMag0, color=viridis_cmap(1), linewidth=2,
+        cbar.ax.axhline(dMag0, color='red', linewidth=2,
                         markeredgecolor='white', label='dMag0')
         # visibility threshold
         p1_phot = (p1_dMag < dMag0) & (OWA > p1_s > IWA)
@@ -171,10 +181,28 @@ if __name__ == '__main__':
 
         # Add the alpha vs dMag plot
         a_dMag_ax = fig.add_axes([0.55, 0.1, 0.4, 0.8])
+        a_dMag_ax.set_xlabel(r'$\alpha$ (arcsec)')
+        a_dMag_ax.set_ylabel(r'$\Delta$mag')
+        a_dMag_ax.set_xlim([0, 0.125])
+        a_dMag_ax.set_ylim([dMag_range[0], dMag_range[-1]])
+
+        IWA_ang = np.arctan(IWA*u.AU/p1.dist_to_star).to(u.arcsec).value
+        OWA_ang = np.arctan(OWA*u.AU/p1.dist_to_star).to(u.arcsec).value
+        detectability_line = mpl.lines.Line2D([IWA_ang, OWA_ang], [dMag0, dMag0], color='red')
+        a_dMag_ax.add_line(detectability_line)
+        # p1_alphas.append(p1_alpha.to(u.arcsec).value)
+        # p1_dMags.append(p1_dMag)
+        # p2_alphas.append(p2_alpha.to(u.arcsec).value)
+        # p2_dMags.append(p2_dMag)
+        # a_dMag_ax.scatter(p1_alphas, p1_dMags, c=p1_dMags, cmap=my_cmap, norm=dMag_norm, edgecolor=p1_edge_color)
+        # a_dMag_ax.scatter(p2_alphas, p2_dMags, c=p2_dMags, cmap=my_cmap, norm=dMag_norm, edgecolor=p2_edge_color)
+        a_dMag_ax.scatter(p1_alpha.to(u.arcsec).value, p1_dMag, color=p1_color, edgecolor=p1_edge_color)
+        a_dMag_ax.scatter(p2_alpha.to(u.arcsec).value, p2_dMag, color=p2_color, edgecolor=p2_edge_color)
 
         # cbar.ax.plot([0, 0.1], [p2_phot-.1, p2_phot+0.1], color=p2_edge_color, linewidth=100)
         # fig.tight_layout()
-        fig.legend(loc='upper center')
+        p1_vis_ax.legend(loc='upper center')
+        p2_vis_ax.legend(loc='upper center')
         # fig.savefig(Path(f'../figures/mass_inclination_comparision/frame-{fnum:04}.png'))
-        fig.savefig(Path(f'../figures/both_detection_criteria/frame-{fnum}.png'))
+        fig.savefig(Path(f'../figures/both_detection_criteria/frame-{fnum}.png'), dpi=150)
 

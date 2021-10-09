@@ -436,6 +436,7 @@ class Planet:
         r = a * (1 - e ** 2) / (1 + e * np.cos(nu))
 
         theta = nu + w
+        rps = self.calc_position_vectors(t)
         s = (r / 4) * np.sqrt(
             4 * np.cos(2 * I)
             + 4 * np.cos(2 * theta)
@@ -443,7 +444,8 @@ class Planet:
             - 2 * np.cos(2 * I + 2 * theta)
             + 12
         )
-        beta = np.arccos(-np.sin(I) * np.sin(theta))
+        # Working with positive z away from observer
+        beta = np.arccos(rps[2, :].value/r.decompose().value)*u.rad
         # For gas giants
         # p_phi = self.calc_p_phi(beta, photdict, bandinfo)
         # For terrestrial planets

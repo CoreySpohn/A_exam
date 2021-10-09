@@ -61,23 +61,25 @@ if __name__ == '__main__':
         else:
             p1_order=3
         # Set the star up in the center
-        p1_vis_ax.scatter(0, 0, s=250, zorder=2, color='yellow')
-        p2_vis_ax.scatter(0, 0, s=250, zorder=2, color='yellow')
+        p1_star_pos_offset = -0.05*np.array([p1_pos[0].to(u.AU), p1_pos[1].to(u.AU)])
+        p1_vis_ax.scatter(p1_star_pos_offset[0], p1_star_pos_offset[1], s=250, zorder=2, c=p1_rv_curve['vel'][fnum], cmap=my_cmap, norm=norm)
+        p2_star_pos_offset = -0.05*np.array([p2_pos[0].to(u.AU), p2_pos[1].to(u.AU)])
+        p2_vis_ax.scatter(p2_star_pos_offset[0], p2_star_pos_offset[1], s=250, zorder=2, c=p2_rv_curve['vel'][fnum], cmap=my_cmap, norm=norm)
 
         # Add the planets at their current location
-        p1_vis_ax.scatter(p1_pos[0].to(u.AU), p1_pos[1].to(u.AU), s=10+(5*(np.pi-p1_beta.value)), label=p1.planet_label, zorder=p1_order)
-        p2_vis_ax.scatter(p2_pos[0].to(u.AU), p2_pos[1].to(u.AU), s=100+(5*(np.pi-p2_beta.value)), label=p2.planet_label, zorder=1)
+        p1_vis_ax.scatter(p1_pos[0].to(u.AU), p1_pos[1].to(u.AU), s=10+(5*(p1_beta.value)), label=p1.planet_label, zorder=p1_order)
+        p2_vis_ax.scatter(p2_pos[0].to(u.AU), p2_pos[1].to(u.AU), s=100+(5*(p2_beta.value)), label=p2.planet_label, zorder=1)
 
         # Now set plot limits
         p1_vis_ax.set_xlim([-2, 2])
         p1_vis_ax.set_ylim([-2, 2])
-        p1_vis_ax.set_xlabel('AU')
-        p1_vis_ax.set_ylabel('AU')
+        p1_vis_ax.set_xlabel('x (AU)')
+        p1_vis_ax.set_ylabel('y (AU)')
 
         p2_vis_ax.set_xlim([-2, 2])
         p2_vis_ax.set_ylim([-2, 2])
-        p2_vis_ax.set_xlabel('AU')
-        p2_vis_ax.set_ylabel('AU')
+        p2_vis_ax.set_xlabel('x (AU)')
+        p2_vis_ax.set_ylabel('y (AU)')
 
         # Set up correct aspect ratio
         p1_vis_ax.set_aspect('equal', 'box')
@@ -101,10 +103,11 @@ if __name__ == '__main__':
         p2_rv_ax.set_ylabel('RV (m/s)')
         p1_rv_ax.axhline(0, color='white', linestyle='--', alpha = 0.5)
         p2_rv_ax.axhline(0, color='white', linestyle='--', alpha = 0.5)
+        p1_vis_ax.legend(loc='upper center')
+        p2_vis_ax.legend(loc='upper center')
         fig.tight_layout()
-        fig.legend(loc='center left')
         # fig.savefig(Path(f'../figures/mass_inclination_comparision/frame-{fnum:04}.png'))
-        fig.savefig(Path(f'../figures/mass_inclination_comparision/frame-{fnum}.png'))
+        fig.savefig(Path(f'../figures/mass_inclination_comparision/frame-{fnum}.png'), dpi=150)
         # plt.show()
         # breakpoint()
 

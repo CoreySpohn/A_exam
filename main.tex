@@ -1,0 +1,1846 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{Frankfurt}
+\usepackage{tikz}
+\setbeamertemplate{footline}[page number]
+%\AtBeginSection[]{\subsection{}}
+% \setbeamertemplate{footline}[frame number]
+\setbeamercolor{page number in head/foot}{fg=fg} % beamer version < 3.51
+%\setbeamercolor{some beamer element}{fg=red}
+%\setbeamercolor{some beamer element}{bg=black}
+\usepackage{bibentry}
+\nobibliography*
+\usepackage{mathptmx}
+\usepackage[11pt]{moresize}
+\linespread{0.7}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{optidef}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage{animate} %for animations like GIFS!!!!
+\usepackage{multirow}% for a custom table
+\usepackage{algorithmic}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}%[option ]\usepackage[numbered]{algo}%used for typsetting
+\usepackage{siunitx}
+\usepackage[]{graphicx}
+\usepackage[round]{natbib}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{fontawesome}
+
+%%private defs
+\def\mf{\mathbf}
+\def\mb{\mathbb}
+\def\mc{\mathcal}
+\newcommand{\PSF}{\mathrm{PSF}}
+\newcommand{\mfbar}[1]{\mf{\bar{#1}}}
+\newcommand{\mfhat}[1]{\mf{\hat{#1}}}
+\newcommand{\intd}[1]{\ensuremath{\,\mathrm{d}#1}}
+\newcommand{\leftexp}[2]{{\vphantom{#2}}^{#1}\!{#2}}
+\newcommand{\leftsub}[2]{{\vphantom{#2}}_{#1}\!{#2}}
+\newcommand{\fddt}[1]{\ensuremath{\leftexp{\mathcal{#1}}{\frac{\mathrm{d}}{\mathrm{d}t}}}}
+\newcommand{\fdddt}[1]{\ensuremath{\leftexp{\mathcal{#1}}{\frac{\mathrm{d}^2}{\mathrm{d}t^2}}}}
+\newcommand{\omegarot}[2]{\ensuremath{\leftexp{\mathcal{#1}}{\boldsymbol{\omega}}^{\mathcal{#2}}}}
+%\newcommand{\refeq}[1]{Equation  (\ref{#1})} 
+\newcommand{\reftable}[1]{Table \ref{#1}}  
+\newcommand{\reffig}[1]{Figure \ref{#1}}
+\newcommand{\refsec}[1]{Section \ref{#1}}
+\newcommand{\refnum}[1]{Ref.~\citenum{#1}}
+%\def\zodi{f_{Z}}
+\renewcommand\bibsection{\section[]{\refname}} %removes "references from Sections"
+\newcommand*{\Line}[3][]{\tikz \draw[#1] #2 -- #3;}%
+
+
+\definecolor{CornellRED}{RGB}{179,27,27}
+\definecolor{CornellDarkGrey}{RGB}{34,34,34}
+\definecolor{CornellLightGrey}{RGB}{247,247,247}
+\definecolor{sminred}{RGB}{179,27,27}
+\definecolor{smaxyellow}{RGB}{184,134,11}
+\definecolor{Forestgreen}{RGB}{34,139,34}
+
+
+
+\setbeamercolor{palette primary}{bg=CornellRED}
+\setbeamercolor{palette secondary}{bg=CornellDarkGrey}
+%palette tertiary
+%palette quaternary
+\setbeamertemplate{itemize items}[circle]
+\setbeamercolor{itemize item}{fg=CornellDarkGrey}
+
+% Used to put logos in footline
+% \setbeamertemplate{footline}{%
+%         \hspace{0.5 cm}
+%         \includegraphics[align=c, height=0.75cm]{Logo_FINAL.eps}%
+%         \hspace{1 cm}
+%         \includegraphics[align=c, height=0.75cm]{cornell_logo_simple_b31b1b.eps}%
+%         \hfill%
+%         \usebeamercolor[fg]{page number in head/foot}%
+%         \usebeamerfont{page number in head/foot}%
+%         \insertframenumber\,/\,\inserttotalframenumber\kern1em%
+%  }
+
+
+% \addtobeamertemplate{frametitle}{}{%
+% \begin{tikzpicture}[remember picture,overlay]
+% \node[anchor=south,yshift=2pt] at (current page.south) {\includegraphics[height=0.8cm]{cornell_logo_simple_b31b1b.eps}};
+% \end{tikzpicture}}
+% \addtobeamertemplate{frametitle}{}{%
+% \begin{tikzpicture}[remember picture,overlay]
+% \node[anchor=south west,yshift=2pt] at (current page.south west) {\includegraphics[height=0.8cm]{Logo_FINAL.eps}};
+% \end{tikzpicture}}
+
+\newlength{\mylen}
+
+%TITLE SLIDE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Maximizing Exoplanet Detections of a Direct Imaging Mission}%and Minimizing Surface Figure Error with Active Optics  
+\author{Dean Keithly}
+\institute{ \includegraphics[height=1.25cm]{LOGOS/CSI-logo-Final-White.jpg} \hspace{0.75cm} \includegraphics[height=1.25cm]{LOGOS/cornelllogosimpleb31b1b.eps} \hspace{0.75cm} \includegraphics[height=1.25cm]{LOGOS/LogoFINAL.eps}}
+%\institute[Cornell]{\pgfuseimage{/LOGOS/cornell_logo_simple_b31b1b.eps}\hspace{0.75cm}\pgfuseimage{/LOGOS/CSI-logo-Final-White.jpg}\hpsace{0.75cm}\pgfuseimage{/LOGOS/Logo_FINAL.eps}}
+%\institute[Cornell]{\pgfuseimage{CORNELL_LOGO} \hspace{0.75cm} \pgfuseimage{CSI_LOGO} \hpsace{0.75cm} \pgfuseimage{SIOSLAB_LOGO}}
+%DELETE\author{\includegraphics[height=1.5cm]{LOGOS/cornell_logo_simple_b31b1b.eps} \quad \quad  \includegraphics[height=1.5cm]{LOGOS/Logo_FINAL.eps}\\~\\Dean Keithly}
+\date{\today} 
+
+
+\begin{document}
+
+% Existential Risk and Metapopulation Analysis
+\bgroup
+\setbeamercolor{background canvas}{bg=black}
+
+% % GOLD ASTEROIDS
+% \begin{frame}[plain]{}
+% \begin{picture}(440,210)
+% %\put(0,0){\circle{1}}
+% %\put(0,210){\circle{1}}
+% %\put(440,0){\circle{1}}
+% %\put(440,210){\circle{1}}
+% \put(0,210){\textcolor{white}{When I was 18 I had a brilliant idea.}}
+% \put(0,190){\textcolor{white}{If gold can't be created on Earth, then it must have come from somewhere else.}}
+% \put(0,170){\textcolor{white}{Since Gold exists in varying sparsity, gold must have come from a meteor}} % this assumes the earth's core is well mixed so gold occurrence in high density could only occur from an external highly concentrated source
+% \put(0,150){\textcolor{white}{A 1km diameter asteroid of solid gold would be worth ~\$$430 \times 10^{15}$}, (\$quadrillions)}
+% \put(0,130){\textcolor{white}{There are ~750,000 D=1km asteroids in the solar system}}
+% %Number comes from D=1km (of which there are about 750,000) with V=4/3*pi*(1000/2)^3=523598333 m^3, with rho_gold=19300 kg/m^3, with gold at $42728/Kg, total value of gold asteroid =4/3*pi*(D/2)^3*19300*42728=$4.317*10^17
+% %Sources wikipedia and google
+% \end{picture}
+% \end{frame}
+
+% %VALUE OF EARTH
+% \begin{frame}[plain]{}
+% \begin{picture}(440,210)
+% %\put(0,0){\circle{1}}
+% %\put(0,210){\circle{1}}
+% %\put(440,0){\circle{1}}
+% %\put(440,210){\circle{1}}
+% \put(0,210){\textcolor{white}{What is the value of the Earth?}}
+% \put(0,190){\textcolor{white}{A study determined the ``ecosystem service value'' produced by the Earth was ~\$$125$ trillion/yr}}%Changes in the global value of ecosystem services (Costanza et.al. 2014)~1140 citations
+
+% \end{picture}
+% \end{frame}
+
+
+% \begin{frame}[plain]{}
+% \begin{picture}(440,210)
+% %\put(0,0){\circle{1}}
+% %\put(0,210){\circle{1}}
+% %\put(440,0){\circle{1}}
+% %\put(440,210){\circle{1}}
+
+% \put(0,210){\textcolor{white}{\$50,000 FY2000 per Quality Adjusted Life Year\footnote{Cost Effectiveness Analysis is not a reasonable decision metric for therapies preventing near certain death} \citep{Hirth2000}}}
+% %This number represents an underestimate of the average amount of money a person is willing to spend per unit increase in life-duration-quality extension
+
+% \put(0,190){\textcolor{white}{A projected interstellar migration mission cost $\$174\times10^{12}$ FY2012} \citep{Hein2012}}
+
+% \put(0,170){\textcolor{white}{Life-years lost in a complete extinction event $=7.53\cdot10^9$}}
+
+% \put(0,150){\textcolor{white}{Current Best Estimate (CBE) cost per Quality Adjusted Life Year $=\frac{\$170\cdot10^{12}}{7.53\cdot10^9 \mathrm{life-years}}$}}
+
+
+% \put(100,100){\includegraphics[width=0.2\textwidth]{Motivation/grassPatch.pdf}}
+
+
+% \end{picture}
+% \end{frame}
+
+% \begin{frame}[plain]{}
+% \textcolor{white}{Existential Risk}
+% \begin{picture}(440,210)
+% %\put(0,0){\circle{1}}
+% %\put(0,210){\circle{1}}
+% %\put(440,0){\circle{1}}
+% %\put(440,210){\circle{1}}
+% % \put(0,200){Medical Decision Making is based on a \$ per life-year\\
+% % cost-effectiveness analysis}
+
+% % \put(0,180){Cost of something that doesn't exist $=\$\infty$}
+% % \put(0,160){Life-years lost in a complete extinction event $=\infty$}
+% % \put(0,140){$\frac{\$ \infty}{\infty \mathrm{life-years}}$}
+% % %Well technically it depends on how you value future lives. There are many models which suggest devaluation of future generations. There is logical sense.
+% % \put(0,120){Metapopulations are distributed populations}
+% % %Use all black background
+% % \put(0,100){Metapopulation dynamics is the study of populations originating out of pesticide and crop control in the 1950s}
+
+% \put(0,80){\begin{minipage}{1.0\linewidth}
+%     \textcolor{white}{Medical Decision Making is based on a ``\$ per life-year'' cost-effectiveness analysis\\
+%     Cost of something that doesn't exist $=\$\infty$\\
+%     Life-years lost in a complete extinction event $=\infty$\\
+%     $\frac{\$ \infty}{\infty \mathrm{life-years}}$\\
+%     Metapopulations are distributed populations\\
+%     Metapopulation dynamics is the study of population fluctuations and migrations between metapopulations\\
+%     (originating out of pesticide and crop control in the 1950s)\\
+%     Longevity of a population of locusts on a single crop is substantially culled when disconnected from other crops and pesticide treatment is used\\
+%     Conversely locust longevity grows exponentially when connected to other metapopulation patches}
+% \end{minipage}
+% %Preamble:
+% %When I was in high school, my pre-formed brain pondered the question: Where does gold come from? and why is it concentrated like it is?
+% %I came to the conclusion that it must have come from some kind of asteroid in space and I thought: if an asteroid is 15mT, then the asteroid is worth some $632M which I thought was a lot of money.
+% %The value rate of earth is something like $125 Trillion per year https://en.wikipedia.org/wiki/Value_of_Earth
+
+
+% %The biggest counter-argument to a second planet is the seed-vault. By the time you find a way to make a spaceship with 100's -1000's of people go through space, you could create a human seed vault on Earth. See Cheyenne Complex and Raven Rock.
+% }
+
+
+% % \put(120,-5){Using descriptors from metapopulation dynamics}
+% %\includegraphics[width=0.8\textwidth]{Motivation/extinctionModelingDynProg.pdf}
+% %INCLUDE DIAGRAM WITH 2 PATCHES WHICH REPRESENT 2 POPULATIONS
+% %Read: Metapopulation dynamics was initially created to study insect populations in crops to demonstrate interesting nuances of the most effective method for distributing pesticide (do we treat all crops with 50% effectiveness or treat subcrops with 100% effectiveness and the dynamics comes into play with the ability of insects to migrate and multiply some differential equation we would put into ODE45 and watch the population response function)
+% %In the simple analogous model I have constructed, the metapopulations are different inhabited planets and the insects are humans.
+% %Instead of using poisson distributions to represent a time dependent random extinction level event like asteroid impacts or I assign a generic static probability per epoch of the  planet going extinct
+% %Let us recall the Chelyabinsk meteor from 2013, 
+% %Now if humans are constrained to a single planet, 
+% \end{picture}
+% \end{frame}
+
+% \begin{frame}[plain]{}
+
+% \begin{picture}(440,210)
+% %%\put(0,0){\circle{1}}
+% %%\put(0,210){\circle{1}}
+% %%\put(440,0){\circle{1}}
+% %\put(440,210){\circle{1}}
+% \put(120,-5){ \includegraphics[width=0.75\columnwidth]{Motivation/extinctionModelingDynProg.pdf}}
+% \put(0,200){\textcolor{white}{If we assume a fixed extinction event probability in a time epoch Pe=0.15}}
+% \put(0,180){\textcolor{white}{and fixed migration probability of Pr=0.30}}
+
+% % \put(0,0){
+% % \begin{tabular}{c|c}
+% %     Metapopulation & Pe=0.15, Pr=0.3 &  \\
+% %      & 
+% % \end{tabular}}
+
+% % \put(0,200){\begin{minipage}[t]{0.6\linewidth}
+% % {
+% % \only<1-2>{Solar system barycenter at $O$,  exosystem barycenter at epoch $t_0$ at $G(t_0)$ and at $G(t)$ at  time $t$.  $S$ is star position at time $t$ and point $c$ is the (time-varying) position of the centroid of a group of reference stars.}
+% % \only<3->{Some other text after iteration of slide 3.}
+% % }
+% % \end{minipage}}
+% % \put(0,160){\begin{minipage}[t]{0.3\linewidth}{
+% % \[\hat{\R}_{S/O}(t_0) \equiv \bc_3 =  \begin{bmatrix} \cos \lambda \cos \beta \\ \sin \lambda \cos \beta \\ \sin \beta \end{bmatrix}_\mathcal{I} \]
+% % %\begin{bmatrix} 0 \\ 0 \\ 1\end{bmatrix}_\mathcal{I} \times \frac{\hat{\R}_s(t_0)}{\cos\beta} 
+% % \uncover<2->{\[ \bc_1   = \begin{bmatrix} -\sin \lambda  \\ \cos \lambda \\ 0 \end{bmatrix}_\mathcal{I} \]}
+% % \uncover<3->{\[ \bc_2   = \begin{bmatrix} -\cos \lambda \sin \beta \\ -\sin \lambda \sin \beta \\ \cos \beta  \end{bmatrix}_\mathcal{I} \]}
+% % }\end{minipage}}
+
+% \end{picture}
+% \end{frame}
+
+% \begin{frame}{Alvarez 1983}
+%     \textcolor{white}{Asteroid mean time to collision $\alpha$ (Diam)$^2$
+%     Postulates 10 km Diameter asteroid hits every 100 million years
+%     1 km Diameter asteroid hits every 1 million years
+%     Based on 5 major extunctions in 570 million years implies:
+%     $\lambda_{\mathrm{extinction},\mathrm{asteroid}}=\frac{5\ \mathrm{events}}{570 \times 10^9\ \mathrm{yrs}} = 8.77 \times 10^{-12}$}
+    
+% \end{frame}
+
+%VALUE
+% \begin{frame}{}
+% \begin{picture}(440,210)
+% \put(180,100){\textcolor{white}{Value}}
+% \end{picture}
+% %WORDS
+% %DELETE
+% % My ultimate goal is an indefinite suspension of human extinction. (One of the most important things to me is LEGACY. What is it that I will leave behind for the future?)
+% % 
+% % So-long-as it is believeable that a spacecraft capable of sending people to another star-system could be made, then a space mission designed to find another habitable planet is a major milestone mission.
+% % HabEx and LUVOIR, with heavy direct imaging components, are the future missions capable of finding such a planet.
+% % We are given science investigation team funding 
+% I think it is a worthy goal to extend the longevity of humanity indefinitely.
+% The only spaceship capable of supporting multiple generations of humans is the Earth.
+% \end{frame}
+
+\begin{frame}{}
+\begin{picture}(440,210)
+\put(180,100){\textcolor{white}{time}}
+\only<2>{\put(86,115){\textcolor{white}{With thousands of possible target stars and}}}
+\only<2>{\put(86,100){\textcolor{white}{a limited amount of time on a future multi-billion dollar telescope}}}
+\only<2>{\put(86,85){\textcolor{white}{How do we maximize the number of new exoplanets detected?}}}
+\end{picture}
+\end{frame}
+%WORDS
+%Today we're going to talk about exoplanets.
+%The question is time.
+%There are more stars to observe than we have time.
+%NASA is building a multi-billion dollar telescope to directly image new planets.
+%So the question is: How do we maximize the number of new exoplanets detected given
+%the telescope's specifications and a limited amount of time.
+
+\begin{frame}{}
+\begin{picture}(440,210)
+% \put(180,100){\textcolor{white}{Insert plot of confirmed exoplanets vs stellar distance, and number stars vs stellar distance, normalize confirmed exoplanets by number of stars???}}
+%\put(75,0){\includegraphics[height=0.9\textheight]{WFIRST/confirmedPlanStarDists_WFIRSTcycle6core_CKL2_PPKL2_.pdf}}
+\put(75,0){\includegraphics[height=0.9\textheight]{WFIRST/confandTLstarDistsAndTargetStars2_WFIRSTcycle6core_CKL2_PPKL2_.pdf}}
+\put(75,-10){\textcolor{white}{1 pc $\approx 3.26156$ ly}}
+\put(320,15){\tiny data from}
+\put(320,0){\includegraphics[height=0.5cm]{LOGOS/IPAC_small.png}}
+\end{picture}
+\end{frame}
+%WORDS
+%Why?
+%Well what motivates me is indefinitely extending the longevity of humanity.
+%Now, the only known real spaceship capable of sustaining multiple generations of humans is the Earth.
+%So, by extension, I want to find another Earth-Like planet.
+%What's stopping us from going to any of these "Earth-Like" exoplanet's we've detected so far?
+%Well here's a histogram of confirmed exoplanets in the IPAC exoplanet database as a function of distance from the Sun.
+%The vast majority of these planets were detected through the transit technique and they're all incredible far away.
+%In general, we use a database of stars truncated at 30pc.
+
+% \begin{frame}{}
+% \begin{picture}(440,210)
+% \put(75,0){\includegraphics[height=0.9\textheight]{WFIRST/confandTLstarDists_WFIRSTcycle6core_CKL2_PPKL2_.pdf}}
+% \put(75,-10){\textcolor{white}{1 pc $\approx 3.26156$ ly}}
+% \put(320,15){\tiny data from}
+% \put(320,0){\includegraphics[height=0.5cm]{LOGOS/IPAC_small.png}}
+% \end{picture}
+% \end{frame}
+% %WORDS
+% %So here's the zoomed in version of the other plot where the red bars are the counts of known exoplanets and the blue bins are the initially filtered set of target stars we consider observing.
+% %This plot makes it obvious that we haven't found any exoplanets around nearby star systems and the planets we have found are too far away to realistically send a spacecraft to within a couple human lifetimes.
+
+
+\egroup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% %ABSTRACT
+% This talk presents the predictive modeling, optimization, and simulation of the Wide Field Infrared Survey Telescope (WFIRST) coronagraphic instrument exoplanet direct imaging mission.
+% I present our observation optimization algorithm, which maximizes the number of exoplanets detected in a finite mission time using probability of detecting a planet as a reward metric and time observing a star as a cost metric.
+% I discuss the various noise sources and time varying elements (zodiacal light and keep-out regions) which go into optimally scheduling the mission through our full mission simulation software.
+% Our results show the probability of detection metric accurately predicts the number of unique exoplanets that would be directly imaged by the WFIRST telescope when compared against a Monte Carlo of full mission simulations.
+% We also demonstrate how optimization with more recent extrapolating planet population models increases the number of exoplanet detections but decreases robustness compared to more pessimistic planet populations.
+% I demonstrate the extension of our methods to the more capable HabEx Space Telescope and summarize future work simulating both unique detections and revisits in campaigns to detect as many Earth-Like exoplanets as possible.
+
+
+
+
+
+
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+%KEEEP these are my gridpoiints!!!
+%\beamertemplategridbackground[10pt]
+
+% OUTLINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}<beamer>{Outline}  % frame is only shown in beamer mode
+% \tableofcontents
+% \end{frame}
+\begin{frame}{Outline}
+%\setbeamertemplate{itemize items}[\faRocket]
+\begin{enumerate}
+    \item[\faRocket] Why Imaging?
+    \item[\faRocket] $\Delta$mag, $s$
+    \item[\faRocket] P(detection)
+    \hrule
+    \item[\faRocket] Optimization \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad My contributions start here
+    \item[\faRocket] Validation
+    \item[\faRocket] WFIRST Results
+    \item[\faRocket] Future Work
+\end{enumerate}
+\end{frame}
+
+
+% \begin{frame}{GOAL OUTLINE}
+%     0. Motivation: Existential Risk, Investment \$ per life-year
+%     1. Title Slide
+%     2. Outline
+%     Why direct imaging
+%     3. Kepler Transits - dates of telescope number of planets, kinds of exoplanets we've detected
+%     4. Penny plot -leads to direct imaging. State different telescopes direct images come from
+%     5. Distance vs Detection plot. Transits only get edge on detections.
+%     6. Spectral Characterizations - but do detections first
+%     7. Geometry, separation, IWA, OWA, Azimuth
+%     8. delta mag calculation
+%     9. Underlying planet population distributions -> heavy linking to appendix
+%     10. delta mag vs s plot for Kepler Like
+%     dmag vs s plot with contrast curve overlay
+%     dmag vs s plot with SAG13 analytical lower limit displayed
+%     END Planet Population work -------------------------------
+%     11. Completeness calculation Cite brown2005
+%     12. Nemati SNR model cite Nemati 2014
+%     13. WFIRST + background noise sources graphic (WFIRST with other images on the page depicting other noise sources
+%     14. Initial calculation of c0 and t0 w/ parameters
+%     15. Binary Integer Program number 1
+%     16. Derivative of Completeness
+%     17. OPTIONAL: scalar minimization with derivative of completeness vs epsilon
+%     18. SLSQP optimization formulation
+%     19. CvsT lines Kepler Like and Gradual uncover of plots
+%     -------------
+%     *This is our optimization method. Other people have done similar work. What makes us special is our inclusion of overhead times directly into the optimization process. What makes my work special is the validation of these planned observations.
+%     20. Validation -> Do overview of what has been discussed up to this point
+%     21. EXOSIMS Logo - put EXOSIMS logo in the bottom right of each subsequent slide
+%     22. Where we pull data from: washington double star, forecaster, galaxies faint stars, NAIF Kernels, IPAC EXOCAT-1, Zodiacal Light, WFIRST Specs
+%         papers: Cahoy et al 2010 ~ Metallicities, Fourtney and Marley Albedo by radius, Fressin2013 ~ Rp and occurrence, Cummings 2008 SMA occurrence, Leinert 1998 Zodiacal light, Stark2014 - AYO, Nemati2014- SNR Model, Kopparapu2018~SAG13 Rp and SMA Occurrence, Belikov 2017 SAG13 occurrence fit, Garrett2018 Depth of Search, Garrett2016 analytical completeness, Savransky2011 - Random keplerian orbit dist, Moorhead 2011 Eccentricity dist, Soto 2018 orbital mechanics and keepout-map, Delacroix 2016 detection/characterization modeling, Savransky2017 optimization of integration times, Keithly2018 validation with a realisitic mission simulation.
+%     23. Run-sim Flow Chart
+%     24. Mission Visualization Video
+%     25. Timeline of Observations showing spacing of observations
+%     26. When observations occur, koMaps
+%     27. Local Zodiacal light Intensity sky-map
+%     28. Local Zodiacal Light Histograms, comparison to what people have used for local minimum in the past
+%     29. Rp vs SMA distribution for Kepler Like distribution
+% \end{frame}
+
+% Why Direct Imaging %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Why Imaging?}
+\subsection{}
+
+% You want a picture of a planet
+% *draw line on screen* This is what other telescopes see. *Draw pixelated planet
+% This bad boy can fit so many exoplanets
+% Mogdalena Ridge Observatory
+% Big Fucking Telescopes OR Big Friendly Telescopes
+
+%\subsection{}%CONFIRMED PLANETS
+% \begin{frame}{Exoplanet Collage}
+%     This is where I would put my
+%     \begin{enumerate}
+%         \item Series of randomly assembled similar earth-like exoplanets
+%         \item Series of assembled earth evolution over a period of time
+%     \end{enumerate}
+%     If only I could get "animate" to work
+%     %\animategraphics[loop,controls,width=\linewidth]{10}{EarthGIFS/worldgen/tmp-}{0}{39}
+%     %\includemovie{1cm}{1cm}{worldgen.gif}
+% \end{frame}
+
+
+
+\begin{frame}{Confirmed Planets} %{Penny Plot}
+\begin{picture}(440,210)
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+\put(0,15){\includegraphics[height = 0.84\textheight, trim= 0cm 0cm 0cm 1.2cm, clip]{pennyPlot__.pdf}}%{pennyPlot__2019_04_02_23_12_.pdf}}
+% \put(170,107){\colorbox{white}{\makebox(75,3){}}}%Timing Variations
+% \put(170,83){\colorbox{white}{\makebox(75,10){}}}%Orbital Brightness Modulation
+% \put(170,74){\colorbox{white}{\makebox(65,3){}}}%Astrometry
+% \put(170,64){\colorbox{white}{\makebox(65,3){}}}%MicroLensing
+% \put(170,54){\colorbox{white}{\makebox(65,3){}}}%Radial Velocity
+
+\put(265,200){
+\begin{minipage}[t]{5.25cm}
+\begin{itemize}
+    \item  More transits (green) than other detections
+    \item Imaging detects planets further fromthe host star
+\end{itemize}
+\end{minipage}}
+\put(0,0){https://exoplanetarchive.ipac.caltech.edu/}
+\end{picture}
+\end{frame}
+%WORDS
+%Each one of these markers represented a unique, confirmed, detected exoplanet cataloged in the IPAC exoplanet database.
+%How do you interpret this plot. We will see many more Planet Radius vs Separation/Semi-major axis plots like this one.
+%The Y-axis describes the estimated planetary radius of the confirmed planet.
+%The X-axis describes the maximal star-planet separation measured or calculated.
+%In this plot, we clearly see the vast majority of detections come from exoplanet transits. An exoplanet transit occurs when a planet occults the star it orbits, thereby blocking some small amount of light emanating from the star into a telescope. SEE SLIDE "TRANSIT DETECTION DIAGRAM" FOR MORE DETAILS
+%Another important piece of information to note is the huge disparity between what transiting surveys and imaging can detect.
+%Now lets add the Solar System Planets
+
+
+\begin{frame}{Confirmed and Solar System Planets} %{Penny Plot with Solar System Planets}
+\begin{picture}(440,210)
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+\put(0,15){\includegraphics[height = 0.84\textheight, trim= 0cm 0cm 0cm 1.2cm, clip]{pennyPlotwSolarPlanetsIMAGES.png}}
+% \put(170,107){\colorbox{white}{\makebox(75,3){}}}%Radial Velocity
+% \put(170,91){\colorbox{white}{\makebox(65,3){}}}%MicroLensing
+% \put(170,72){\colorbox{white}{\makebox(75,3){}}}%Timing Variations
+% \put(170,54){\colorbox{white}{\makebox(75,10){}}}%Orbital Brightness Modulation
+% \put(170,46){\colorbox{white}{\makebox(65,3){}}}%Astrometry
+
+\put(265,200){
+\begin{minipage}[t]{5.25cm}
+\begin{itemize}
+    \item  More transits (green) than other detections
+    \item Imaging detects planets further fromthe host star
+    \item Imaging hasn't detected anything smaller than $\approx$Jupiter
+    \item Earth-Like rocky bodies undiscovered
+\end{itemize}
+\end{minipage}}
+\put(0,0){https://exoplanetarchive.ipac.caltech.edu/}
+\end{picture}
+\end{frame}
+%WORDS
+%I added planets from our solar system as a reference guide.
+%This should clear up a few things.
+%#1 We aren't detecting Earth-Like exoplanets with the transit technique.
+%#2 The imaging techniques have only picked up large gas giants with large planet-star separations.
+%#3 The WFIRST space telescope will detect exoplanets as small as $\approx$
+
+
+
+\section{$\Delta$mag, $s$}
+\subsection{}
+\begin{frame}{Directly Imaging Exoplanets Geometry}
+\begin{picture}(440,210)
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+\put(45,105){\includegraphics[width=0.5\textheight, angle=280]{WFIRST/wfirst-afta_0.jpg}}
+\put(0,90){\includegraphics[height=0.5\textheight]{WFIRST/PlanetProjectedAngleDistribution_rev3.pdf}}
+
+\only<1>{\put(220,10){\includegraphics[height=0.8\textheight]{WFIRST/Marois2014.eps}}} 
+\only<1>{\put(220,200){(Marois et al. 2014)}}
+
+\put(100,60){This is WFIRST;}
+\put(100,45){the observatory}
+\put(100,30){we will focus on.}
+
+\end{picture}
+\end{frame}
+%WORDS
+%When I simulate a direct imaging missions, we simulate hundreds of thousands to millions of exoplanets.
+%When I simulate these planets, I sample from distributions of Keplerian Orbital Elements to create a position vector of the planet relative to the target star which is this r_p vector.
+%I make the assumption that the spacecraft pointing vector, r_targ conveniently aligns with one of the basis vectors.
+%When I go to "take an image" of the space around this star, I don't see the planet's position vector, but the planet's projected separation, s.
+
+%WORDS
+%The direct image will look something like this,
+%here we see a direct image of Beta Pictoris take from (Marois 2014)
+%you can see what a projected separation could look like.
+%An interesting component of directly imaging exoplanets is the inner working angle.
+%Outer working angles are normal.
+%When I combine the OWA of the instrument and the distance of the host star, I get the maximum separation observable.
+%Similarly, there is some minimum separation observable for this target star.
+
+
+%DUPLICATE INFORMATION TO IMMEDIATELY ABOVE???
+% \begin{frame}{Directly Imaging Exoplanets Geometry}
+% \begin{picture}(440,210)
+% %\put(0,0){\circle{1}}
+% %\put(0,210){\circle{1}}
+% %\put(440,0){\circle{1}}
+% %\put(440,210){\circle{1}}
+% \put(0,0){\includegraphics[height=0.85\textheight]{WFIRST/PlanetProjectedAngleDistribution_rev3.pdf}}
+% \put(220,0){\includegraphics[height=0.85\textheight]{WFIRST/Marois2014.eps}}
+% %\caption{Marois et al. 2014}
+% \put(220,200){(Marois et al. 2014)}
+% \end{picture}
+% \end{frame}
+% %WORDS
+% %We'll 
+
+\begin{frame}{Visual Magnitude Reference}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+\put(-15,-7){\includegraphics[width=0.97\textwidth, height=0.97\textheight, trim= 0.4cm 0.5cm 0.5cm 1.0cm, clip]{SpaceObjectVmagWIKIwSimulatedEXOPLANET_wIcons2.png}}
+\put(310,150){$\Delta$mag is difference in}
+\put(310,135){magnitude between the}
+\put(310,120){host star and exoplanet}
+\end{picture}
+    
+    
+\end{frame}
+
+
+\section{P(detection)}
+
+% Completeness Joint PDF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{JPDF}
+
+\begin{frame}{Joint Probability Density Function, $f_{\bar{s},\overline{\Delta\mathrm{mag}}}\left(s,\Delta\mathrm{mag}\right)$}
+\begin{picture}(440,210)
+%\put(){}
+
+
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+%\includegraphics[width=0.8\textwidth]{Motivation/extinctionModelingDynProg.pdf}
+\only<1>{\put(-20,20){\includegraphics[width=0.55\linewidth, trim=0.35cm 0 1.5cm 0.5cm, clip]{WFIRST/completenessJoinfPDF_WFIRSTcycle6core_CKL2_PPKL2_2019_04_05_19_20_.pdf}}
+\put(70,190){Kepler Like}}
+
+\only<1>{\put(200,20){\includegraphics[width=0.55\linewidth, trim=0.35cm 0 1.5cm 0.5cm, clip]{WFIRST/completenessJoinfPDF_WFIRSTcycle6core_CSAG13_PPSAG13_2019_04_05_20_58_.pdf}}
+\put(290,190){SAG 13}}
+
+%% THIS IS AN ATTEMPT TO DRAW A LINE FOR ANY OF THE BELOW
+%\put(20,0){\begin{tikzpicture}
+%\draw (20,1.5) -- (20,9);
+%\end{tikzpicture}}
+
+\put(20,5){Derived from (Garret et al., 2016)}
+
+\end{picture}
+    %Add max(rrange) vertical line
+    %Add min/max(planetary radius line?)
+    %Add SMA knee line?
+    %Add Beta Star Line
+    %Add reference s and dmag for solar system planets
+\end{frame}
+%WORDS
+%I spent the time calibrating everyone on the Separation and Visual Magnitude charts so we can read this together with some intelligence.
+%Here is the joint probability density function based on a population of planets detected in Q1-Q6 of Kepler's mission.
+%This distribution is independent of any telescope parameters and is solely dependent on the underlying assumed population.
+%The integral over the entire joint density function is 1.
+%We use integration over this distribution to determine the probability of detecting a planet around a host star.
+%The limits of the double integral are how we introduce the telescope design parameters.
+%In general, as we saw on the separation plot, telescopes have some limiting OWA.
+%Because we block out the central starlight with a coronagraph, WFIRST also has an IWA.
+%The minimum and maximum separations are dependent upon the distance of the host star and the IWA and OWA telescope constants
+%The upper limit of dmag is going to be dependent upon a ton of instrument parameters.
+
+
+
+\begin{frame}{Calculating P(detection), $c_i$}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+
+\put(0,200){Completeness, $c_i$, is the probability of detecting an exoplanet around}
+\put(0,185){a host star should a planet exist around that star}
+
+\put(80,100){$\displaystyle c_i = \int_{{\color{Forestgreen}{0}}}^{{\color{blue}{\Delta\mathrm{mag}_i}}} \int_{{\color{sminred}{s_{\mathrm{min},i}}}}^{{\color{smaxyellow}{s_{\mathrm{max},i}}}} \color{purple}{f_{\bar{s},\overline{\Delta\mathrm{mag}}}\left(s,\Delta\mathrm{mag}\right) \intd{s} \intd{\Delta\mathrm{mag}}}$}
+%\color{<color>}
+
+\put(0,0){(Savransky et al., 2017)}
+
+\put(0,40){index of the target star - $i$}
+\put(88,50){\Line[black]{(0,0)}{(0.95,-1.57)}}
+\put(152,25){$\color{Forestgreen} 0$\textcolor{Forestgreen}{ - fundamental lower limit (for non-self-luminous)}}
+\put(109,30){\Line[Forestgreen]{(0,0)}{(1.45,-2.1)}}
+\put(170,55){$\color{sminred} s_{min,i}$\textcolor{sminred}{ - smallest planet-star separation observable}}
+\put(143,58){\Line[sminred]{(0,0)}{(0.89,-1.1)}}
+\put(170,135){$\color{smaxyellow} s_{max,i}$\textcolor{smaxyellow}{ - largest planet-star separation observable}}
+\put(148,116){\Line[smaxyellow]{(0,0)}{(0.9,0.7)}}
+\put(0,125){\textcolor{blue}{next slides - }$\color{blue} \Delta$\textcolor{blue}{mag}$\color{blue} _i$}
+\put(95,116){\Line[blue]{(0,0)}{(0.9,-0.48)}}
+%\Line[red, thick]{(0,0)}{(3,0)}
+%\Line[blue, thick, dotted]{(0,0)}{(1.00in,0in)}
+\end{picture}
+\end{frame}
+
+
+%%%% Photon Sources Diagram FINISHED
+\begin{frame}{Photon Sources}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+
+\put(-30,-10){\includegraphics[width=\paperwidth, height=0.88\paperheight, trim= 0cm 0cm 0cm 4cm, clip]{WFIRST/WFIRST_NOISE_DIAGRAM.png}}
+\put(-21,-32){\includegraphics[width=0.99\paperwidth, height=0.95\paperheight]{WFIRST/WFIRST_NOISE_DIAGRAMwOVERLAY_noback2.png}}
+
+\end{picture}
+\end{frame}
+
+
+\subsection{Integration Time Calculation}
+\begin{frame}{$\Delta$mag$_i$ and $t_i$}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+\put(-10,200){This is the background limiting $\Delta$mag}
+
+\put(-10,160){$\Delta \mathrm{mag}_i(t_i) = -2.5\log_{10}{\frac{SNR\sqrt{\frac{C_{b,i}}{t_i} + C_{sp,i}^2}}{C_{\mc F_0} 10^{-0.4\nu_i(\lambda)} T(\lambda, WA) \epsilon_{PC}}}$}
+\put(-10,0){(Nemati, 2014), (Nemati et al., 2017)}
+
+
+\put(265,200){
+\begin{minipage}[t]{5.25cm}
+\begin{itemize}
+    \item $\lambda=565$nm wavelength
+    \item  $\nu_i(\lambda)$ - target star B-V color
+    \item $SNR=5$ - minimum required for detection
+    \item $\epsilon_{PC}=0.8$ - photon counting efficiency
+    \item $C_{b,i}$ - net background count rate
+    \item $C_{sp,i}$ - speckle residual count rate
+    \item $C_{sr,i}$ - starlight residual
+    \item $C_{\mc F_0}$ - spectral flux density
+\end{itemize}
+\end{minipage}}
+
+\put(-10,105){$C_{b,i} = ENF^2 \times (C_{sr,i}+C_{z,i}+C_{ez}) + (ENF^2 \times (C_{dc}+C_{cc}) + C_{rn})$}
+\put(-10,85){$C_{sp,i} = C_{sr,i} \times \epsilon_{pp}$} %post processing factor
+\put(-10,65){$C_{sr,i} = C_{\mc F_0} \times 10^{-0.4 \times \nu_i} \times \Psi(\lambda,WA) \times N_{pix}$}
+\put(-10,50){$C_{\mc F_0}(\lambda) = \mc F_0(\lambda)A\Delta \lambda\epsilon_{q}(\lambda)\epsilon_{inst}\epsilon_{syst}$}
+
+\end{picture}
+\end{frame}
+%WORDS
+%Here I will discuss the relationship between the background limiting $\Delta$mag and integration time.
+%
+
+
+% Optimization Process %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{}
+
+\section{Optimization}
+\subsection{Reward \& Cost}
+\begin{frame}{Reward \& Cost}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+\put(0,200){We now have a metric describing the ``reward'' for observing each star.}
+\put(0,185){We related the ``reward'' to the time ``cost'' of making that observation.}
+\put(0,160){How do I determine integration time for each star, $i$ in $\mathbf{I}$ ($t_i$)?}
+
+\only<2->{\put(0,115){We have a set of time constraints to consider:}}
+\only<2->{\put(20,100){$T_{settling}$ - time reserved for vibration damping, reaching thermal equilibrium,}}
+\only<2->{\put(40,85){``digging the dark hole'' (0.5d)}}
+\only<2->{\put(20,70){$T_{OH}$ - time reserved for momentum dumping, orbit maintenance,}}
+\only<2->{\put(40,55){dark hole maintenance (0.5d)}}
+\only<2->{\put(20,40){$T_{max}$ - total mission time (30d)}}
+
+\only<3->{\put(0,20){\textbf{What is an initial feasible solution to the}}}
+\only<3->{\put(0,5){\textbf{full non-linear optimization problem?}}}
+
+\end{picture}
+\end{frame}
+
+
+\begin{frame}{Optimization: Part 1}
+\begin{algorithm}[H]
+\begin{algorithmic}[1]
+\renewcommand{\algorithmicrequire}{\textbf{Input: \ }}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\REQUIRE $\mathbf{I}$, $\mathbf{c}_0$, $\mathbf{t}_0$, $T_{OH}$, $T_{settling}$, $T_{\mathrm{max}}$, and an optimization time limit maximum of 5 minutes
+\ENSURE $\mathbf{x}^*_1$, the list of binary values signaling to keep (1) or remove (0) each target
+\begin{argmini*}|s|[1]%<b>
+{\mathbf{x}}{-\sum^{N-1}_{i=0}x_i c_{0,i}}
+{}{\mathbf{x}^*_1=}
+\quad \addConstraint{\sum_{i \in \mathbf{I}} x_i (t_{0,i}+T_{OH}+T_{settling})}{\leq T_{max}}{}
+\quad \addConstraint{x_i}{\in \{0,1\},}{ \quad \forall\ i\ \in \mathbf{I}}
+\end{argmini*}
+\end{algorithmic}\caption{Binary Integer Program - $\mathbf{x}^*_1=\mathrm{BIP}(\mathbf{c}_0$, $\mathbf{t}_0)$}
+%\label{alg:SLSQPpart1}
+\end{algorithm}
+Coin-OR MIP - (Lougee-Heimer, 2003), (Savransky et al., 2017), (Keithly et al., 2019)
+\end{frame}
+
+\subsection{}
+\begin{frame}{Initial $t_i$, Maximizing d$c$/d$t$}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+%\put(-15,200){Optimizing with SLSQP}
+\put(120,0){\includegraphics[width=0.73\linewidth, trim= 0cm 0cm 1.2cm 1.3cm, clip]{Appendix/dCbydTandOptimalSelection.pdf}} %this isdC/dT optimal from a 1 yr SLSQP optimized mission
+\put(0,190){\textbf{What is a \underline{good} initial}}
+\put(0,175){\textbf{feasible solution to the}}
+\put(0,160){\textbf{full non-linear}}
+\put(0,145){\textbf{optimization problem?}}
+%ADD THIS SOMEWHERE ELSE???? REDO???
+% \put(200,200){Optimizing with ``Altruistic Yield Optimization''}
+% \put(200,20){(Stark et al., 2014)}
+% \put(200,40){\includegraphics[width=0.53\linewidth, trim= 0cm 0cm 1.2cm 1.3cm, clip]{Appendix/dcdtFig.pdf}} % this is starkAYO
+
+\end{picture}
+\end{frame}
+
+\begin{frame}{Slope of Reward/Cost, $\varepsilon=$d$c$/d$t$}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+
+\only<1->{\put(30,200){1. Assemble the expression and take the derivative w.r.t time}}
+\only<1->{\put(30,180){
+        $\varepsilon=\left.\frac{\intd{c_i}}{\intd{t_i}}\right|_{t_i} 
+        = \frac{\intd}{\intd{t_i}}\left.\left[\int_{0}^{\Delta\mathrm{mag}_i\left(t_i\right)}
+        \int_{s_{\mathrm{min},i}}^{s_{\mathrm{max},i}}
+        {\color{purple}{f_{\overline{s},\overline{\Delta\mathrm{mag}}}\left(s,\Delta\mathrm{mag}\right)
+        \intd{s} \intd{\Delta\mathrm{mag}}}}\right]
+        \right|_{t_i} $}}
+\only<2->{\put(30,150){2. Multiply by $d\Delta\mathrm{mag}_i/d\Delta\mathrm{mag}_i$}}
+\only<2->{\put(75,130){
+        $= \frac{\intd}{\intd{\Delta\mathrm{mag}_i}}
+        \left[\int_{0}^{\Delta\mathrm{mag}_i\left(t_i\right)}
+        \int_{s_{\mathrm{min},i}}^{s_{\mathrm{max},i}}
+        {\color{purple}{f_{\overline{s},\overline{\Delta\mathrm{mag}}}\left(s,\Delta\mathrm{mag}\right)
+        \intd{s} \intd{\Delta\mathrm{mag}}}}\right]
+        \left.\frac{\intd\Delta\mathrm{mag}_i}{\intd{t_i}}\right|_{t_i} $}}
+\only<3->{\put(30,110){3. Apply Fundamental Theorem of Calculus}}
+\only<3->{\put(75,90){
+        $= \left[\int_{s_{\mathrm{min},i}}^{s_{\mathrm{max},i}}
+         f_{\overline{s},\overline{\Delta\mathrm{mag}}}
+         \left(s,\Delta\mathrm{mag}\left(t_{i}\right)\right) \intd{s}\right] \left.
+         \frac{\intd\Delta\mathrm{mag}_i}{\intd{t_i}}
+         \right|_{t_i}$}}
+
+\only<4->{\put(30,30){
+$\frac{\intd\Delta\mathrm{mag}_i}{\intd{t_i}}\left(t_i\right) = \frac{5 C_{b,i}}{4 \ln(10)}\frac{1}{C_{b,i} t_i + \left(C_{sp,i} t_i\right)^2}$
+}}
+\only<4->{\put(220,30){From (Nemati, 2014)}}
+\end{picture}
+
+\end{frame}
+
+\begin{frame}{Optimization: Part 2}
+\begin{algorithm}[H]
+\begin{algorithmic}[1]
+\renewcommand{\algorithmicrequire}{\textbf{Input: \ }}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\REQUIRE $\mathbf{I}$, $\mathbf{C}_{p0}$, $\mathbf{C}_{b0}$, $\mathbf{C}_{sp0}$, $T_{OH}$, $T_{settling}$, $T_{\mathrm{max}}$, and an optimization time limit maximum of 5 minutes
+\ENSURE $\varepsilon^*$, the value of $\intd{c}/\intd{t}$ evaluated for each target which maximizes yield
+\ENSURE $\mathbf{t}^*$, integration times for each target evaluated at $\varepsilon^*$
+\ENSURE $\mathbf{x}^*_2$, the list of binary values signaling to keep or remove each target
+\begin{argmini*}|s|[1]%<b>
+{\varepsilon}{-\sum_{i\in \mathbf{I}} \mathrm{BIP}(c_{i}(t_i^*(\varepsilon)),t_i^*(\varepsilon),T_{OH},T_{settling},T_{\mathrm{max}})_i c_{i}(t_i^*(\varepsilon))}
+{}{\varepsilon^*=}
+\addConstraint{\varepsilon}{\leq 7}{}
+\addConstraint{-\varepsilon}{\leq 0}{}
+%\addConstraint{\Delta(v,ind)=0} \quad \text{(Constrained to sphere).}
+%\addConstraint{g(w)}{=0,}{ \quad \text{(Dynamic constraint)}}
+%\addConstraint{n(w)}{= 6,}{ \quad \text{(Boundary constraint)}}
+%\addConstraint{L(w)+r(x)}{=Kw+p,}{ \quad \text{(Random constraint)}}
+%\addConstraint{h(x)}{=0,}{ \quad \text{(Path constraint).}}
+\end{argmini*}\\%restate upper and lower bound as inputs???
+$\mathbf{t}^*_2$ $\Leftarrow$ $[t_i^*(\varepsilon^*),\ \forall\ i\ \in\ \mathbf{I}]$\\
+$\mathbf{x}^*_2$ $\Leftarrow$ $[$BIP($c_{i}(t_i^*(\varepsilon^*)),t_i^*(\varepsilon^*),T_{OH},T_{settling},T_{\mathrm{max}}),\ \forall\ i\ \in\ \mathbf{I}]$
+\end{algorithmic}\caption{Bounded Scalar Minimization Wrapping Binary Integer Program}
+\label{alg:SLSQPpart2}
+\end{algorithm}
+(Savransky et al., 2017), (Keithly et al., 2019)
+\end{frame}
+
+\subsection{}
+\begin{frame}{Optimization: Part 3}
+\begin{algorithm}[H]
+\begin{algorithmic}[1]
+\renewcommand{\algorithmicrequire}{\textbf{Input: \ }}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\REQUIRE $\mathbf{I}$, $\mathbf{f}_Z$, $\mathbf{t}$, $T_{OH}$, $T_{settling}$ and $T_{\mathrm{max}}$ %I introduce I here without ever discussing what it is... Needs to be presented elsewhere or eliminated %Replace {0..N-1} with bold I??
+\ENSURE $\mathbf{t}^*_3$, the integration times to spend on each star
+\begin{argmini*}|s|[1]
+{\mathbf{t}}{-\sum^{N-1}_{i=0} c_{i}(t_i)}
+{}{\mathbf{t}^*=}
+\addConstraint{t_i}{<T_{\mathrm{max}},}{ \quad \forall\ i\ \in \mathbf{I}}
+\addConstraint{-t_i}{<0,}{ \quad \forall\ i\ \in \mathbf{I}}
+\addConstraint{\sum_{i \in \mathbf{I}} x_i (T_{OH}+T_{settling}) + t_{i}}{<T_{\mathrm{max}}}{}
+%\addConstraint{\Delta(v,ind)=0} \quad \text{(Constrained to sphere).}
+%\addConstraint{g(w)}{=0,}{ \quad \text{(Dynamic constraint)}}
+%\addConstraint{n(w)}{= 6,}{ \quad \text{(Boundary constraint)}}
+%\addConstraint{L(w)+r(x)}{=Kw+p,}{ \quad \text{(Random constraint)}}
+%\addConstraint{h(x)}{=0,}{ \quad \text{(Path constraint).}}
+\end{argmini*}
+\end{algorithmic}\caption{SLSQP Optimization}
+\label{alg:SLSQPpart3}
+\end{algorithm}
+Scipy SLSQP - (Boggs and Tolle, 1995), (Savransky et al., 2017), (Keithly et al., 2019)
+\end{frame}
+%Add links to analytically derived derivative
+
+
+% Observation Schedule %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{}
+\begin{frame}{Completeness vs Integration Time - Kepler Like Planet Population}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+%\put(50,190){Kepler Like}
+\put(50,200){Kepler Like}
+\put(-20,40){\includegraphics[width=0.55\linewidth,trim=0.5cm 0.25cm 4.8cm 4.4cm,clip]{WFIRST/CvsTlinesAndHists_WFIRSTcycle6core_CKL2_PPKL2_2019_04_22_10_35_.pdf}}
+\put(10,25){59/60 observations made}
+
+\put(250,200){SAG13}
+\put(205,40){\includegraphics[width=0.55\linewidth,trim=0.5cm 0.25cm 4.8cm 4.4cm,clip]{WFIRST/CvsTlinesAndHists_WFIRSTcycle6core_CSAG13_PPSAG13_2019_04_22_14_16_.pdf}}
+\put(235,25){63/64 observations made}
+\end{picture}
+\end{frame}
+
+% \begin{frame}{Completeness vs Integration Time - SAG13 Planet Population}
+% \begin{picture}(440,210)
+% %\put(){}
+% %\put(0,0){\circle{1}}
+% %\put(0,210){\circle{1}}
+% %\put(440,0){\circle{1}}
+% %\put(440,210){\circle{1}}
+% %\put(280,190){SAG 13}
+% \put(-20,0){\includegraphics[width=0.75\linewidth,trim=0.5cm 0.25cm 1cm 1cm,clip]{WFIRST/CvsTlinesAndHists_WFIRSTcycle6core_CSAG13_PPSAG13_2019_04_22_14_16_.pdf}}
+% \end{picture}
+% \end{frame}
+
+\begin{frame}{Sky Distribution of Target List Time}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+
+\put(0,20){\includegraphics[width=0.95\textwidth, trim= 2cm 0cm 2cm 0cm, clip]{WFIRST/skyObsIntTimeDist_WFIRSTcycle6core_CKL2_PPKL2_2019_02_11_21_13_.pdf}}
+\end{picture}
+\end{frame}
+
+
+\section{Validation}
+\subsection{}
+\begin{frame}{EXOSIMS}
+    \includegraphics[width=\linewidth]{LOGOS/EXOSIMScropped.png}
+\end{frame}
+
+\subsection{}
+\begin{frame}{Simulating Single Missions}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+\put(50,0){\includegraphics[height=0.9\textheight]{WFIRST/THENEWrun_simrev6-Page-4.pdf}}
+\end{picture}
+\end{frame}
+
+% Keepout Map %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{}
+\begin{frame}{Keep-out Regions}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+\put(0,200){\textbf{Problem:} Sensors saturate when looking at bright objects}
+\put(0,185){\textbf{Solution:} Designate regions the telescope is not allowed to look at}
+
+\put(50,15){\includegraphics[width=0.9\linewidth, trim= 0cm 1.2cm 0cm 0cm, clip]{WFIRST/WFIRSTKeepoutDiagram.pdf}}
+
+\put(-5,130){
+\begin{minipage}{0.3\linewidth}
+\begin{tabular}{|c|c|}
+\hline
+    \shortstack[l]{\\\textbf{Body}}   &  \shortstack[l]{\textbf{Keep-out}\\\textbf{Angle} (deg)}\\ 
+    \hline
+    Earth           & $45^\circ$\\
+    Moon            & $45^\circ$\\
+    Sun             & $45^\circ$\\
+    Small Bodies    & $1^\circ$\\
+    Solar Panels    & $56^\circ$, $124^\circ$\\%technically 2015 SDT says 36deg so 54,126 but we got this from a phone conversation that was more recent
+    \hline
+\end{tabular}\\
+%\tiny \citep{wfirstSDT2015}
+\end{minipage}}
+
+\put(0,0){(WFIRST SDT, 2015)}
+\end{picture}
+    
+\end{frame}
+
+\subsection{}
+\begin{frame}{Keep-out Map}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+%\put(-10,30){\includegraphics[height=0.7\textheight]{WFIRST/koMapScaled_WFIRSTcycle6core_CKL2_PPKL2_2019_04_19_15_09_.pdf}}
+\put(-10,30){\includegraphics[height=0.7\textheight]{WFIRST/koMapScaled_WFIRSTcycle6core_CKL2_PPKL2_2019_04_05_19_29_.png}}
+\only<2>{\put(200,30){\includegraphics[height=0.7\textheight]{WFIRST/koMapHIST_CDF_WFIRSTcycle6core_CKL2_PPKL2_2019_04_19_15_09_.pdf}}}
+
+\put(0,0){(Soto et al., 2019)} %is this correct??
+\end{picture}
+\end{frame}
+
+% \subsection{}
+% \begin{frame}{Percent Time Visible}
+% \includegraphics[height=0.8\textheight]{WFIRST/koMapHIST_CDF_WFIRSTcycle6core_CKL2_PPKL2_2019_04_19_15_09_.pdf}
+% \end{frame}
+
+\begin{frame}{Zodiacal Light}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+\put(-5,0){\includegraphics[height=0.9\textheight]{WFIRST/fZminCalculatedBetavsLon_WFIRSTcycle6core_CKL2_PPKL2_2019_05_10_14_03_.pdf}}
+
+\only<2>{\put(280,200){
+\begin{minipage}[t]{4.8cm}
+\begin{itemize}
+    \item Red dots - linear interpolant minimums for each latitude
+    \item 15d deviation from minimum has marginal value change
+\end{itemize}
+\end{minipage}}}
+\only<3>{\put(280,200){
+\begin{minipage}[t]{4.8cm}
+\begin{itemize}
+    \item Red dots - linear interpolant minimums for each latitude
+    \item 15d deviation from minimum has marginal value change
+    \item[] \textbf{Idea!} lets make observations at minimums!
+\end{itemize}
+\end{minipage}}}
+\only<4>{\put(280,200){
+\begin{minipage}[t]{4.8cm}
+\begin{itemize}
+    \item Red dots - linear interpolant minimums for each latitude
+    \item 15d deviation from minimum has marginal value change
+    \item[] \textbf{Idea!} lets make observations at minimums!
+    \item Black dots - implemented observations
+\end{itemize}
+\end{minipage}}}
+
+\put(300,15){(Leinert et al., 1998)}
+\end{picture}
+\end{frame}
+
+
+\subsection{}
+\begin{frame}{A Resulting Schedule}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+
+\put(0,130){\includegraphics[width=\textwidth]{WFIRST/TimelineSnake__2019_03_27_20_43_.png}}
+\put(0,0){\includegraphics[height=0.57\textheight, trim= 0cm 0cm 1.2cm 1.2cm, clip]{WFIRST/yieldPlotHist_WFIRSTcycle6core_CKL2_PPKL2_2019_04_05_19_36_.pdf}}
+\put(220,120){\textcolor{red}{red} and \textcolor{blue}{blue} lines alternate}
+\put(220,105){(Used to emphasize different observations)}
+\end{picture}
+
+% \begin{enumerate}
+%     \item Advance to time of nearest $fZ_{\mathrm{min}}$
+%     \item Make observation
+% \end{enumerate}
+
+\end{frame}
+
+% \begin{picture}(440,210)
+% %\put(0,0){\circle{1}}
+% %\put(0,210){\circle{1}}
+% %\put(440,0){\circle{1}}
+% %\put(440,210){\circle{1}}
+% \put(250,150){Mentoring the Trumansburg FIRST Robotics Team\\3 semesters teaching SPLASH}
+% \put(250,0){\includegraphics[width=0.3\linewidth]{LOGOS/TitleSlide2.png}}
+
+% \end{picture}
+
+
+
+\subsection{Convergence}
+\begin{frame}{Convergence}
+\begin{picture}(440,210)
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+\put(-10,0){\includegraphics[height=0.9\textheight]{WFIRST/meanNumDetectionDiffConvergencePERCENT.pdf}}
+%\put(300,190){Absolute percent error confidence intervals for 100 and 1000 simulations. This table references data created using runs from Dean22May18RS09CXXfZ01OB01PP01SU01 and file convergenceDATA\_Dean22May18RS09CXXfZ01OB01PP01SU01\_2019\_04\_09\_01\_23\_.txt}
+\put(0,200){How many simulations do I need to run? (to get within XX\% of the mean)}
+\put(280,90){
+\begin{minipage}{0.3\linewidth}
+    \raggedright
+    $\mu_i = \frac{(i-1)\mu_{i-1} + x_i}{i}$\\
+    (Savransky et al. 2015)
+    \normalsize
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{\# Sims}& \shortstack[l]{\textbf{CI}}  &   \shortstack[l]{ $|\%|$\\\textbf{error}} \\
+        \hline
+        1000            & $1\sigma$                     &   1.16\\%69879962393457\\
+        1000            & $2\sigma$                     &   2.33\\%56789575230055\\
+        1000            & $3\sigma$                     &   3.19\\%29987311056327\\
+        100             & $1\sigma$                     &   3.45\\%2549180080656\\
+        100             & $2\sigma$                     &   6.95\\%6849038622318\\
+        100             & $3\sigma$                     &   9.58\\%5061473794957\\
+        \hline
+    \end{tabular}
+    %{\tiny Data from: Dean22May18RS09CXXfZ01OB01PP01SU01}
+\end{minipage}}
+\end{picture}
+\end{frame}
+
+
+\section{WFIRST Results}
+
+% Over Optimization %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{}
+\begin{frame}{Confirmed with WFIRST Detected Planets} 
+\begin{picture}(440,210)
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+\put(0,15){\includegraphics[height = 0.84\textheight, trim= 0cm 0cm 0cm 1.2cm, clip]{WFIRST/pennyPlotwSolarPlanetsw2_WFIRSTcycle6core_CKL2_PPKL2_.png}}%{WFIRST/pennyPlotwSolarPlanetsw_WFIRSTcycle6core_CKL2_PPKL2_.pdf}}
+% \put(170,107){\colorbox{white}{\makebox(75,3){}}}%Radial Velocity
+% \put(170,89){\colorbox{white}{\makebox(65,3){}}}%MicroLensing
+% \put(170,71){\colorbox{white}{\makebox(75,3){}}}%Timing Variations
+% \put(170,54){\colorbox{white}{\makebox(75,10){}}}%Orbital Brightness Modulation
+% \put(170,46){\colorbox{white}{\makebox(65,3){}}}%Astrometry
+
+\put(265,200){
+\begin{minipage}[t]{5.25cm}
+\begin{itemize}
+    % \item  More transits (green) than other detections
+    % \item Imaging detects planets further fromthe host star
+    % \item Imaging hasn't detected anything smaller than $\approx$Jupiter
+    % \item Earth-Like rocky bodies undiscovered
+    \item All planets detected in \textbf{WFIRST} \underline{all} simulations (purple)
+    \item WFIRST might detect $\approx 2R_{\oplus}$ planets
+    \item WFIRST is likely to detect planets with $0.5$AU$\leq s \leq 5$AU
+\end{itemize}
+\end{minipage}}
+\put(0,0){https://exoplanetarchive.ipac.caltech.edu/}
+\end{picture}
+\end{frame}
+
+\begin{frame}{Mean Unique Detections}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+\put(-20,90){\setlength{\tabcolsep}{10pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{lll}
+                                      & \multicolumn{2}{c}{Planet Population}     \\
+    \multicolumn{1}{l|}{Completeness} & \multicolumn{1}{l|}{Kepler Like} & SAG 13 \\ \hline
+    \multicolumn{1}{l|}{Kepler Like}  & \multicolumn{1}{l|}{5.484}       & 16.117 \\ \hline
+    \multicolumn{1}{l|}{SAG13}        & \multicolumn{1}{l|}{5.206}       & 16.266
+    \end{tabular}
+}
+\put(40,130){Unique Detections}
+%Summary of average overfitting unique detection yield from four Monte Carlo ensembles with optimized target list integration times calculated for different planet populations observing universes of different planets  WFIRSTCompSpecPriors\_WFIRSTcycle6core\_3mo\_405\_19
+\put(20,30){The summed completeness of the planned observation list was 2.31.}
+\put(20,15){Multiplying by the planet occurrence rate (2.375) predicts 5.48 detections will be made.}
+
+\put(200,90){\setlength{\tabcolsep}{10pt} % Default value: 6pt
+\renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{lll}
+                                      & \multicolumn{2}{c}{Planet Population}     \\
+    \multicolumn{1}{l|}{Completeness} & \multicolumn{1}{l|}{Kepler Like} & SAG 13 \\ \hline
+    \multicolumn{1}{l|}{Kepler Like}  & \multicolumn{1}{l|}{0.214}       & 1.003  \\ \hline
+    \multicolumn{1}{l|}{SAG13}        & \multicolumn{1}{l|}{0.217}       & 0.718
+    \end{tabular}
+}
+\put(270,130){\# Characterizations}
+
+%\put(80,83){\colorbox{black}{\makebox(30,6){}}}
+\only<-2>{\put(80,70){\colorbox{white}{\makebox(30,4){}}}}
+\only<-2>{\put(146,85.4){\colorbox{white}{\makebox(30,4){}}}}
+\only<-1>{\put(146,70){\colorbox{white}{\makebox(30,4){}}}}
+\only<-3>{\put(205,50){\colorbox{white}{\makebox(210,120){}}}}
+\only<-4>{}
+
+
+%Summary of average overfitting characterizations from from four Monte Carlo ensembles with optimized target list integration times calculated for different planet populations observing universes of different planets WFIRSTCompSpecPriors\_WFIRSTcycle6core\_3mo\_405\_19
+\end{picture}
+\end{frame}
+
+
+
+
+
+% Observed Planet Populations
+\subsection{Observed Planet Populations Quad Chart}
+\begin{frame}{Observed Planet Populations}
+\begin{picture}(440,210)
+%\put(){}
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+\put(50,-5){\includegraphics[width=0.70\linewidth, trim=0cm 1.8cm 0cm 8.6cm, clip]{WFIRST/RpvsSMAfigure.pdf}}
+\put(50,204){\includegraphics[width=0.70\linewidth, trim=0cm 25.0cm 0cm 0.0cm, clip]{WFIRST/RpvsSMAfigure.pdf}}
+\only<-2>{\put(200,-10){\colorbox{white}{\makebox(115,99){}}}}
+\only<-1>{\put(200,95){\colorbox{white}{\makebox(115,92){}}}}
+\only<-2>{\put(76,-10){\colorbox{white}{\makebox(118,98){}}}}
+\only<-3>{}
+
+    %Add minimum Rp, SMA, max Rp, SMA
+    %Add Solar System Planets to Plot
+\end{picture}
+\end{frame}
+
+\subsection{}
+\begin{frame}{Summary}
+\begin{enumerate}
+    \item Target list optimization method
+    \item $\sum c$ planned $\approx$ $\sum c$ implemented
+    \item Target $t_i$ distribution on sky is uneven
+    \item WFIRST can detect unique planets in $R_p$ vs $a$ space
+    \item EXOSIMS simulates universes, validates the planned target list
+    \item Optimizing with Kepler-Like population is preferred
+    \item Optimizing with Kepler-Like leads to detections of smaller $R_p$ planets
+    \item WFIRST can detect planets in the regime between ``imaging'' and ``transits''
+    \item Running 1000x simulations $\rightarrow$ $\approx$3\% uncertainty
+    \item WFIRST can detect $\approx$5.48 exoplanets in a blind-search survey
+\end{enumerate}
+\end{frame}
+
+\section{Future Work}
+
+\subsection{}
+\begin{frame}{HabEx}
+\begin{picture}(440,210)
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(0,15){\includegraphics[height=0.84\textheight]{HabEx/yieldPlotHist__2018_12_23_00_30_.png}}
+\put(0,15){\includegraphics[height=0.84\textheight]{HabEx/yieldPlotHist_HabEx_CKL2_PPKL2_.pdf}}
+
+\put(300,10){\includegraphics[width=0.25\textwidth]{HabEx/largepreview.png}}
+
+\put(265,200){
+\begin{minipage}[t]{5.25cm}
+\begin{itemize}
+    \item HabEx is one of 4 future flagship telescope concepts
+    \item Designed to image exo-Earths
+\end{itemize}
+\end{minipage}}
+\end{picture}
+
+
+\end{frame}
+
+
+\begin{frame}{Confirmed with HabEx Detected Planets}
+\begin{picture}(440,210)
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+\put(0,15){\includegraphics[height = 0.84\textheight, trim= 0cm 0cm 0cm 1.2cm, clip]{HabEx/pennyPlotwSolarPlanetsw2_HabEx_CSAG13_PPSAG13_.png}}%{HabEx/pennyPlotwSolarPlanetsw_HabExEXO_HabEx_CSAG13_PPSAG13_.png}}
+% \put(170,107){\colorbox{white}{\makebox(75,3){}}}%Radial Velocity
+% \put(170,91){\colorbox{white}{\makebox(65,3){}}}%MicroLensing
+% \put(170,72){\colorbox{white}{\makebox(75,3){}}}%Timing Variations
+% \put(170,54){\colorbox{white}{\makebox(75,10){}}}%Orbital Brightness Modulation
+% \put(170,46){\colorbox{white}{\makebox(65,3){}}}%Astrometry
+
+\put(265,200){
+\begin{minipage}[t]{5.25cm}
+\begin{itemize}
+    \item All planets detected in \textbf{HabEx} simulations (purple)
+    \item HabEx might detect $\approx R_{\oplus}$ at $1$AU
+    \item ``lines'' are limits of simulated planets
+\end{itemize}
+\end{minipage}}
+\put(0,0){https://exoplanetarchive.ipac.caltech.edu/}
+\end{picture}
+\end{frame}
+
+\subsection{}
+\begin{frame}{Future Work}
+Detecting and Characterizing Earth-Like Exoplanets, Revisiting targets, Characterizing Orbits
+
+\begin{itemize}
+    \item Dynamic program rewarding only confirmed \& characterized Earth-Like planets
+    \item $P(planet\ type | s_0, \Delta \mathrm{mag}_0)$ - what is the probability a detected planet is of a given planet type?
+    \item $P(s_1, \Delta \mathrm{mag}_1, \theta_1 | planet\ type, MET+\Delta t, s_0, \Delta \mathrm{mag}_0)$ - when is the earliest I can take my next image?
+    \item simulating stable star systems
+    \item Decompose completeness by planet-type
+    \item Decompose dynamic-completeness by planet type
+\end{itemize}
+\end{frame}
+
+
+
+% \begin{frame}{Unobservable Phase Space of Planets}
+%     Question: How much space is unobservable due to phasing?\\
+%     Since observatories on L2 Halo Orbits have a certain period, their keepout maps have a certain period.\\
+%     This means a large fraction planets of a certain type are strictly unobservable (i.e. if we want to image an earth-like planet\\
+%     the first image captures all earth-like planets with same phase as earth, but we could not image any planet out of phase with earth.)\\
+%     this would generally only apply to planets with ecliptic plane NOT perpendicular to the $r_{i/SC}$
+    
+    
+%     Basically, we can use Daniel's lower limit applied to different planet types!
+% \end{frame}
+
+% \begin{frame}{Generate Dynamically Stable Systems}
+%     Star systems in EXOSIMS are not dynamically stable\\
+%     They should be\\
+%     From observing a Jupiter (relatively easy)\\
+%     How much faster can we eliminate targets to observe on the grounds of dynamic stability of the system?
+% \end{frame}
+
+% \begin{frame}{Shortest Possible Revisit Time Filter}
+%     Given a new detection of a new planet with dmag +/-X and s+/-Y\\
+%     If we are looking for Earth-like planets and the observed s and dmag indicate this could be an earth-like planet,\\
+%     when is the earliest time we can visit this target?\\
+%     The goal here being to make a second detection observation and know it is a detection of the same planet and rule out the possibility it is of an Earth-like planet.\\
+%     A problem is we could observe a Jupiter planet and Venus planet, but both appear with identical separation and dmags, and an obsservation at sometime later, both planets have the same separation and dmags.
+    
+    
+% \end{frame}
+
+
+% \subsection{Science Maximum Flow}
+% \begin{frame}{Completeness Sub-speciation}
+%     $c_{i,j}(t)\equiv$ single visit completeness for the $i^{th}$ target of the $j^{th}$ planet type, at integration time t\\
+%     $cr_{i,j}(t)\equiv$ revisit completeness\\
+%     Given a detection of planet with $\Delta \mathrm{mag}$ +/-Photometric uncertainty and $s$ +/- position uncertainty, the probability a planet is of type $j$ is $P(j|\Delta \mathrm{mag},s)$\\
+%     First, we assume the phase of the observed planet is at $\beta^*$ and we calculate the maximum $d\Delta \mathrm{mag}(\delta t)$ and $\delta s(\delta t)$ for that current position. (we might need to assume circular orbits for this else end up taking the minimum or maximum defined by worst case eccentricity)\\
+%     Here $\delta t$ is the time between first observation and second observation.
+%     Rational, If we make an immediate revisit, we could determine the difference in planet type i.e. an earth-like and jupiter like with same dmag and s will have substantially different ddmag and ds.\\
+%     We can now add ``Constrained planet Type'' to our value criteria for we know the planet must be within a certain bin type to see the observed ddmag and ds
+% \end{frame}
+
+% \begin{frame}{Benefit Models}
+%     If we knew exactly what each type of planet observed is/was
+%     $b[j,n]\equiv$ the benefit of the $n^{th}$ observation of the $j^{th}$ planet type.\\
+%     How do we define befit from ``constraining'' the planet type? We could do it as a linear function of number of types definitively cut-off. We could make each sub-type cut-off worth different amounts depending on how many were detected.
+%     For the value of each, we could make the value the inverse of the penny-plot contour plot (divide the plot into 3D bins, normalize so the maximum is 1 and apply that weighted value to the whole mission).
+
+% \end{frame}
+
+
+\section{End}
+
+\subsection{}
+\begin{frame}{Contributions}
+\textbf{Journal Publications:}
+\begin{thebibliography}{9}
+\bibitem{Keithly2018}
+Keithly D., et al., (2018) "A cephalopod-inspired combustion powered hydro-jet engine using soft actuators." Extreme Mechanics Letters.
+\bibitem{Keithly2019}
+Keithly D., et al., (In Review) "Optimal Scheduling of Exoplanet Direct Imaging Single-Visit Observations of a Blind Search Survey." Journal of Astronomical Telescopes, Instruments, and Systems.
+\end{thebibliography}
+
+\textbf{Conference Presentations:}
+\begin{thebibliography}{9}
+\bibitem{Keithly2019AAS}
+Keithly D., et al., (2019) "Blind Search Single-Visit Exoplanet Direct Imaging Yield for Space Based Telescopes." American Astronomical Society Meeting 233.
+\bibitem{Keithly2018SPIE}
+Keithly D., et al., (2018) "Scheduling and target selection optimization for exoplanet imaging spacecraft." International Society for Optics and Photonics. 
+\bibitem{Keithly2018AAS}
+Keithly D., et al., (2018) "WFIRST: Exoplanet Target Selection and Scheduling with Greedy Optimization." American Astronomical Society Meeting 231.
+\end{thebibliography}
+\textbf{Code Contribution:} github.com/dsavransky/EXOSIMS
+
+\textbf{Report:} Savransky et al., (2019) "Modular Active Self-Assembling Space Telescope Swarms," NIAC - Future conference paper (Mirro Force Opt.)
+\end{frame}
+
+\begin{frame}{Coursework} %CEE 5900 - Project Management %MAE 6950 - Space Biomedical Engineering & Human Performance
+\begin{flushleft}
+\begin{tabular}{lll}
+\textbf{Completed:} & & \\
+SYSEN 5400 & - & System Architecture                              \\
+SYSEN 5100 & - & Model Based Systems Engineering                  \\
+MAE 5160   & - & Spacecraft Technology \& Systems                 \\
+MAE 6060   & - & Spacecraft Dynamics, Estimation, \& Control      \\
+SYSEN 5200 & - & Analysis Behavior \& Optimization                \\
+MAE 5730   & - & Intermediate Dynamics \& Vibrations              \\
+MAE 5780   & - & Feedback Control Systems                         \\
+MAE 6700   & - & Advanced Dynamics                                \\
+ASTRO 6525 & - & Optical, Infrared, and Sub-millimeter Telescopes \\
+MAE 6720   & - & Celestial Mechanics                              \\
+ORIE 6125  & - & Computational Methods in Operation Research      \\
+ORIE 5300  & - & Optimization I                                   \\
+ORIE 5310  & - & Optimization II                                  \\
+& & \\
+\textbf{Future:} & & \\
+Multivariable Control & & \\
+Celestial Mechanics & & \\
+Global Positioning System & & 
+\end{tabular}
+\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{Super Awesome Side-Work}
+\begin{flushleft}
+\begin{tabular}{lll}
+\textbf{Internships:} & & \\
+\shortstack[l]{Marshall Space\\Flight Center} & \shortstack[l]{\\2015} & \\
+Jet Propulsion Lab & 2016 & (Atkinson et al., 2016)\\
+Jet Propulsion Lab & 2017 & Lander Launched Impact Probe - Future Conference\\
+Jet Propulsion Lab & 2018 & Procedural Thermal Model Generation\\
+Air Force Research Lab & 2019 & Valuing Ground Station Images - Future Conference\\
+Ball Aerospace? & 2020 & GOAL \\
+& & \\
+\textbf{Extra:} & & \\
+SPLASH & 2018-19 & Teaching Space Classes (obviously)\\
+FIRST & 2018 & FRC 5254 Trumansburg
+\end{tabular}
+\end{flushleft}
+\end{frame}
+
+% GET A BUNCH OF LOGOS AND SCATTER THEM ON THIS SLIDE
+\begin{frame}{Acknowledgements}
+\begin{itemize}
+\item NASA's NAIF planetary data system kernels. %https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/
+\item Washington Double Star Catalog maintained at the U.S. Naval Observatory. % from http://cdsarc.u-strasbg.fr/viz-bin/Cat?B/wds
+\item Funded by the NASA Space Grant Graduate Fellowship from the New York Space Grant Consortium
+\item Funded by NASA Grant Nos. NNX14AD99G (GSFC), NNX15AJ67G (WFIRST Preparatory Science), and NNG16PJ24C (WFIRST Science Investigation Teams).
+\item Astropy (Astropy Collaboration, 2018)
+\item OR-Tools, an optimization utility package made by Google Inc. with community support.
+\item Imaging Mission Database (IMD), which is operated by the Space Imaging and Optical Systems Lab at Cornell University. 
+\item NASA Exoplanet Archive, operated by California Institute of Technology, under contract with the National Aeronautics and Space Administration under the Exoplanet Exploration Program, and from the SIMBAD database, operated at CDS, Strasbourg, France.
+\item EXOSIMS contributors: Christian Delacroix, Daniel Garrett, Dean Keithly, Gabriel Soto, and Dmitry Savransky, with contributions by Rhonda Morgan, Michael Turmon, Walker Dula, Patrick Lowrance, and Neil Zimmerman
+\end{itemize}
+\end{frame}
+
+\appendix
+
+% \begin{frame}{References}
+% \bibliographystyle{plainnat}%ieeetr}
+% \bibliography{spiejournal2018.bib}%niac2018}  
+% %(Moorhead et al. 2011)
+% %(Cumming et al. 2008)
+% \end{frame}
+
+
+%% APPENDIX %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}{Contributions 3}
+% \textbf{Publications Listed as Contributor:}
+% \begin{thebibliography}{9}
+% \bibitem{Atkinson D. 2016}
+% Atkinson D., et al., (2016) "SPRITE - The Saturn PRobe Interior and aTmosphere Explorer Mission." International Planetary Probes Workshop.
+% \end{thebibliography}
+% \end{frame}
+
+\begin{frame}{}
+    
+\end{frame}
+
+\begin{frame}{Constructing Joint Probability Distributions: Kepler Like}
+$f_{\bar{a}} (a) = \frac{a^{-0.62}}{a_\mathrm{norm}} \mathrm{exp} \Big( -\frac{a^2}{a_\mathrm{knee}^2} \Big)$\\
+$a_{\mathrm{norm}} = \int_{a_\mathrm{min}}^{a_\mathrm{max}} a^{-0.62} \mathrm{exp} \Big( -\frac{a^2}{a_\mathrm{knee}^2} \Big) \mathrm{d}a$\\
+$a_{\mathrm{min}} = 0.1$ AU\\
+$a_{\mathrm{max}} = 30$ AU\\
+%\citep{Moorhead2011}
+%\citep{Cumming2008}
+\end{frame}
+
+\begin{frame}{Constructing Joint Probability Distributions: Kepler Like}
+\includegraphics[height=0.6\textheight, trim= 0cm 17.4cm 0cm 0cm ,clip]{WFIRST/RpvsSMAfigure.pdf}
+\end{frame}
+
+
+\begin{frame}{Nemati 2014 SNR Equation}
+$\displaystyle SNR=\frac{r_{pl}t}{\sqrt{r_{noise}t+\sigma^2_{spstr}}}$\\
+$r_{pl}$ - Electron count rate from the planet\\
+$r_{noise}$ - noise ``rate'' from planet, speckle, zodi, exo-zodi, DC, CIC, RN\\
+$\sigma_{spstr}$ - variance of the residual speckle structure\\
+$ENF$ - Excess Noise Factor caused by signal gain
+\end{frame}
+
+%% Jeremy Kasdin Presentation WFIRST Dark Hole
+\begin{frame}{WFIRST Optics: Shaped pupil coronagraph}
+\includegraphics[width=1.0\textwidth, trim=0cm 10cm 0cm 3cm, clip]{Appendix/WFIRS2014_Kasdin_Zimmerman.pdf}\\
+Image Credit: Jeremy Kasdin 2014
+%https://conference.ipac.caltech.edu/wfirs2014/page/talks
+%https://conference.ipac.caltech.edu/wfirs2014/talks/WFIRS2014\_Kasdin\_Zimmerman.pdf
+\end{frame}
+
+\begin{frame}{WFIRST Optics: Final image contrast}
+\includegraphics[width=1.0\textwidth, trim=0cm 0cm 0cm 11cm, clip]{Appendix/WFIRS2014_Kasdin_Zimmerman.pdf}\\
+Image Credit: Jeremy Kasdin 2014
+\end{frame}
+
+
+\begin{frame}{Zero-Magnitude Flux $C_{\mc F_0}$}
+$\displaystyle \mc F_0 (\lambda) = 10^4 \times 10^{(4.01- \frac{\lambda-550\mathrm{ nm}}{770 \mathrm{ nm}})} ph/s/m^2/nm$
+\end{frame}
+
+\begin{frame}{Core Throughput}
+\includegraphics[height=\textheight]{Appendix/Throughput__2019_04_29_16_47_.pdf}
+\end{frame}
+
+\begin{frame}{Core Mean Intensity}
+\includegraphics[height=\textheight]{Appendix/MeanIntensity__2019_04_29_16_47_.pdf} 
+\end{frame}
+
+
+%% TRANSIT DETECTION DIAGRAM
+\begin{frame}{Transit Detection Diagram}
+\begin{picture}(440,210)
+%\put(0,0){\circle{1}}
+%\put(0,210){\circle{1}}
+%\put(440,0){\circle{1}}
+%\put(440,210){\circle{1}}
+\put(0,20){\includegraphics[width=\textwidth]{Motivation/656348main_ToV_transit_diag_full.jpg}}
+\put(0,0){Image courtesy of NASA}
+\end{picture}
+\end{frame}
+
+\begin{frame}{Planet Occurrence Rates}
+\includegraphics[height=\textheight]{Appendix/Fressin2013_Rp_occuranceRate.pdf}
+\end{frame}
+
+%Coordinate Transformations From orbital elements to planet position
+\begin{frame}{Orbital Elements to $\mathbf{r}$}
+\begin{table}
+    \centering
+    \begin{tabular}{c|c}
+        $\omega$ &  argument of perigee \\
+        $I$ & Inclination of the orbital plane \\
+        $O$ & Right ascension of the ascending node
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:my_label}
+\end{table}
+$\begin{bmatrix} 
+x_1 & x_2 & x_3 \\
+y_1 & y_2 & y_3 \\
+z_1 & z_2 & z_3
+\end{bmatrix} = 
+\begin{bmatrix}
+\cos \omega & \sin \omega & 0 \\
+-\sin \omega & \cos \omega & 0 \\
+0 & 0 & 1
+\end{bmatrix} \cdot
+\begin{bmatrix}
+1 & 0 & 0 \\
+0 & \cos I & \sin I \\
+0 & -\sin I & \cos I
+\end{bmatrix} \cdot
+\begin{bmatrix}
+\cos O & \sin O & 0 \\
+-\sin O & \cos O & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+$
+After expanding
+\end{frame}
+
+% Planet Population%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Planet Property Distributions}
+\begin{frame}{Planet Semi-major axis }
+
+Kepler-Like: Modified power-law distribution for semi-major axis ($a$) of the form
+\begin{equation}
+    f_{\overline{a}} (a) = \frac{a^{-0.62}}{a_\mathrm{norm}} \mathrm{exp} \left( -\frac{a^2}{a_\mathrm{knee}^2} \right)
+\end{equation} % dist_sma function in KeplerLike1 module
+where -0.62 is adopted from refnum{Moorhead2011} derived from the power law fit from refnum{Cumming2008}. %Moorhead actually used -0.61 but Dmitry says the -0.62 has been used in many other sources
+
+In this model, we include an exponential decline in semi-major axis past a ``semi-major axis knee'' ($a_{\mathrm{knee}}$), which we place at 10 AU, based on the observed, sharp decline in detected planets with period $\approx 10^4$ d around an assumed solar mass star (Cumming et. al. 2008). % to replicate this, take the maximum typed orbital period from Cummings 2008 and use the Equation from Vallado T=2 pi sqrt(a^3/mu) and solve for a. $M_\odot$ Look at figure 5, 10AU corresponds for 1.55*10^4 d orbital period ((const.G*const.M_sun*((1.155*10**4.*u.d).to('s')/(2.*np.pi))**2.)**(1./3.)).to('AU')
+The normalization factor is given by the integrating the un-normalized distribution over a specific $a$ range
+\begin{equation}
+    a_{\mathrm{norm}} = \int_{a_\mathrm{min}}^{a_\mathrm{max}} a^{-0.62} \mathrm{exp} \left( -\frac{a^2}{a_\mathrm{knee}^2} \right) \mathrm{d}a \,,
+\end{equation} % KeplerLike1 smanorm attribute
+where we consider values of $a$ range in $a_{\mathrm{min}} = 0.1$ AU to $a_{\mathrm{max}} = 30$ AU, again based on the paucity of wide-separation planets discovered to date. 
+
+We note, however, that for WFIRST, which has an inner working angle (IWA) of 0.15 arcsec, the closest target list star has distance, $d_i$, of 2.63 pc and would have the smallest observable planet star separation $s_{\mathrm{min}}$, given by $IWA \times d_i \approx s_{\mathrm{min}}$, at 0.394 AU. 
+Since $s_{\mathrm{min}}\approx a_{\mathrm{min}}(1+e_{\mathrm{max}})$, the smallest observable semi-major axis is 0.292 AU for a maximum eccentricity, $e_{\mathrm{max}}$ of 0.35. %an approximate because  e_max is the 95th percentile
+\end{frame}
+
+\begin{frame}{McBride2011}
+1. The goal of direct detection is to spatially separate the exo-
+planet light from that of its primary. This affords access to exo- planet atmospheres, which yields fundamental information including effective temperature, gravity, atmospheric composi- tion and abundances, orbital motion, and perhaps even weather
+and and planetary spin.
+2. The goal of direct imaging is to assem- ble the first statistically significant sample of exoplanets that probes beyond the reach of indirect searches and quantifies the abundance of solar systems like our own.
+(McBride et al., 2011)%\citep{McBride2011}
+Read Section 1 of McBride2011 for all other scientific motivation.
+\end{frame}
+
+\begin{frame}{Significance of Orbital Eccentricity}
+A significant orbital eccentricity effects a planet's climate (i.e. equilibrium temperature, amplitude of seasonal variability and potentially its habitability due to variations in the incident stellar flux) (Moorhead et al., 2011)
+%As stated in \citep{Moorhead2011}
+From Williams and Pollard 2002, Gaidos and Williams 2004
+\end{frame}
+
+%KEEP
+%Instantaneous monochromatic high-contrast images consist of a pattern of bright speckles surrounding the central core. These speckles have a size of ∼λ=D, comparable with the image of a planet, and their random fluctuations are usually the main limitation in planet detection in existing high-contrast imaging instru- ments. \citep{McBride2011}
+
+
+\begin{frame}{dMag vs s of Different Solar System Planets}
+    
+\end{frame}
+
+
+%This part simply contains old Mirror Structural Modeling Stuffs
+\begin{frame}{EXTRA}
+% \begin{frame}{Hubble Cost Overruns}
+%     The Hubble Space Telescope had doubled in price and was delivered years late\cite{Lallo}.
+% \end{frame}
+
+
+% \section{Purpose}
+% \subsection{}
+% \begin{frame}{Purpose: Structural Thermal OPtical Analysis}
+% \centering
+% \includegraphics[width=7cm]{MirrorForceOpt/JPLSTOp_rev2.pdf}
+% \end{frame}
+
+% \begin{frame}{Purpose: Structural Thermal OPtical Analysis}
+% \centering
+% \includegraphics[width=7cm]{MirrorForceOpt/JPLSTOp_rev3.pdf}
+% \end{frame}
+
+% \section{Cryo-Actuators}
+% \subsection{}
+
+% \begin{frame}
+%   \frametitle{Background: MOST}
+  
+%   MIT Masters student in Dr. Miller's lab (created or used.. is unclear) a parametric structural model defining mirror structure parameters\footnotetext[1]{{\tiny \bibentry{Smith2010}}}\footnotetext[2]{{\tiny \bibentry{Miller2007}}}\\
+%   (I sent emails, nobody responded)
+%   \includegraphics[width=6cm]{MirrorForceOpt/MOSTflow1.PNG}\\
+%   \includegraphics[width=6cm]{MirrorForceOpt/MOSTflow2.PNG}\\
+%   \includegraphics[width=6cm]{MirrorForceOpt/ElectroStrictiveActuator.PNG}
+%   %\begin{itemize}
+%   %\item<+->first item
+%   %\item<+->second item
+%   %\end{itemize}
+% \end{frame}
+
+% \begin{frame}
+%     \frametitle{Cryo-Actuators: JWST Actuator Mounting}
+%     \begin{textblock*}{7cm}(3.5cm,1.3cm) % {block width} (coords)
+%     \includegraphics[width=7cm]{MirrorForceOpt/JWSTmirrorActuatorMounting.PNG}
+%     \footnotetext[1]{{\tiny \bibentry{Warden2006}}}
+%     \end{textblock*}
+% \end{frame}
+
+% \begin{frame}
+%     \frametitle{Cryo-Actuators: Images}
+%     \begin{textblock*}{5cm}(0.5cm,1.3cm) % {block width} (coords)
+%     \includegraphics[width=5cm]{MirrorForceOpt/SingleCryoActuator.PNG}
+%     \end{textblock*}
+    
+%     \begin{textblock*}{5cm}(6.0cm,1.3cm) % {block width} (coords)
+%     \includegraphics[width=5cm]{MirrorForceOpt/CryoActuatorPair.PNG}
+%     \end{textblock*}
+%     \footnotetext[1]{{\tiny \bibentry{Warden2006}}}
+%     %\begin{center}
+%     %\begin{columns}
+%     %  \setlength{\mylen}{0.5\paperwidth}
+%     %  \begin{column}{\mylen}
+%     %    \includegraphics[width=0.4\paperwidth, clip=true]{CryoActuatorPair.PNG}
+%     %    %%
+%     %  \end{column}
+%     %  \begin{column}{\dimexpr\paperwidth-\mylen}
+%     %      %\begin{figure}
+%     %      \includegraphics[width=0.4\paperwidth, clip=true]{SingleCryoActuator.PNG}
+%     %      %\end{figure}
+%     %    %%
+%     %  \end{column}
+%     %\end{columns}
+%     %\end{center}
+% \end{frame}
+
+% \begin{frame}
+%     \frametitle{Cryo-Actuators: Mounting On Backplane}
+%     \begin{figure}
+%     \includegraphics[width=7cm]{image35.png}
+%     %\caption{lion!!}
+%     \end{figure}
+%     \begin{itemize}
+%     \item Using dimensions estimated from the previous 2 images, the above shows the approximate footprint of vertically mounted actuators
+%     \item We can technically mount an actuator (acting perpendicular to the mirror plane at any location on the mirror.
+%     \item There are 127 open mounting locations for actuators
+%     \end{itemize}
+% \end{frame}
+
+% \begin{frame}{Cryo-Actuators: Valid Mounting Locations}
+%     \centering
+%     \includegraphics[width=7.0cm]{MirrorForceOpt/validGridPoints.pdf}
+%     \begin{itemize}
+%         \item<+-> Isolate Nodes on backplane
+%         \item<+-> Remove every Odd numbered Row of nodes starting from the bottom
+%         \item<+-> Remove every Odd node from each remaining row
+%         \item<+-> Remove every node outside of hexagonal bounding box around edges
+%     \end{itemize}
+% \end{frame}
+
+% \begin{frame}{Cryo-Actuators: Specifications}
+%     \includegraphics[width=10cm]{MirrorForceOpt/CryoActuatorTableSpecs.PNG}\\\footnotetext[1]{{\tiny \bibentry{Warden2006}}}
+%     %important points are the 7.7nm step size, 21mm coarse range, and cryogenic operation
+%     Note: 127 actuators $\times$ 665kg $\approx$ 84Kg\\
+%     +additional motor controller mass, battery mass, cabling, Stewart Platform Structural Mass\\
+%     ergo the primary contributor of mass if no solution below
+% \end{frame}
+
+% \section{Mirror Design}
+% \subsection{}
+
+% \begin{frame}{Mirror Design: Kevin's Beautiful Rendering}
+% \includegraphics[width=10cm]{1mmirrormodel.png}
+% \end{frame}
+
+% \begin{frame}{Mirror Design: Kevin's Beautiful Mesh}
+% \includegraphics[width=5cm]{mesh_bottom.PNG}
+% \includegraphics[width=5cm]{mesh_top.PNG}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Mirror Design: Modeling}
+%   \begin{itemize}
+%       \item Rib thickness $\Leftarrow$ 0.51mm\footnotetext[1]{From a phone conversation with Phil Stahl}
+%       \item Top surface thickness $\Leftarrow$ 1.00mm
+%       \item The JWST mirror is 1.315m Flat-to-Flat and has an edge length of 10 triangles
+%       \item fillets missing from the model account for $\approx$80g/mounting hole
+%   \end{itemize}
+% \end{frame}
+
+% \section{Deformation Analysis}
+% \subsection{}
+% \begin{frame}
+%   \frametitle{Deformation Analysis: Location on Primary}
+%     \begin{textblock*}{7cm}(3.5cm,1.3cm) % {block width} (coords)
+%     \includegraphics[width=7cm]{image1_circled99.png}
+%     \end{textblock*}
+%   %\begin{itemize}
+%   %\item<+->first item
+%   %\item<+->second item
+%   %\end{itemize}
+% \end{frame}
+
+% % \subsection{}
+% % \begin{frame}
+% %   \frametitle{Location of Reference Shape}
+% %     \begin{textblock*}{7cm}(3.5cm,1.3cm) % {block width} (coords)
+% %     \includegraphics[width=7cm]{.PNG}
+% %     \end{textblock*}
+% %   %\begin{itemize}
+% %   %\item<+->first item
+% %   %\item<+->second item
+% %   %\end{itemize}
+% % \end{frame}
+
+% \subsection{}
+% \begin{frame}{Deformation Analysis: Optimization}
+% $\mathbf{M}$ is the set of actuators, with maximum size of 127\\
+% $f_i$ is the force of a single actuator on the mirror\\
+% $x,y,z$ are the x,y,z displacement locations of the fixed displacement constraint at a point on the mirror (should be at the center)\\
+% $\theta_x,\theta_y,\theta_z$ are the fixed rotation constraints of the fixed point on the mirror\\
+% $\mathbf{N}$ is the set of nodes on the top surface of the mirror\\
+% \begin{equation}
+%     \mathbf{F} = [f_i\ \forall\ i\ \in\ \mathbf{M}]
+% \end{equation}
+% \begin{equation}
+%     \mathbf{x} \Leftarrow [\mathbf{F},x,y,z,\theta_x,\theta_y,\theta_z]
+% \end{equation}
+% \begin{equation}
+%     \delta_i = z_i - \hat{z}_i
+% \end{equation}
+% \begin{mini!}|s|[1]
+% {\mathbf{x}}{\sqrt{\frac{\sum_{i\in\mathbf{N}} \delta_i}{|\mathbf{N}|}}}
+% {}{\mathbf{x}^*=}
+% \addConstraint{-F_{\mathrm{max}}<F_i}{<F_{\mathrm{max}},}{ \quad \forall\ i\ \in \mathbf{M}}
+% \addConstraint{-2.0m<x,y,z}{<2.0m}{}
+% \addConstraint{-\pi/12<\theta_x,\theta_y,\theta_z}{<\pi/12}{}
+% %\addConstraint{\Delta(v,ind)=0} \quad \text{(Constrained to sphere).}
+% %\addConstraint{g(w)}{=0,}{ \quad \text{(Dynamic constraint)}}
+% %\addConstraint{n(w)}{= 6,}{ \quad \text{(Boundary constraint)}}
+% %\addConstraint{L(w)+r(x)}{=Kw+p,}{ \quad \text{(Random constraint)}}
+% %\addConstraint{h(x)}{=0,}{ \quad \text{(Path constraint).}}
+% \end{mini!}
+% \end{frame}
+
+% \begin{frame}{Deformation Analysis: Desired Mirror Surface Figure}
+%   \begin{columns}
+%       \setlength{\mylen}{0.5\paperwidth}
+%       \begin{column}{\mylen}
+%         \includegraphics[width=0.5\paperwidth, clip=true]{MirrorForceOpt/optWithMirrorDeformationFeb25BestInShow.png}
+%         %%
+%       \end{column}
+%       \begin{column}{\dimexpr\paperwidth-\mylen}
+%           %\begin{figure}
+%           \includegraphics[width=0.5\paperwidth, clip=true]{MirrorForceOpt/optWithMirrorDeformationFeb26.png}
+%           %\end{figure}
+%         %%
+%       \end{column}
+%   \end{columns}
+% \end{frame}
+
+% \begin{frame}
+%   \frametitle{Deformation Analysis: SBDM Program}
+%   \begin{columns}
+%       \setlength{\mylen}{0.3\paperwidth}
+%       \begin{column}{\mylen}
+%         p-v $\Leftarrow$ peak to valley error http://www.astrosurf.com/luxorion/reports-optics.htm\\
+%         SBDM required 1/10 wave p-v error\\
+        
+%         %%
+%       \end{column}
+%       \footnotetext[1]{{\tiny \bibentry{Reed2001}}}
+%       \begin{column}{\dimexpr\paperwidth-\mylen}
+%           %\begin{figure}
+%           \includegraphics[width=0.7\paperwidth, clip=true]{MirrorForceOpt/SBDMmirrorRMSerror.PNG}
+%           %\end{figure}
+%         %%
+%       \end{column}
+%   \end{columns}
+% \end{frame}
+
+
+% \begin{frame}{Deformation Analysis: A partial list of all challenges overcome}
+%     \begin{itemize}
+%         \item 5mm resolution mirror shapes produce too large of data file
+%         \item mirror shapes to only 6 digits precision
+%         \item NASTRAN \& FEMAP default input/output for Forces and displacements are 8 digits including .,-
+%         \item scipy SLSQP step sizes default to 1e-8
+%         \item Scale of Force deltas to x,y,z deltas unbalanced
+%         \item NASTRAN input/output files accumulate
+%         \item Plotting within optimization loop consumes 20\% computing time
+%         \item No python 2D interpolants extrapolate
+%         \item calculating error with only backplane nodes
+%         \item Required Forces and Displacement Constraints to optimize
+%     \end{itemize}
+% \end{frame}
+
+% \begin{frame}{Deformation Analysis: Known Future Challenges}
+%     \begin{itemize}
+%         \item Optimization with only displacements produces unreachable geometry
+%         \item SLSQP is driving Actuator Forces to unreasonably large numbers
+%         \item *Technically surface figure error is the desired mirror shape to achieved shape, we only use z component
+%         \item Rectilinear Bivariate Spline might only output to 7 decimal places
+%     \end{itemize}
+% \end{frame}
+
+% \section{Extra Content}
+% \begin{frame}{Stewart Platform Stiffness}
+% \begin{itemize}
+%     \item<+-> Natural frequency of an undamped system dominates spacecraft structural requirements (specifically during launch)
+%     \item<+->\begin{equation}
+%     \omega = \sqrt{\frac{k}{m}}
+% \end{equation}
+%     \item<+-> Conventional minimum allowed $\omega$ for launch $\approx 110$Hz
+%     \item<+-> \includegraphics[width=6cm]{MirrorForceOpt/smd.pdf}
+%     \item<+-> $k = \frac{AE}{L}$, $A\Leftarrow$ Cross-sectional area of stewart platforms, $L\Leftarrow$ height of stewart platform (1m), $E=68.9$GPa
+    
+% \end{itemize}
+% \end{frame}
+
+% \begin{frame}{Stewart Platform Mass}
+%     $M\Leftarrow$ Mirror + Actuators + Backplane\\
+%     $M\Leftarrow 17kg+80kg+23kg=120kg$\\
+%     $k=\omega^2m=57e6$\\
+%     $A=\frac{KL}{E} = 8e-4 m^2$\\
+%     $Vol = AL$\\
+%     $M_{stewart}=2.254Kg$\\
+%     *account for stewart platform struts being at an angle
+% \end{frame}
+
+
+% \begin{frame}{Mercury's Poles}
+%     \centering
+%     \includegraphics[width=7cm]{Mercury_Pole_Water_Chabot.png}\cite{Chabot}
+% \end{frame}
+\end{frame}
+
+
+\end{document}

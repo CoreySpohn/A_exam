@@ -7,6 +7,7 @@ from pathlib import Path
 from matplotlib import cm
 import matplotlib.path as mpath
 import matplotlib.patches as mpatches
+import matplotlib as mpl
 
 def make_circle(r):
     t = np.arange(0, np.pi * 2.0, 0.01)
@@ -43,13 +44,17 @@ if __name__ == '__main__':
                  'rv_error': 0.001*u.m/u.s}
     p2 = Planet('10 $M_\oplus$', 10*u.pc, 1*u.M_sun, 0, {}, {}, keplerian_inputs=p2_inputs)
     times = np.linspace(2000, 2001, 100)
+    p1_rv_curve = p1.simulate_rv_observations(Time(times, format='decimalyear'), 0.001*u.m/u.s)
+    p2_rv_curve = p2.simulate_rv_observations(Time(times, format='decimalyear'), 0.001*u.m/u.s)
     plt.style.use("dark_background")
     cc = plt.Circle((0, 0), 1)
     my_cmap = plt.get_cmap('gray')
-    viridis_cmap = plt.get_cmap('viridis')
+    edge_cmap = plt.get_cmap('plasma')
     plt.set_cmap('gray')
     font = {'size': 13}
     plt.rc("font", **font)
+    norm = mpl.colors.Normalize(vmin=min(p1_rv_curve['truevel']), vmax=max(p1_rv_curve['truevel']))
+    rv_cmap = plt.get_cmap('coolwarm')
     for fnum, current_time in enumerate( times ):
         time_jd = Time(Time(current_time, format='decimalyear').jd, format='jd')
         p1_pos = p1.calc_position_vectors(time_jd)
@@ -63,8 +68,8 @@ if __name__ == '__main__':
         p1_phase = p1.lambert_func(p1_beta)
         p2_phase = p2.lambert_func(p2_beta)
 
-        p1_edge_color = viridis_cmap(0.99)
-        p2_edge_color = viridis_cmap(0.75)
+        p1_edge_color = edge_cmap(0.25)
+        p2_edge_color = edge_cmap(0.5)
 
         # Calculating dMag for photometry
         p1_alpha, p1_dMag = p1.prop_for_imaging(time_jd)
@@ -76,21 +81,23 @@ if __name__ == '__main__':
 
         fig, (p1_vis_ax, p2_vis_ax) = plt.subplots(ncols=2, figsize=[16/1.5, 9/1.5])
 
-        if p1_pos[2] < 0:
+        if p1_pos[2] > 0:
             p1_order=1
         else:
             p1_order=3
         # Set the star up in the center
-        p1_vis_ax.scatter(0, 0, s=250, zorder=2, color='white')
-        p2_vis_ax.scatter(0, 0, s=250, zorder=2, color='white')
+        p1_star_pos_offset = -0.05*np.array([p1_pos[0].to(u.AU), p1_pos[1].to(u.AU)])
+        p1_vis_ax.scatter(p1_star_pos_offset[0], p1_star_pos_offset[1], s=250, zorder=2, c=p1_rv_curve['vel'][fnum], cmap=rv_cmap, norm=norm)
+        p2_star_pos_offset = -0.05*np.array([p2_pos[0].to(u.AU), p2_pos[1].to(u.AU)])
+        p2_vis_ax.scatter(p2_star_pos_offset[0], p2_star_pos_offset[1], s=250, zorder=2, c=p2_rv_curve['vel'][fnum], cmap=rv_cmap, norm=norm)
 
         p1_color = my_cmap(p1_phase)
         p2_color = my_cmap(p2_phase)
         threshold = my_cmap(0.75)
 
         # Add the planets at their current location
-        p1_vis_ax.scatter(p1_pos[0].to(u.AU), p1_pos[1].to(u.AU), s=10+(5*(np.pi-p1_beta.value)), label=p1.planet_label, zorder=p1_order, color=p1_color, edgecolor=p1_edge_color)
-        p2_vis_ax.scatter(p2_pos[0].to(u.AU), p2_pos[1].to(u.AU), s=100+(5*(np.pi-p2_beta.value)), label=p2.planet_label, zorder=1, color=p2_color, edgecolor=p2_edge_color)
+        p1_vis_ax.scatter(p1_pos[0].to(u.AU), p1_pos[1].to(u.AU), s=10+(5*(p1_beta.value)), label=p1.planet_label, zorder=p1_order, color=p1_color, edgecolor=p1_edge_color)
+        p2_vis_ax.scatter(p2_pos[0].to(u.AU), p2_pos[1].to(u.AU), s=100+(5*(p2_beta.value)), label=p2.planet_label, zorder=1, color=p2_color, edgecolor=p2_edge_color)
 
         # Now set plot limits
         p1_vis_ax.set_xlim([-2, 2])
@@ -140,29 +147,34 @@ if __name__ == '__main__':
         # p2_vis_ax.scatter(0, 0, s=1500, facecolors='none', edgecolor='black', linewidth=100, zorder=5, alpha=0.9)
 
         # Weird stuff to make colormap work
-        sm = plt.cm.ScalarMappable(cmap=my_cmap)
+        FR_norm = mpl.colors.LogNorm()
+        sm = plt.cm.ScalarMappable(cmap=my_cmap, norm=FR_norm)
         sm._A=[]
-        fig.subplots_adjust(left=0.1, right=0.9)
-        cbar_ax = fig.add_axes([0.915, 0.125, 0.02, 0.75])
-        cbar = fig.colorbar(sm, cax=cbar_ax, label='Normalized brightness ratio')
+        sm.set_array(np.logspace(-12, -9))
+        fig.subplots_adjust(left=0.15, right=0.85)
+        cbar_ax = fig.add_axes([0.865, 0.125, 0.02, 0.75])
+        cbar = fig.colorbar(sm, cax=cbar_ax, label=r'Flux ratio, $F_R$')
         # Add bar on colorbar to indicate current brightness
-        cbar.ax.axhline(p1_phase, color=p1_edge_color, linewidth=2, markeredgecolor='white')
-        cbar.ax.axhline(p2_phase, color=p2_edge_color, linewidth=2, markeredgecolor='white')
-        if fnum > 1:
-            threshold_phase = 0.5
-            threshold_colors = { True: 'green',
-                                False: 'red'}
-            cbar.ax.axhline(threshold_phase, color=viridis_cmap(1), linewidth=2, markeredgecolor='white', label='Brightness ratio threshold')
-            # visibility threshold
-            p1_phot = (p1_phase > threshold_phase) & (OWA > p1_s > IWA)
-            p2_phot = (p2_phase > threshold_phase) & (OWA > p2_s > IWA)
+        # cbar.ax.axhline(p1_phase, color=p1_edge_color, linewidth=2, markeredgecolor='white')
+        # cbar.ax.axhline(p2_phase, color=p2_edge_color, linewidth=2, markeredgecolor='white')
+        cbar.ax.axhline(p1_FR, color=p1_edge_color, linewidth=2, markeredgecolor='white')
+        cbar.ax.axhline(p2_FR, color=p2_edge_color, linewidth=2, markeredgecolor='white')
+        # if fnum > 1:
+            # threshold_phase = 0.5
+            # threshold_colors = { True: 'green',
+                                # False: 'red'}
+            # cbar.ax.axhline(threshold_phase, color=viridis_cmap(1), linewidth=2, markeredgecolor='white', label='Brightness ratio threshold')
+            # # visibility threshold
+            # p1_phot = (p1_phase > threshold_phase) & (OWA > p1_s > IWA)
+            # p2_phot = (p2_phase > threshold_phase) & (OWA > p2_s > IWA)
             # for spine in p1_vis_ax.spines.values():
                 # spine.set_edgecolor(threshold_colors[p1_phot[0]])
             # for spine in p2_vis_ax.spines.values():
                 # spine.set_edgecolor(threshold_colors[p2_phot[0]])
         # cbar.ax.plot([0, 0.1], [p2_phot-.1, p2_phot+0.1], color=p2_edge_color, linewidth=100)
         # fig.tight_layout()
-        fig.legend(loc='upper center')
+        p1_vis_ax.legend(loc='upper center')
+        p2_vis_ax.legend(loc='upper center')
         # fig.savefig(Path(f'../figures/mass_inclination_comparision/frame-{fnum:04}.png'))
-        fig.savefig(Path(f'../figures/photometric_detection_criteria/frame-{fnum}.png'))
+        fig.savefig(Path(f'../figures/photometric_detection_criteria/frame-{fnum}.png'), dpi=150)
 

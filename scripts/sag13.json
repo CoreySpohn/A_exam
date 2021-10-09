@@ -1,0 +1,50 @@
+{
+  "scienceInstruments": [
+    { "name": "imager",
+      "QE": 0.72,
+      "FoV": 9.5,
+      "pixelNumber": 1024,
+      "pixelSize": 1.3e-5,
+      "sread": 1.7e-6,
+      "idark": 3e-5,
+      "CIC": 2.1e-3,
+      "texp": 30,
+      "ENF": 1.41
+    }
+  ],
+  "starlightSuppressionSystems": [
+    { "name": "HLC-565",
+      "lam": 565,
+      "BW": 0.10,
+      "IWA": 0.15,
+      "OWA": 0.42,
+      "occ_trans": 0.2,
+      "core_thruput": 0.01,
+      "core_mean_intensity": 1.6e-12,
+      "core_area": 0.002,
+      "core_platescale": 0.30
+    }
+  ],
+  "observingModes": [
+    { "instName": "imager",
+      "systName": "HLC-565",
+      "detectionMode": true
+    }
+  ],
+  "modules": {
+    "PlanetPopulation": "SAG13",
+    "StarCatalog": "",
+    "OpticalSystem": "",
+    "ZodiacalLight": "",
+    "BackgroundSources": "",
+    "PlanetPhysicalModel": "",
+    "Observatory": "",
+    "TimeKeeping": " ",
+    "PostProcessing": " ",
+    "Completeness": " ",
+    "TargetList": " ",
+    "SimulatedUniverse": "SAG13Universe",
+    "SurveySimulation": " ",
+    "SurveyEnsemble": " "
+  }
+}
