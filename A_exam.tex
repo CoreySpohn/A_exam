@@ -141,7 +141,7 @@
 % TikZ stuff
 \tikzset{
   every overlay node/.style={
-    draw=black,fill=white,anchor=north west,inner sep=0, outer sep=0,
+    draw=none,fill=none,anchor=north west,inner sep=0, outer sep=0,
   },
 }
 % Usage:
@@ -179,8 +179,8 @@
 \setbeamertemplate{navigation symbols}{\insertframenumber{}/\inserttotalframenumber}
 \beamertemplategridbackground[1cm]
 
-\section{Radial velocity (RV)}
-\subsection{Why use RV} %note that you need both sections and subsection for the navigation to look good for this 
+\section{Intro}
+\subsection{Intro} %note that you need both sections and subsection for the navigation to look good for this 
 
 %here's a normal slide:
 \frame{
@@ -214,9 +214,9 @@
 \tikzoverlay[text width = 8cm] at (2cm-3pt, 4.5pt+1cm){
     \includegraphics[width=10cm]{figures/all_planets.pdf}
 };
-%\tikzoverlay[text width = 5cm] at (8.35cm, 1.65cm){
-    %\animategraphics[loop, controls, width=4cm]{5}{HR_8799_gif/HR_8799-}{0}{100}
-%};
+\tikzoverlay[text width = 5cm] at (8.35cm, 1.65cm){
+    \animategraphics[loop, controls, width=4cm]{5}{HR_8799_gif/HR_8799-}{0}{100}
+};
 }
 
 \frame{
@@ -235,6 +235,8 @@
 };
 }
 
+\section{Radial velocity}
+\subsection{Radial velocity} %note that you need both sections and subsection for the navigation to look good for this 
 \frame{
     \frametitle{Precursor radial velocity detections}
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
@@ -250,6 +252,7 @@
     %\animategraphics[controls, height=3.5cm]{10}{rv_example/frame-}{0}{99}
 %};
 }
+
 
 \frame{
     \frametitle{Radial velocity error}
@@ -323,18 +326,18 @@
 %};
 }
 
-\frame{
-    \frametitle{Questions for using RV data for imaging}
-\tikzoverlay[text width = 14cm] at (0cm, 2.5cm+4.5pt){
-\begin{itemize}
-    \item[\textbullet] How should we use the incomplete RV information to predict when a planet is detectable?
-    \item[\textbullet] How long is RV data useful for scheduling direct imaging observations?
-\end{itemize}
-};
-}
 
 \section{Predicting detectability}
 \subsection{Predicting detectability}
+%\frame{
+    %\frametitle{Questions about using RV data for imaging}
+%\tikzoverlay[text width = 14cm] at (0cm, 2.5cm+4.5pt){
+%\begin{itemize}
+    %\item[\textbullet] How should we use the incomplete RV information to predict when a planet is detectable?
+    %\item[\textbullet] How long is RV data useful for scheduling direct imaging observations?
+%\end{itemize}
+%};
+%}
 \frame{
 \frametitle{Completeness, $C$}
 \tikzoverlay[text width = 6cm] at (0cm, 2.5cm+4.5pt){
@@ -342,45 +345,153 @@
     \item[\textbullet] Simulation based metric that calculates the probability of detecting a planet around a target
         star, should a planet in the assumed population exist
     \item[\textbullet] With enough simulated planets $C$ is constant
+    \item[\textbullet] Useful when there are no prior detections around a star
 \end{enumerate}
 \begin{align*}
     C = \frac{\textrm{\# of detectable simulated planets}}{\textrm{\# of simulated planets}}
 \end{align*}
 };
-\tikzoverlay[text width = 7cm] at (7cm, 3.1cm+4.5pt){
-    \animategraphics[loop, controls, width=7cm]{10}{completeness/frame-}{0}{99}
+%\tikzoverlay[text width = 7cm] at (7cm, 3.1cm+4.5pt){
+    %\animategraphics[loop, controls, width=7cm]{10}{completeness/frame-}{0}{99}
+%};
+\footlineextra{\textcite{Brown2004c}, \textcite{Brown2005d}, \textcite{Garrett2016}}
+}
+\frame{
+\frametitle{Completeness, $C$}
+%\tikzoverlay[text width = 12cm] at (0cm, 3.1cm+4.5pt){
+    %\animategraphics[loop, controls, width=14cm]{10}{comp_constraint/frame-}{0}{99}
+%};
+}
+
+\frame{
+\frametitle{Probability of detection, $P_{\textrm{det}}$}
+\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+\begin{itemize}
+    \item[\textbullet] Probability that the planet that created the RV signal is detectable at a
+        time
+    \item[\textbullet] Calculate it by constructing orbits that are consistent with the RV signal
+        and compute $P_{\textrm{det}}(t)$ over necessary times
+\end{itemize}
+\begin{align*}
+    P_{\textrm{det}}(t) = \frac{\textrm{\# of constructed orbits detectable at time $t$}}{\textrm{\# of constructed orbits}}
+\end{align*}
+};
+%TODO Make plot with the alpha vs dMag on the left and P_{det} vs time on the right
+}
+\frame{
+\frametitle{Probability of detection: simple example}
+\tikzoverlay[text width = 14cm] at (0cm, 3.5cm+4.5pt){
+\begin{align*}
+    P_{\textrm{det}}(t) = \frac{\textrm{\# of constructed orbits detectable at time $t$}}{\textrm{\# of constructed orbits}}
+\end{align*}
+};
+\tikzoverlay[text width = 7cm] at (0cm-3pt, 2.2cm+4.5pt){
+    \animategraphics[controls, width=14cm]{10}{pdet/frame-}{0}{99}
 };
 }
 
-\section{RV fitting}%
-\subsection{RV fitting}
 \frame{
-\frametitle{Completeness}
-\tikzoverlay[text width = 14cm] at (0cm, 2.5cm+4.5pt){
+\frametitle{What needs to be studied about $P_{\textrm{det}}$}
+\tikzoverlay[text width = 14cm] at (0cm, 3.1cm+4.5pt){
+\begin{itemize}
+    \item[\textbullet] The best way to ``construct orbits''
+    \item[\textbullet] The limitations and potential failures of predicting detectability from RV
+        fits
+\end{itemize}
+};
+}
+
+\section{Constructing orbits}%
+\subsection{Constructing orbits}
+\frame{
+\frametitle{Initial work}
+\tikzoverlay[text width = 14cm] at (0cm, 3.2cm+4.5pt){
 \begin{enumerate}
-    \item[\textbullet] ``The fraction of possible planets that will be detected for a given star''
-        \parencite{Brown2005d}
-    \item[\textbullet] 
-    \item[\textbullet] Convert software outputs for use in direct imaging 
-    \item[\textbullet] Analyze when the the conversion is harmful or useless
+    \item[\textbullet] Assumption that RV orbit fits would grow worse in time
+    \item[\textbullet] HabEx report notes that fits go ``stale'' and recommends RV measurements ``up
+        until, during, and after mission launch''
+    \item[\textbullet] Simple study that sampled orbital elements independently
+\end{enumerate}
+};
+\tikzoverlay[text width = 14cm] at (3cm-4.5pt, .85cm+4.5pt){
+    \includegraphics[width=8cm]{figures/initial_work.png}
+};
+\footlineextra{\textcite{HabEx2020}}
+}
+\frame{
+\frametitle{Fitting RV curves}
+\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+\begin{enumerate}
+    \item[\textbullet] Want to start with RV data instead of sampling orbital elements directly
+    \item[\textbullet] Lots of study and techniques already to fit orbits to RV
+    \item[\textbullet] Use the industry standard RadVel, a Bayesian RV orbit fitting tool
+\end{enumerate}
+};
+\tikzoverlay[text width = 1cm] at (-.5cm-4.5pt, 0cm+4.5pt){
+    \includegraphics[width=5cm]{figures/simple_rv_curve.png}
+};
+\tikzoverlay[text width = 1cm] at (5.5cm-4.5pt, -.6cm+4.5pt){
+    \includegraphics[width=3cm]{figures/radvel_logo_alpha_retina.png}
+};
+\tikzoverlay[text width = 5cm] at (9cm-4.5pt, 0.51cm+4.5pt){
+    Fitted orbital elements
+    \begin{itemize}
+        \item Orbital period, $T$
+        \item Eccentricity, $e$
+        \item Argument of periapsis, $\omega$
+        \item Time of conjunction, $T_c$
+        \item RV semi-amplitude,  $K$
+    \end{itemize}
+};
+\tikzoverlay[text width = 1cm] at (8.66, .16){
+\begin{tikzpicture}[ultra thick]
+    \draw[decorate, decoration ={brace}] (0, 0) -- (0, 2.75);
+\end{tikzpicture}
+};
+\tikzoverlay[text width = 2cm] at (4cm, -1.2cm){
+\begin{tikzpicture}[ultra thick]
+    \draw [-to] (1, 2) -- (2, 2);
+    \draw [-to] (4.5, 2) -- (5.5, 2);
+\end{tikzpicture}
+};
+
+\footlineextra{\textcite{Fulton2018}}
+}
+
+\frame{
+\frametitle{RadVel output}
+\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+\begin{enumerate}
+    \item[\textbullet] RadVel provides every set of orbital elements it tests and an associated
+        likelihood for every set
+    \item[\textbullet] Four methods of using this information
 \end{enumerate}
 };
 }
 
-
+\section{Future work}
+\subsection{Future work}
 \frame{
-\frametitle{Outline of work}
-\tikzoverlay[text width = 14cm] at (0cm, 2.5cm+4.5pt){
-\begin{enumerate}
-    \item[1)] Simulate RV observations of a simulated planet
-    \item[2)] Use software to fit orbital parameters to RV observations
-    \hrule
-    \item[3)] Convert software outputs for use in direct imaging \quad \quad \quad \quad
-        \quad \quad \quad \quad My work
-    \item[4)] Analyze when the the conversion is harmful or useless
-\end{enumerate}
-};
+\frametitle{Future work}
+\begin{itemize}
+    \item Run simulations with more realistic photometry
+    \item Create target choice optimization methods based on this construction method
+\end{itemize}
 }
+
+%\frame{
+%\frametitle{Outline of work}
+%\tikzoverlay[text width = 14cm] at (0cm, 2.5cm+4.5pt){
+%\begin{enumerate}
+    %\item[1)] Simulate RV observations of a simulated planet
+    %\item[2)] Use software to fit orbital parameters to RV observations
+    %\hrule
+    %\item[3)] Convert software outputs for use in direct imaging \quad \quad \quad \quad
+        %\quad \quad \quad \quad My work
+    %\item[4)] Analyze when the the conversion is harmful or useless
+%\end{enumerate}
+%};
+%}
 
 %\section{Results}
 %\subsection{First Result}
