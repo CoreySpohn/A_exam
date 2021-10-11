@@ -63,7 +63,7 @@ if __name__ == '__main__':
         current_p1_rvs = p1_rv_curve['vel'][:fnum+1]
         current_p1_times = p1_rv_curve['time'][:fnum+1]
 
-        p1_rv_ax.errorbar(Time(list(current_p1_times), format='jd').decimalyear, current_p1_rvs, yerr=p1.rv_error.decompose().value, alpha=0.5, fmt='o', zorder= 1)
+        p1_rv_ax.errorbar(Time(list(current_p1_times), format='jd').decimalyear, current_p1_rvs, yerr=p1.rv_error.decompose().value, alpha=0.5, fmt='none', zorder= 1)
         p1_rv_ax.scatter(Time(list(current_p1_times), format='jd').decimalyear, current_p1_rvs, c=current_p1_rvs, cmap=my_cmap, norm=norm, zorder=2)
         p1_rv_ax.set_xlim([times[0], times[-1]])
         p1_rv_ax.set_ylim([-0.1, .1])

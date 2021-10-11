@@ -33,6 +33,21 @@ if __name__ == '__main__':
                  't0': Time(2000, format='decimalyear'),
                  'rv_error': 0.001*u.m/u.s}
     p2 = Planet('10 $M_\oplus$', 10*u.pc, 1*u.M_sun, 0, {}, {}, keplerian_inputs=p2_inputs)
+    # REVERT CHANGES to above
+    p2_inputs = {'a': 2*u.AU,
+                 'e': 0,
+                 'W': 0*u.rad,
+                 'I': 5.73917048*u.degree,
+                 'w': 0*u.rad,
+                 'Mp': 10*u.M_earth,
+                 'Rp': 1*u.R_earth,
+                 'f_sed': 0,
+                 'p': 0.367,
+                 'M0': 0*u.rad,
+                 't0': Time(2000, format='decimalyear'),
+                 'rv_error': 0.001*u.m/u.s}
+    p2 = Planet('10 $M_\oplus$', 10*u.pc, 1*u.M_sun, 0, {}, {}, keplerian_inputs=p2_inputs)
+    breakpoint()
     times = np.linspace(2000, 2001, 100)
     p1_rv_curve = p1.simulate_rv_observations(Time(times, format='decimalyear'), 0.001*u.m/u.s)
     p2_rv_curve = p2.simulate_rv_observations(Time(times, format='decimalyear'), 0.001*u.m/u.s)

@@ -175,7 +175,8 @@ class Planet:
         # print('7')
         # Set a random value for longitude of the ascending node, could also
         # just not track it
-        self.W = np.random.uniform(0, 180) * u.deg
+        # self.W = np.random.uniform(0, 180) * u.deg
+        self.W = 0 * u.deg
         # print('8')
 
         # Now with inclination, planet mass, and longitude of the ascending node
@@ -186,7 +187,8 @@ class Planet:
 
         # Finding the planet's arguement of periapsis
         self.w_s = np.arctan2(sesinw, secosw) * u.rad
-        self.w = (self.w_s + np.pi * u.rad) % (2 * np.pi * u.rad)
+        self.w_p = (self.w_s + np.pi * u.rad) % (2 * np.pi * u.rad)
+        self.w = self.w_p
 
         # Finding the mean anomaly at time of conjunction
         nu_p = (np.pi / 2 * u.rad - self.w_s) % (2 * np.pi * u.rad)
@@ -433,10 +435,11 @@ class Planet:
         M = self.mean_anom(t)
         E = kt.eccanom(M.value, self.e)
         nu = kt.trueanom(E, e) * u.rad
-        r = a * (1 - e ** 2) / (1 + e * np.cos(nu))
+        # r = a * (1 - e ** 2) / (1 + e * np.cos(nu))
 
         theta = nu + w
         rps = self.calc_position_vectors(t)
+        r = np.linalg.norm(rps, axis=0)
         s = (r / 4) * np.sqrt(
             4 * np.cos(2 * I)
             + 4 * np.cos(2 * theta)
@@ -451,6 +454,7 @@ class Planet:
         # For terrestrial planets
         phi = self.lambert_func(beta)
         p_phi = self.p * phi
+
 
         # s = np.linalg.norm(rps[0:2, :], axis=0)
         # WA = (s / self.dist_to_star).decompose() * u.rad
