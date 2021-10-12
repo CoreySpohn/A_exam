@@ -56,7 +56,7 @@ if __name__ == '__main__':
         p2_phase = p2.lambert_func(p2_beta)
 
         fig, ((p1_vis_ax, p1_rv_ax), (p2_vis_ax, p2_rv_ax)) = plt.subplots(nrows=2, ncols=2, figsize=[16, 9])
-        if p1_pos[2] < 0:
+        if p1_pos[2] > 0:
             p1_order=1
         else:
             p1_order=3

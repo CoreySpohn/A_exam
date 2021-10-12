@@ -435,11 +435,11 @@ class Planet:
         M = self.mean_anom(t)
         E = kt.eccanom(M.value, self.e)
         nu = kt.trueanom(E, e) * u.rad
-        # r = a * (1 - e ** 2) / (1 + e * np.cos(nu))
+        r = a * (1 - e ** 2) / (1 + e * np.cos(nu))
 
         theta = nu + w
-        rps = self.calc_position_vectors(t)
-        r = np.linalg.norm(rps, axis=0)
+        # rps = self.calc_position_vectors(t)
+        # r_old = np.linalg.norm(rps, axis=0)
         s = (r / 4) * np.sqrt(
             4 * np.cos(2 * I)
             + 4 * np.cos(2 * theta)
@@ -448,7 +448,11 @@ class Planet:
             + 12
         )
         # Working with positive z away from observer
-        beta = np.arccos(rps[2, :].value/r.decompose().value)*u.rad
+        # beta_old = np.arccos(rps[2, :].value/r.decompose().value)*u.rad
+        beta = np.arccos(np.sin(I)*np.sin(theta))
+        # breakpoint()
+        # beta = np.arcos()
+        # breakpoint()
         # For gas giants
         # p_phi = self.calc_p_phi(beta, photdict, bandinfo)
         # For terrestrial planets

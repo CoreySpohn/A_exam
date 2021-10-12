@@ -186,9 +186,16 @@ if __name__ == '__main__':
         a_dMag_ax.set_xlim([0, 0.125])
         a_dMag_ax.set_ylim([dMag_range[0], dMag_range[-1]])
 
-        IWA_ang = np.arctan(IWA*u.AU/p1.dist_to_star).to(u.arcsec).value
-        OWA_ang = np.arctan(OWA*u.AU/p1.dist_to_star).to(u.arcsec).value
+        IWA_ang = np.arctan(IWA*u.AU/p1.dist_to_star)#*u.rad#.to(u.arcsec).value
+        OWA_ang = np.arctan(OWA*u.AU/p1.dist_to_star)#*u.rad#.to(u.arcsec).value
+        # IWA_ang = np.arctan(IWA*u.AU/p1.dist_to_star).to(u.arcsec).value
+        # OWA_ang = np.arctan(OWA*u.AU/p1.dist_to_star).to(u.arcsec).value
         detectability_line = mpl.lines.Line2D([IWA_ang, OWA_ang], [dMag0, dMag0], color='red')
+        IWA_line = mpl.lines.Line2D([IWA_ang.to(u.arcsec).value, IWA_ang.to(u.arcsec).value], [dMag_range[0], dMag_range[-1]], color='red')
+        OWA_line = mpl.lines.Line2D([OWA_ang.to(u.arcsec).value, OWA_ang.to(u.arcsec).value], [dMag_range[0], dMag_range[-1]], color='red')
+        a_dMag_ax.add_line(IWA_line)
+        a_dMag_ax.add_line(OWA_line)
+        detectability_line = mpl.lines.Line2D([IWA_ang.to(u.arcsec).value, OWA_ang.to(u.arcsec).value], [dMag0, dMag0], color='red')
         a_dMag_ax.add_line(detectability_line)
         # p1_alphas.append(p1_alpha.to(u.arcsec).value)
         # p1_dMags.append(p1_dMag)

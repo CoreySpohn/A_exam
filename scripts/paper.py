@@ -2429,7 +2429,7 @@ def create_populations(
             )
             # Find the first time that the planet is above the threshold of failure longer than the failure_duration
             MG_fits.percent_detectable = []
-            for t in times:
+            for t in tqdm(times):
                 WA, dMag = MG_fits.prop_for_imaging(t)
                 visible = (IWA < WA) & (OWA > WA) & (dMag0 > dMag)
                 MG_fits.percent_detectable.append(sum(visible) / MG_fits.num)
@@ -2501,7 +2501,7 @@ def create_populations(
             )
             # Find the first time that the planet is above the threshold of failure longer than the failure_duration
             KDE_fits.percent_detectable = []
-            for t in times:
+            for t in tqdm(times):
                 WA, dMag = KDE_fits.prop_for_imaging(t)
                 visible = (IWA < WA) & (OWA > WA) & (dMag0 > dMag)
                 KDE_fits.percent_detectable.append(sum(visible) / KDE_fits.num)
@@ -2570,7 +2570,7 @@ def create_populations(
                 base_planet_errors=CI_std,
             )
             CI_fits.percent_detectable = []
-            for t in times:
+            for t in tqdm(times):
                 WA, dMag = CI_fits.prop_for_imaging(t)
                 visible = (IWA < WA) & (OWA > WA) & (dMag0 > dMag)
                 CI_fits.percent_detectable.append(sum(visible) / CI_fits.num)
@@ -2627,7 +2627,7 @@ def create_populations(
                 base_planet=ML_planet,
             )
             ML_fits.percent_detectable = []
-            for t in times:
+            for t in tqdm(times):
                 WA, dMag = ML_fits.prop_for_imaging(t)
                 visible = (IWA < WA) & (OWA > WA) & (dMag0 > dMag)
                 ML_fits.percent_detectable.append(sum(visible) / ML_fits.num)

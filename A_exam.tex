@@ -1,9 +1,12 @@
 %!TEX TS-program = pdflatex
+% video compile
+% ffmpeg -r 15 -f image2 -s 1920x1080 -i frame-%d.png -vcodec libx264 -crf 25 -pix_fmt yuv420p filename.mp4
 
 \documentclass[aspectratio=169]{beamer}
 
 %packages
 \usepackage{amsmath,amsthm,amssymb,amsfonts,amsxtra,amstext}
+\usepackage{gensymb}
 \usepackage{graphicx,float}
 \usepackage{adjustbox}
 \usepackage{media9} %needed for including movies, otherwise comment out
@@ -205,19 +208,16 @@
 
 \frame{
 \frametitle{Direct Imaging}
-\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-\begin{itemize}
-    \item[\textbullet]  Detecting a planet as a point source of light
-    %\item Sensitive to a different population of planets than indirect detection methods
-    \item[\textbullet] Technical challenge, researching many different ways to increase the number of planets we
-        detect
-\end{itemize}
-};
-\tikzoverlay[text width = 8cm] at (2cm-3pt, 4.5pt+1cm){
-    \includegraphics[width=10cm]{figures/all_planets.pdf}
-};
-\tikzoverlay[text width = 5cm] at (8.35cm, 1.65cm){
-    \animategraphics[loop, controls, width=4cm]{5}{HR_8799_gif/HR_8799-}{0}{100}
+%\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+%\begin{itemize}
+    %\item[\textbullet]  Detecting a planet as a point source of light
+    %%\item Sensitive to a different population of planets than indirect detection methods
+    %\item[\textbullet] Technical challenge, researching many different ways to increase the number of planets we
+        %detect
+%\end{itemize}
+%};
+\tikzoverlay[text width = 8cm] at (0cm-3pt, 3cm+4.5pt){
+    \includegraphics[width=14cm]{figures/all_planets.pdf}
 };
 }
 
@@ -242,36 +242,36 @@
 \subsection{Radial velocity} %note that you need both sections and subsection for the navigation to look good for this 
 \frame{
     \frametitle{Precursor radial velocity detections}
-\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-\begin{itemize}
-    \item[\textbullet] Detect planets ahead of time via the radial velocity method
-    \item[\textbullet] Currently being used by the Nancy Grace Roman Space Telescope team to identify exoplanet targets
-    \item[\textbullet] The HabEx team notes ``Precise precursor radial velocities (PRVs) will
-        provide multiple advantageous contributions to the scientific yield and optimization of
-        HabEx.''\parencite{HabEx2020}
-\end{itemize}
-};
-\tikzoverlay[text width = 6cm] at (2cm, -.4cm+4.5pt){
-    \animategraphics[controls, height=3.5cm]{10}{rv_example/frame-}{0}{99}
+%\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+%\begin{itemize}
+    %\item[\textbullet] Detect planets ahead of time via the radial velocity method
+    %\item[\textbullet] Currently being used by the Nancy Grace Roman Space Telescope team to identify exoplanet targets
+    %\item[\textbullet] The HabEx team notes ``Precise precursor radial velocities (PRVs) will
+        %provide multiple advantageous contributions to the scientific yield and optimization of
+        %HabEx.''\parencite{HabEx2020}
+%\end{itemize}
+%};
+\tikzoverlay[text width = 14cm] at (0cm, 2.2cm+4.5pt){
+    \animategraphics[controls, width=14cm]{10}{rv_example/frame-}{0}{99}
 };
 }
 
 
 \frame{
     \frametitle{Radial velocity error}
-\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-\begin{itemize}
-    \item[\textbullet] Need approximately 10 cm/s precision to detect Earth-like planets
-    \item[\textbullet] For orbit fitting usually given as 1$\sigma $ error in m/s
-    \item[\textbullet] Many sources of error, primarily stellar variability
-\end{itemize}
+%\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+%\begin{itemize}
+    %%\item[\textbullet] Need approximately 10 cm/s precision to detect Earth-like planets
+    %\item[\textbullet] For orbit fitting usually given as 1$\sigma $ error in m/s
+    %\item[\textbullet] Many sources of error, primarily stellar variability
+%\end{itemize}
+%};
+\tikzoverlay[text width = 6cm] at (0cm-4.5pt, 2cm+4.5pt){
+    \animategraphics[controls, width=14cm]{20}{error_example/frame-}{0}{99}
 };
-\tikzoverlay[text width = 6cm] at (-.75cm, .5cm+4.5pt){
-    \animategraphics[controls, width=10cm]{10}{error_example/frame-}{0}{99}
-};
-\tikzoverlay[text width = 6cm] at (9.2cm, .5cm+4.9pt){
-    \includegraphics[width=5.5cm]{figures/RV_precision.png}
-};
+%\tikzoverlay[text width = 6cm] at (9.2cm, .5cm+4.9pt){
+    %\includegraphics[width=5.5cm]{figures/RV_precision.png}
+%};
 \footlineextra{\textcite{EPRV2020} }
 }
 
@@ -341,30 +341,30 @@
 \end{itemize}
 };
 }
-\frame{
-\frametitle{Completeness, $C$}
-\tikzoverlay[text width = 6cm] at (0cm, 2.5cm+4.5pt){
-\begin{enumerate}
-    \item[\textbullet] Simulation based metric that calculates the probability of detecting a planet around a target
-        star, should a planet in the assumed population exist
-    \item[\textbullet] With enough simulated planets $C$ is constant
-    \item[\textbullet] Useful when there are no prior detections around a star
-\end{enumerate}
-\begin{align*}
-    C = \frac{\textrm{\# of detectable simulated planets}}{\textrm{\# of simulated planets}}
-\end{align*}
-};
-\tikzoverlay[text width = 7cm] at (7cm, 3.1cm+4.5pt){
-    \animategraphics[loop, controls, width=7cm]{10}{completeness/frame-}{0}{99}
-};
-\footlineextra{\textcite{Brown2004c}, \textcite{Brown2005d}, \textcite{Garrett2016}}
-}
-\frame{
-\frametitle{Completeness, $C$}
-\tikzoverlay[text width = 12cm] at (0cm, 3.1cm+4.5pt){
-    \animategraphics[loop, controls, width=14cm]{10}{comp_constraint/frame-}{0}{99}
-};
-}
+%\frame{
+%\frametitle{Completeness, $C$}
+%\tikzoverlay[text width = 6cm] at (0cm, 2.5cm+4.5pt){
+%\begin{enumerate}
+    %\item[\textbullet] Simulation based metric that calculates the probability of detecting a planet around a target
+        %star, should a planet in the assumed population exist
+    %\item[\textbullet] With enough simulated planets $C$ is constant
+    %\item[\textbullet] Useful when there are no prior detections around a star
+%\end{enumerate}
+%\begin{align*}
+    %C = \frac{\textrm{\# of detectable simulated planets}}{\textrm{\# of simulated planets}}
+%\end{align*}
+%};
+%\tikzoverlay[text width = 7cm] at (7cm, 3.1cm+4.5pt){
+    %\animategraphics[loop, controls, width=7cm]{10}{completeness/frame-}{0}{99}
+%};
+%\footlineextra{\textcite{Brown2004c}, \textcite{Brown2005d}, \textcite{Garrett2016}}
+%}
+%\frame{
+%\frametitle{Completeness, $C$}
+%\tikzoverlay[text width = 12cm] at (0cm, 3.1cm+4.5pt){
+    %\animategraphics[loop, controls, width=14cm]{10}{comp_constraint/frame-}{0}{99}
+%};
+%}
 
 \frame{
 \frametitle{Probability of detection, $P_{\textrm{det}}$}
@@ -412,22 +412,21 @@
 \begin{enumerate}
     \item[\textbullet] Assumption that RV orbit fits would grow worse in time
     \item[\textbullet] HabEx report notes that fits go ``stale'' and recommends RV measurements ``up
-        until, during, and after mission launch''
+        until, during, and after mission launch'' \parencite{HabEx2020}
     \item[\textbullet] Simple study that sampled orbital elements independently
 \end{enumerate}
 };
 \tikzoverlay[text width = 14cm] at (3cm-4.5pt, .85cm+4.5pt){
     \includegraphics[width=8cm]{figures/initial_work.png}
 };
-\footlineextra{\textcite{HabEx2020}}
 }
 \frame{
 \frametitle{Fitting RV curves}
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
 \begin{enumerate}
     \item[\textbullet] Want to start with RV data instead of sampling orbital elements directly
-    \item[\textbullet] Lots of study and techniques already to fit orbits to RV
-    \item[\textbullet] Use the industry standard RadVel, a Bayesian RV orbit fitting tool
+    %\item[\textbullet] Lots of study and techniques already to fit orbits to RV
+    \item[\textbullet] Use the industry standard RadVel\parencite{Fulton2018}, a Bayesian RV orbit fitting tool
 \end{enumerate}
 };
 \tikzoverlay[text width = 1cm] at (-.5cm-4.5pt, 0cm+4.5pt){
@@ -458,17 +457,16 @@
 \end{tikzpicture}
 };
 
-\footlineextra{\textcite{Fulton2018}}
 }
 
 \frame{
 \frametitle{RadVel output}
-\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-\begin{enumerate}
-    \item[\textbullet] RadVel provides every set of orbital elements it tests while fitting the RV
-        data and an associated probability for every set of elements
-\end{enumerate}
-};
+%\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+%%\begin{enumerate}
+    %\item[\textbullet] RadVel provides every set of orbital elements it tests while fitting the RV
+        %data and an associated probability for every set of elements
+%\end{enumerate}
+%};
 \tikzoverlay[text width=10cm] at (2cm, 2.3cm){
 \begin{table}[htpb]
 \begin{adjustbox}{max width=1\textwidth}
@@ -487,15 +485,15 @@
     \end{tabular}
     %\label{tab:radvel_output}
 \end{adjustbox}
-    \caption{RadVel output}
+    %\caption{RadVel output}
 \end{table}
 };
-\tikzoverlay[text width = 14cm] at (0cm, -2.5cm+4.5pt){
-\begin{enumerate}
-    \item[\textbullet] To calculate $P_{\textrm{det}}$ we have to be able to propagate in time
-    \item[\textbullet] Need process to go from RadVel output to all necessary orbital elements
-\end{enumerate}
-};
+%\tikzoverlay[text width = 14cm] at (0cm, -2.5cm+4.5pt){
+%\begin{enumerate}
+    %\item[\textbullet] To calculate $P_{\textrm{det}}$ we have to be able to propagate in time
+    %\item[\textbullet] Need process to go from RadVel output to all necessary orbital elements
+%\end{enumerate}
+%};
 }
 
 \frame{
@@ -504,7 +502,7 @@
 \begin{enumerate}
     \item[\textbullet] To calculate $P_{\textrm{det}}$ we need more than just what RadVel provides
         since we need to propagate the orbits in time
-    \item[\textbullet] Solve for some orbital elements with standard orbital mechanics
+    %\item[\textbullet] Solve for some orbital elements with standard orbital mechanics
 \end{enumerate}
 };
 \tikzoverlay[text width=10cm] at (2cm, 2.0cm){
@@ -530,7 +528,7 @@
         \hline
 \end{tabular}
 \end{adjustbox}
-\caption{Orbital element equations}
+%\caption{Orbital element equations}
 \end{table}
 };
 }
@@ -541,9 +539,9 @@
 \begin{itemize}
     \item[\textbullet] Have everything necessary for propagation except inclination
     \item[\textbullet] Assume that inclinations are distributed isotropically in the universe, which
-        creates a sinusoidal distribution in $[0, \pi)$
-    \item[\textbullet] Remove inclinations that would result in hydrogen burning mass ($0.08
-        M_{\odot}$ )
+        creates a sinusoidal distribution in $[0, \pi)$ \parencite{Savransky2011a}
+    %\item[\textbullet] Remove inclinations that would result in hydrogen burning mass ($0.08
+        %M_{\odot}$ )
 \end{itemize}
 };
 \tikzoverlay[text width = 5cm] at (-1.1cm, 0.85cm){
@@ -557,20 +555,20 @@
         i_{\textrm{crit}} = \sin^{-1}\left( \frac{M_p \sin i}{0.08 M_{\odot}} \right) 
     \end{align*}
 };
-\footlineextra{\textcite{Savransky2011a}, Wikipedia}
+\footlineextra{Wikipedia}
 }
 
 \frame{
     \frametitle{Calculating planet radius}
-\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-\begin{itemize}
-    \item[\textbullet] Use a mass-radius relationship to calculate planet radius from mass
-\end{itemize}
+%\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+%\begin{itemize}
+    %\item[\textbullet] Use a mass-radius relationship to calculate planet radius from mass
+%\end{itemize}
+%};
+\tikzoverlay[text width = 5cm] at (2cm, 3.1cm){
+    \includegraphics[width=9cm]{ForecasterMod.png}
 };
-\tikzoverlay[text width = 5cm] at (3cm, 1.85cm){
-    \includegraphics[width=7cm]{ForecasterMod.png}
-};
-\footlineextra{\textcite{Savransky2019SPIE}}
+\footlineextra{\textcite{Savransky2019SPIE}, \textcite{Forecaster}}
 }
 
 \frame{
@@ -599,15 +597,15 @@
 
 \frame{
 \frametitle{Method 1: max likelihood}
-\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-    \begin{itemize}
-        \item[\textbullet] Generated by the RadVel reports and often referenced
-        \item[\textbullet] Choose RadVel step with the highest reported $\ln \left(\textrm{Probability}\right)$
-        \item[\textbullet] Use the same fitting basis set ($T$, $T_c$, $e$, $\omega_s$, $K$) 50,000 times
-            \hrule
-    \end{itemize}
-};
-\tikzoverlay[text width=10cm] at (2cm, 1cm){
+%\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+    %\begin{itemize}
+        %\item[\textbullet] Generated by the RadVel reports and often referenced
+        %\item[\textbullet] Choose RadVel step with the highest reported $\ln \left(\textrm{Probability}\right)$
+        %\item[\textbullet] Use the same fitting basis set ($T$, $T_c$, $e$, $\omega_s$, $K$) 50,000 times
+            %\hrule
+    %\end{itemize}
+%};
+\tikzoverlay[text width=10cm] at (2cm, 2cm){
 \begin{table}[htpb]
 \begin{adjustbox}{max width=1\textwidth}
     \centering
@@ -625,10 +623,10 @@
     \end{tabular}
     %\label{tab:radvel_output}
 \end{adjustbox}
-    \caption{RadVel output}
+    %\caption{RadVel output}
 \end{table}
 };
-\tikzoverlay[text width = 1cm] at (6.5cm, 2.3cm){
+\tikzoverlay[text width = 1cm] at (6.5cm, 3.3cm){
 \begin{tikzpicture}[ultra thick]
     \draw[decorate, decoration ={brace}] (1.5cm, -2cm) -- node[above=0.2cm and 0cm]{x 50,000} (4cm,
         -2cm);
@@ -638,22 +636,22 @@
 }
 \frame{
     \frametitle{Method 1: max likelihood visualization}
-%\tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
-    %\animategraphics[loop, controls, width=14cm]{10}{ML_vis/frame-}{0}{99}
-%};
+\tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
+    \animategraphics[loop, controls, width=14cm]{20}{ML_vis/frame-}{0}{99}
+};
 }
 
 \frame{
 \frametitle{Method 2: max KDE}
-\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-    \begin{itemize}
-        \item[\textbullet] Create kernel density estimate (KDE) based on every step, then calculate
-            the fitting basis set that maximizes the KDE
-        \item[\textbullet] Use the same fitting basis set ($T$, $T_c$, $e$, $\omega_s$, $K$) 50,000 times
-            \hrule
-    \end{itemize}
-};
-\tikzoverlay[text width=10cm] at (-.3cm, 0cm){
+%\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+    %\begin{itemize}
+        %\item[\textbullet] Create kernel density estimate (KDE) based on every step, then calculate
+            %the fitting basis set that maximizes the KDE
+        %\item[\textbullet] Use the same fitting basis set ($T$, $T_c$, $e$, $\omega_s$, $K$) 50,000 times
+            %\hrule
+    %\end{itemize}
+%};
+\tikzoverlay[text width=10cm] at (-.3cm, 1cm){
     \definecolor{kde}{gray}{0.7}
 \begin{table}[htpb]
 \begin{adjustbox}{max width=1\textwidth}
@@ -675,14 +673,14 @@
     %\caption{RadVel output}
 \end{table}
 };
-\tikzoverlay[text width = 1cm] at (2.1cm, 1cm){
+\tikzoverlay[text width = 1cm] at (2.1cm, 2cm){
 \begin{tikzpicture}[ultra thick]
     \draw[decorate, decoration ={brace}] (0, -1.5) -- node[above left=6pt and -2cm]{Calculate
         KDE with} (7.5, -1.5);
     %\draw[-to] (7cm, -1cm) -- node[above left=0.2cm and -2.2cm]{Maximize KDE} (10cm, -2cm);
 \end{tikzpicture}
 };
-\tikzoverlay[text width = 5cm] at (9.5cm, -1cm){
+\tikzoverlay[text width = 5cm] at (9.5cm, 0cm){
 \begin{center}
 Maximize KDE to get set of
 \linebreak
@@ -692,66 +690,67 @@ then use it 50,000 times
 \end{center}
 };
 }
+
 \frame{
     \frametitle{Method 2: max KDE visualization}
-%\tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
-    %\animategraphics[loop, controls, width=14cm]{10}{MKDE_vis/frame-}{0}{99}
-%};
+\tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
+    \animategraphics[loop, controls, width=14cm]{20}{MKDE_vis/frame-}{0}{99}
+};
 }
 
 \frame{
 \frametitle{Method 3: credible interval}
-\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-    \begin{itemize}
-        \item[\textbullet] For each element in the basis ($T$, $T_c$, $e$, $\omega_s$, $K$)
-            calculate the median and standard deviation over all of the steps
-        \item[\textbullet] Sample each element as a normal distribution 50,000 times
-            \hrule
-    \end{itemize}
+%\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+    %\begin{itemize}
+        %\item[\textbullet] For each element in the basis ($T$, $T_c$, $e$, $\omega_s$, $K$)
+            %calculate the median and standard deviation over all of the steps
+        %\item[\textbullet] Sample each element as a normal distribution 50,000 times
+            %\hrule
+    %\end{itemize}
+%};
+    \definecolor{t}{gray}{0.9}
+    \definecolor{tc}{gray}{0.85}
+    \definecolor{ce}{gray}{0.8}
+    \definecolor{se}{gray}{0.75}
+    \definecolor{k}{gray}{0.7}
+    \tikzoverlay[text width=10cm] at (-.3cm, 1cm){
+    \begin{table}[htpb]
+    \begin{adjustbox}{max width=1\textwidth}
+        \centering
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            \textbf{Step} & \textbf{0} & \textbf{1} &\textbf{\ldots} &\textbf{224999} \\
+            \hline
+            $T$ (d) &\cellcolor{t} 671.93 &\cellcolor{t} \cellcolor{t} 671.81 &\cellcolor{t} \ldots &\cellcolor{t} 672.86 \\
+            $T_c$ (jd) &\cellcolor{tc} 2452269.85 &\cellcolor{tc} \cellcolor{tc} 2452270.68 &\cellcolor{tc} \ldots &\cellcolor{tc} 2452268.53 \\
+            $\sqrt{e} \cos{\omega_s }$ &\cellcolor{ce} 0.090 &\cellcolor{ce} \cellcolor{ce} 0.072 &\cellcolor{ce} \ldots &\cellcolor{ce} 0.090 \\
+            $\sqrt{e} \sin{\omega_s} $ &\cellcolor{se} -0.049 &\cellcolor{se} \cellcolor{se} -0.044 &\cellcolor{se} \ldots &\cellcolor{se} 0.019 \\
+            $K$ (m/s) &\cellcolor{k} 0.996 & \cellcolor{k} 0.995 &\cellcolor{k} \ldots &\cellcolor{k} 1.00\\
+            $\ln\left( \textrm{Probability} \right)$& 8.15 & 8.32 & \ldots & 4.07\\
+            \hline
+        \end{tabular}
+        %\label{tab:radvel_output}
+    \end{adjustbox}
+        %\caption{RadVel output}
+    \end{table}
 };
-\definecolor{t}{gray}{0.9}
-\definecolor{tc}{gray}{0.85}
-\definecolor{ce}{gray}{0.8}
-\definecolor{se}{gray}{0.75}
-\definecolor{k}{gray}{0.7}
-\tikzoverlay[text width=10cm] at (-.3cm, 1cm){
-\begin{table}[htpb]
-\begin{adjustbox}{max width=1\textwidth}
-    \centering
-    \begin{tabular}{|c|c|c|c|c|}
-        \hline
-        \textbf{Step} & \textbf{0} & \textbf{1} &\textbf{\ldots} &\textbf{224999} \\
-        \hline
-        $T$ (d) &\cellcolor{t} 671.93 &\cellcolor{t} \cellcolor{t} 671.81 &\cellcolor{t} \ldots &\cellcolor{t} 672.86 \\
-        $T_c$ (jd) &\cellcolor{tc} 2452269.85 &\cellcolor{tc} \cellcolor{tc} 2452270.68 &\cellcolor{tc} \ldots &\cellcolor{tc} 2452268.53 \\
-        $\sqrt{e} \cos{\omega_s }$ &\cellcolor{ce} 0.090 &\cellcolor{ce} \cellcolor{ce} 0.072 &\cellcolor{ce} \ldots &\cellcolor{ce} 0.090 \\
-        $\sqrt{e} \sin{\omega_s} $ &\cellcolor{se} -0.049 &\cellcolor{se} \cellcolor{se} -0.044 &\cellcolor{se} \ldots &\cellcolor{se} 0.019 \\
-        $K$ (m/s) &\cellcolor{k} 0.996 & \cellcolor{k} 0.995 &\cellcolor{k} \ldots &\cellcolor{k} 1.00\\
-        $\ln\left( \textrm{Probability} \right)$& 8.15 & 8.32 & \ldots & 4.07\\
-        \hline
-    \end{tabular}
-    %\label{tab:radvel_output}
-\end{adjustbox}
-    %\caption{RadVel output}
-\end{table}
+    \tikzoverlay[text width = 5cm] at (9.6, 1cm){
+    \begin{tikzpicture}[ultra thick]
+        \draw[decorate, decoration ={brace}, color=t] (2.5cm, -1.25cm) -- node[left=1cm and -1cm]{} (2.5cm,
+            -1.7cm);
+        \draw[decorate, decoration ={brace}, color=tc] (2.5cm, -1.7cm) -- node[left=1cm and -1cm]{} (2.5cm,
+            -2.1cm);
+        \draw[decorate, decoration ={brace}, color=ce] (2.5cm, -2.1cm) -- node[left=1cm and -1cm]{} (2.5cm,
+            -2.55cm);
+        \draw[decorate, decoration ={brace}, color=se] (2.5cm, -2.55cm) -- node[left=1cm and -1cm]{} (2.5cm,
+            -2.95cm);
+        \draw[decorate, decoration ={brace}, color=k] (2.5cm, -2.95cm) -- node[left=1cm and -1cm]{} (2.5cm,
+            -3.4cm);
+        %\draw[-to] (7cm, -1cm) -- node[above left=0.2cm and -2.2cm]{Maximize KDE} (10cm, -2cm);
+    \end{tikzpicture}
 };
-\tikzoverlay[text width = 5cm] at (9.6, 1cm){
-\begin{tikzpicture}[ultra thick]
-    \draw[decorate, decoration ={brace}, color=t] (2.5cm, -1.25cm) -- node[left=1cm and -1cm]{} (2.5cm,
-        -1.7cm);
-    \draw[decorate, decoration ={brace}, color=tc] (2.5cm, -1.7cm) -- node[left=1cm and -1cm]{} (2.5cm,
-        -2.1cm);
-    \draw[decorate, decoration ={brace}, color=ce] (2.5cm, -2.1cm) -- node[left=1cm and -1cm]{} (2.5cm,
-        -2.55cm);
-    \draw[decorate, decoration ={brace}, color=se] (2.5cm, -2.55cm) -- node[left=1cm and -1cm]{} (2.5cm,
-        -2.95cm);
-    \draw[decorate, decoration ={brace}, color=k] (2.5cm, -2.95cm) -- node[left=1cm and -1cm]{} (2.5cm,
-        -3.4cm);
-    %\draw[-to] (7cm, -1cm) -- node[above left=0.2cm and -2.2cm]{Maximize KDE} (10cm, -2cm);
-\end{tikzpicture}
-};
-\tikzoverlay[text width = 3cm] at (10cm, -0.5cm){
-Sample normal distributions for each parameter 50,000 times
+    \tikzoverlay[text width = 3cm] at (10cm, -0.5cm){
+    Sample normal distributions for each parameter 50,000 times
 };
 %\tikzoverlay[text width = 5cm] at (9.5cm, -1cm){
 %\begin{center}
@@ -765,23 +764,23 @@ Sample normal distributions for each parameter 50,000 times
 }
 \frame{
     \frametitle{Method 3: credible interval visualization}
-%\tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
-    %\animategraphics[loop, controls, width=14cm]{10}{CI_vis/frame-}{0}{99}
-%};
+\tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
+    \animategraphics[loop, controls, width=14cm]{20}{CI_vis/frame-}{0}{99}
+};
 }
 
 \frame{
     \frametitle{Method 4: multivariate Gaussian}
-    \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-        \begin{itemize}
-            \item[\textbullet] Take 1000 steps with largest probability
-            \item[\textbullet] Calculate covariance matrix between ($T$, $T_c$, $e$, $\omega_s$, $K$) based on those steps
-            \item[\textbullet] Sample multivariate normal distribution 50,000 times to get sets of
-                orbital elements
-                \hrule
-        \end{itemize}
-    };
-    \tikzoverlay[text width=10cm] at (-.3cm, 1.5cm){
+    %\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+        %\begin{itemize}
+            %\item[\textbullet] Take 1000 steps with largest probability
+            %\item[\textbullet] Calculate covariance matrix between ($T$, $T_c$, $e$, $\omega_s$, $K$) based on those steps
+            %\item[\textbullet] Sample multivariate normal distribution 50,000 times to get sets of
+                %orbital elements
+                %\hrule
+        %\end{itemize}
+    %};
+    \tikzoverlay[text width=10cm] at (-.3cm, 2.5cm){
         \definecolor{mg}{rgb}{0, 1, 0}
     \begin{table}[htpb]
     \begin{adjustbox}{max width=1\textwidth}
@@ -803,13 +802,13 @@ Sample normal distributions for each parameter 50,000 times
         %\caption{RadVel output}
     \end{table}
     };
-    \tikzoverlay[text width = 1cm] at (2.1cm, 1cm){
+    \tikzoverlay[text width = 1cm] at (2.1cm, 2cm){
     \begin{tikzpicture}[ultra thick]
         \draw[decorate, decoration ={brace}] (7.5, -3.5) -- node[below=.3cm]{Find top 1000 probabilities} (0, -3.5);
         %\draw[-to] (7cm, -1cm) -- node[above left=0.2cm and -2.2cm]{Maximize KDE} (10cm, -2cm);
     \end{tikzpicture}
     };
-    \tikzoverlay[text width = 5cm] at (9.5cm, 1cm){
+    \tikzoverlay[text width = 5cm] at (9.5cm, 2cm){
     \begin{center}
         Create covariance matrix of top 1000 elements sets to sample
     \linebreak
@@ -819,11 +818,12 @@ Sample normal distributions for each parameter 50,000 times
     \end{center}
     };
 }
+
 \frame{
     \frametitle{Method 4: multivariate Gaussian visualization}
-%\tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
-    %\animategraphics[loop, controls, width=14cm]{10}{MG_vis/frame-}{0}{99}
-%};
+\tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
+    \animategraphics[loop, controls, width=14cm]{20}{MG_vis/frame-}{0}{99}
+};
 }
 
 \section{Analysis}
@@ -845,21 +845,20 @@ Sample normal distributions for each parameter 50,000 times
                     detectability 
                 \item[6)] Repeat for many ``true'' planets with different parameters
             \end{enumerate}
-            \hrule
     \end{itemize}
 };
 }
+
 \frame{
     \frametitle{Ratio of $1 \sigma$ RV error to $K$}
-\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-    \begin{itemize}
-        \item[\textbullet] Limit the search space by parameterizing with the ratio $\frac{1 \sigma
-            }{K}$
-            \hrule
-    \end{itemize}
-};
-\tikzoverlay[text width = 10cm] at (1cm-3pt, 2.2cm+4.5pt){
-    \animategraphics[loop, controls, width=10cm]{10}{ratio_example/frame-}{98}{99}
+%\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+    %\begin{itemize}
+        %\item[\textbullet] Limit the search space by parameterizing with the ratio $\frac{1 \sigma
+            %}{K}$
+            %\hrule
+    %\end{itemize}
+%};
+\tikzoverlay[text width = 14cm] at (0cm-3pt, 3cm+4.5pt){
 \includegraphics[width=12cm]{ratio_example/frame-99}
 };
 }
@@ -867,18 +866,43 @@ Sample normal distributions for each parameter 50,000 times
 \frame{
     \frametitle{``True'' planet elements}
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+    %\begin{itemize}
+        %\item[\textbullet] Tested $1 \sigma $ errors of 0.1, 0.25, 0.5, 0.75, 1, 1.25, and 2 m/s
+        %\item[\textbullet] RV semi-amplitude ($K$) fixed at 1 m/s
+        %\item[\textbullet] Simple photometry with geometric albedo ($p$) fixed at Earth's 0.367
+            %and Lambertian scattering
+        %\item[\textbullet] Star distance ($d$) fixed at 10 parsecs
+        %\item[\textbullet] Eccentricity ($e$) fixed at 0 (circular orbits)
+        %\item[\textbullet] Inclinations ($i$) between 90 and 170 degrees
+        %\item[\textbullet] Planet mass ($M_p$) calculated based on $K$ and $i$
+        %\item[\textbullet] Planet radius ($R_p$) calculated based on $M_p$
+        %\item[\textbullet] 10 linearly spaced semi-major axis ($a$) values between 1 and 2 AU
+            %(orbital periods ($T$) between 365.25 and 1033.1 days)
+    %\end{itemize}
+    \begin{table}[htpb]
+        \centering
+        %\caption{caption}
+        %\label{tab:label}
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \textbf{Parameter} & \textbf{Treatment} & \textbf{Value(s)} \\
+            \hline
+            $1 \sigma $ RV error & Varied & [0.1, 0.25, 0.5, 0.75, 1, 1.25, 2] m/s \\
+            Inclination $i$ & Varied & Randomly sampled between [90, 170]$\degree$\\
+            Semi-major axis $a$ & Varied & [1, 1.11, 1.22, \ldots, 2] AU\\
+            \hline
+            RV semi-amplitude $K$ & Fixed & 1 m/s \\
+            Geometric albedo $p$ & Fixed & 0.367 \\
+            Star distance $d$ & Fixed & 10 parsecs \\
+            Eccentricity $e$ & Fixed & 0 (circular orbits) \\
+            \hline
+            Planet mass $M_p$ & Calculated & Calculated based on $K$ and $i$ \\
+            Planet radius $R_p$ & Calculated & Calculated based on $M_p$\\
+            \hline
+        \end{tabular}
+    \end{table}
     \begin{itemize}
-        \item[\textbullet] Tested $1 \sigma $ errors of 0.1, 0.25, 0.5, 0.75, 1, 1.25, and 2 m/s
-        \item[\textbullet] RV semi-amplitude ($K$) fixed at 1 m/s
-        \item[\textbullet] Simple photometry with geometric albedo ($p$) fixed at Earth's 0.367
-            and Lambertian scattering
-        \item[\textbullet] Star distance ($d$) fixed at 10 parsecs
-        \item[\textbullet] Eccentricity ($e$) fixed at 0 (circular orbits)
-        \item[\textbullet] Inclinations ($i$) between 90 and 170 degrees
-        \item[\textbullet] Planet mass ($M_p$) calculated based on $K$ and $i$
-        \item[\textbullet] Planet radius ($R_p$) calculated based on $M_p$
-        \item[\textbullet] 10 linearly spaced semi-major axis ($a$) values between 1 and 2 AU
-            (orbital periods ($T$) between 365.25 and 1033.1 days)
+        \item[\textbullet] Lambertian scattering for photometry
         \item[\textbullet] HabEx constraints, IWA of 0.058", OWA of 6", $\Delta \textrm{mag}_{0}$ of
             26.5
     \end{itemize}
@@ -887,10 +911,11 @@ Sample normal distributions for each parameter 50,000 times
 
 \frame{
     \frametitle{Successful orbit construction}
-\tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
-    \animategraphics[loop, controls, width=14cm]{50}{CI_if/ratio-0.50-frame-}{0}{364}
+\tikzoverlay[text width = 10cm] at (0cm-3pt, 2.6cm+4.5pt){
+    \animategraphics[loop, controls, width=14cm]{100}{CI_if/ratio-0.50-frame-}{0}{364}
 };
 }
+
 \frame{
     \frametitle{Failure modes}
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
@@ -904,33 +929,48 @@ Sample normal distributions for each parameter 50,000 times
 };
 }
 
-\frame{
-    \frametitle{Intermittent failure}
-\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-\begin{enumerate}
-    \item[1)] The true planet is not detectable;
-    \item[2)] The estimated probability of detection is in the top 90\% of the local probability of
-        detection values;
-    \item[3)] The probability of detection is changing by less than 0.0001 per day; and
-    \item[4)] The previous three conditions hold for 1 day.
-\end{enumerate}
-};
-}
+%\frame{
+    %\frametitle{Intermittent failure}
+%\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+%\begin{enumerate}
+    %\item[1)] The true planet is not detectable;
+    %\item[2)] The estimated probability of detection is in the top 90\% of the local probability of
+        %detection values;
+    %\item[3)] The probability of detection is changing by less than 0.0001 per day; and
+    %\item[4)] The previous three conditions hold for 1 day.
+%\end{enumerate}
+%};
+%}
 
 \frame{
     \frametitle{Intermittent failure example}
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-    \animategraphics[controls, width=14cm]{50}{ML_if/ratio-0.50-frame-}{0}{364}
+    \animategraphics[controls, width=14cm]{100}{ML_if/ratio-0.50-frame-}{0}{364}
 };
 }
 
 \frame{
     \frametitle{Dispersion failure}
+%\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+%\begin{enumerate}
+    %\item[1)] Probability of detection curve flattens to the point where a full orbital period passes without any extrema
+%\end{enumerate}
+%};
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-\begin{enumerate}
-    \item[1)] Probability of detection curve flattens to the point where a full orbital period passes without any extrema
-\end{enumerate}
+    \animategraphics[controls, width=14cm]{50}{CI_if/ratio-1.00-frame-}{0}{999}
 };
+%\includemedia[
+  %width=0.9\linewidth,height=0.675\linewidth, %use this for embedded
+  %%windowed=1000x500, %use this for floating window
+  %activate=pageopen,
+  %addresource=./figures/CI_if/output.mp4, %must be h.264 encoded
+  %flashvars={
+     %source=./figures/CI_if/output.mp4 
+    %&autoPlay=true
+    %&loop=true
+%},
+  %passcontext
+%]{}{VPlayer.swf}
 }
 
 \frame{
@@ -953,27 +993,42 @@ Sample normal distributions for each parameter 50,000 times
 };
 }
 
-\frame{
-    \frametitle{Intermittent failure metrics}
-\tikzoverlay[text width = 14cm] at (-0.8cm, 3.2cm+4.5pt){
-    \begin{itemize}
-    \item[\textbullet] Intermittent failure can happen a single time or many during propagation
-    \item[\textbullet] Set up two metrics
-        \begin{enumerate}
-            \item[1)] Time of first intermittent failure, the time between start of propagation and the
-                first intermittent failure
-            \item[2)] Intermittent failure rate, the number of intermittent failures divided by the
-                number of time steps where the true planet is not detectable
-        \end{enumerate}
-    \end{itemize}
-};
+%\frame{
+    %\frametitle{Intermittent failure metrics}
+%\tikzoverlay[text width = 14cm] at (-0.8cm, 3.2cm+4.5pt){
+    %\begin{itemize}
+    %\item[\textbullet] Intermittent failure can happen a single time or many during propagation
+    %\item[\textbullet] Set up two metrics
+        %\begin{enumerate}
+            %\item[1)] Time of first intermittent failure, the time between start of propagation and the
+                %first intermittent failure
+            %\item[2)] Intermittent failure rate, the number of intermittent failures divided by the
+                %number of time steps where the true planet is not detectable
+        %\end{enumerate}
+    %\end{itemize}
+%};
 %TODO create graphic with the different metrics labeled
-}
+%}
 \frame{
     \frametitle{Intermittent failure results}
 \tikzoverlay[text width = 10cm] at (1.1cm-3pt, 3.1cm+4.5pt){
 \includegraphics[height=7.5cm]{./figures/violin_plots.pdf}
 };
+}
+
+\frame{
+    \frametitle{Summary of work}
+    \begin{enumerate}
+        \item[1)] Identified 4 methods of constructing orbits from RV fit information
+        \item[2)] Trade off between intermittent and dispersion failure
+        \item[3)] Using a single set of orbital elements performs poorly
+        \item[4)] For low ratios more variation in orbital elements is prefered
+        \item[5)] For medium ratios (0.5 and up) multivariate Gaussian performs the best
+        \item[6)] In cases with intermittent failure, it is overwhelmingly likely to happen within a
+            few orbital periods
+        \item[7)] At low ratios orbit construction that creates intermittent failure is more damaging than
+            at higher ratios
+    \end{enumerate}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -994,20 +1049,19 @@ Sample normal distributions for each parameter 50,000 times
 \begin{itemize}
     \item[\textbullet] Run simulations with more realistic photometry
         \begin{enumerate}
-            \item[1)] Classify planets using Kopparapu bins
+            \item[1)] Classify planets using Kopparapu bins \parencite{Kopparapu2018b}
             \item[2)] Use different photometry calculations based on planet classification, likely
                 the color classification grid from \textcite{Batalha2018a} for Jovian planets,
                 unsure of reliable rocky planet photometry model
             \item[3)] Run the failure mode analysis again
         \end{enumerate}
 \end{itemize}
-\footlineextra{\textcite{Kopparapu2018b}, \textcite{Batalha2018a},}
 }
 
 \frame{
 \frametitle{Precursor RV target optimization and validation}
 \begin{itemize}
-    \item[\textbullet] Create SimulatedUniverse module that provides synthetic RV data that can be
+    \item[\textbullet] Create EXOSIMS SimulatedUniverse module that provides synthetic RV data that can be
         fitted with RadVel
     \item[\textbullet] Implement the multivariate Gaussian construction method in EXOSIMS
     \item[\textbullet] Use the $P_{\textrm{det}}$ metric in the target list cost function and
@@ -1040,9 +1094,9 @@ Sample normal distributions for each parameter 50,000 times
     \begin{itemize}
         \item[\textbullet] Spohn C, et al. (2021) ``Scheduling direct imaging observations based on
             radial velocity orbit fits'' The Astronomical Journal (In review)
+        \item[\textbullet] Keithly D, et al. (2021) ``Integration time adjusted completeness'' JATIS
         \item[\textbullet] Ahmadi F, et al. (2020) ``Suppressing Condensation Frosting
             Using an Out-of-Plane Dry Zone'' Langmuir
-        \item[\textbullet] Keithly D, et al. (2021) ``Integration time adjusted completeness'' JATIS
     \end{itemize}
     Conference Presentations:
     \begin{itemize}
@@ -1085,8 +1139,63 @@ Sample normal distributions for each parameter 50,000 times
 }}
 
 %%backup slides:
-%\section{Backup}
-%\subsection{Backup}
+\section{Backup}
+\subsection{Backup}
+
+\frame{
+\frametitle{Completeness, $C$}
+\tikzoverlay[text width = 6cm] at (0cm, 2.5cm+4.5pt){
+\begin{enumerate}
+    \item[\textbullet] Simulation based metric that calculates the probability of detecting a planet around a target
+        star, should a planet in the assumed population exist
+    \item[\textbullet] With enough simulated planets $C$ is constant
+    \item[\textbullet] Useful when there are no prior detections around a star
+\end{enumerate}
+\begin{align*}
+    C = \frac{\textrm{\# of detectable simulated planets}}{\textrm{\# of simulated planets}}
+\end{align*}
+};
+\tikzoverlay[text width = 7cm] at (7cm, 3.1cm+4.5pt){
+    \animategraphics[loop, controls, width=7cm]{10}{completeness/frame-}{0}{9}
+};
+\footlineextra{\textcite{Brown2004c}, \textcite{Brown2005d}, \textcite{Garrett2016}}
+}
+\frame{
+\frametitle{Completeness, $C$}
+\tikzoverlay[text width = 12cm] at (0cm, 3.1cm+4.5pt){
+    \animategraphics[loop, controls, width=14cm]{10}{comp_constraint/frame-}{0}{9}
+};
+}
+
+\frame{
+    \frametitle{Intermittent failure}
+\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+\begin{enumerate}
+    \item[1)] The true planet is not detectable;
+    \item[2)] The estimated probability of detection is in the top 90\% of the local probability of
+        detection values;
+    \item[3)] The probability of detection is changing by less than 0.0001 per day; and
+    \item[4)] The previous three conditions hold for 1 day.
+\end{enumerate}
+};
+}
+
+\frame{
+    \frametitle{Intermittent failure metrics}
+\tikzoverlay[text width = 14cm] at (-0.8cm, 3.2cm+4.5pt){
+    \begin{itemize}
+    \item[\textbullet] Intermittent failure can happen a single time or many during propagation
+    \item[\textbullet] Set up two metrics
+        \begin{enumerate}
+            \item[1)] Time of first intermittent failure, the time between start of propagation and the
+                first intermittent failure
+            \item[2)] Intermittent failure rate, the number of intermittent failures divided by the
+                number of time steps where the true planet is not detectable
+        \end{enumerate}
+    \end{itemize}
+};
+%TODO create graphic with the different metrics labeled
+}
 
 %\frame[label=backup1]{
 %\frametitle{A Backup Slide with Additional Info}

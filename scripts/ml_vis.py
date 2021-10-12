@@ -155,6 +155,10 @@ if __name__ == '__main__':
 
         detectability_line = mpl.lines.Line2D([IWA_ang.to(u.arcsec).value, OWA_ang.to(u.arcsec).value], [dMag0, dMag0], color='red')
         a_dMag_ax.add_line(detectability_line)
+        IWA_line = mpl.lines.Line2D([IWA_ang.to(u.arcsec).value, IWA_ang.to(u.arcsec).value], [dMag_range[0], dMag_range[-1]], color='red')
+        OWA_line = mpl.lines.Line2D([OWA_ang.to(u.arcsec).value, OWA_ang.to(u.arcsec).value], [dMag_range[0], dMag_range[-1]], color='red')
+        a_dMag_ax.add_line(IWA_line)
+        a_dMag_ax.add_line(OWA_line)
         a_dMag_ax.scatter(pop_alpha.to(u.arcsec).value, pop_dMag, s=0.1, alpha=0.5)
 
         fig.tight_layout()

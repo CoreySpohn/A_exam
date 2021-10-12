@@ -25,14 +25,29 @@ def make_circle(r):
 
 if __name__ == '__main__':
     rv_times = Time(np.linspace(2000, 2004, 100), format='decimalyear')
-    img_times = Time(np.linspace(2004, 2014, 365*10), format='decimalyear')
+    # Dispersion failure
+    failure = 'i_failure'
+    if failure == 'n_failure':
+        img_times = Time(np.linspace(2004, 2005, 365), format='decimalyear')
+        pop_types = ['CI']
+        rv_error = 0.5*u.m/u.s
+        a = 1*u.AU
+    elif failure == 'i_failure':
+        img_times = Time(np.linspace(2004, 2005, 365), format='decimalyear')
+        pop_types = ['ML']
+        rv_error = 0.5*u.m/u.s
+        a = 1*u.AU
+    elif failure == 'd_failure':
+        img_times = Time(np.linspace(2004, 2010, 1000), format='decimalyear')
+        pop_types = ['CI']
+        rv_error = 1*u.m/u.s
+        a = 1.5*u.AU
     data_path = 'data'
-    pop_types = ['CI']
     n_fits = 50000
 
     p = 0.367
     K_val = 1*u.m/u.s
-    p1_inputs = {'a': 1*u.AU,
+    p1_inputs = {'a': a,
                  'e': 0,
                  'W': 0*u.rad,
                  'I': 90*u.degree,
@@ -40,12 +55,11 @@ if __name__ == '__main__':
                  'Mp': 1*u.M_earth,
                  'Rp': 1*u.R_earth,
                  'f_sed': 3,
-                 'p': 0.367,
+                 'p': p,
                  'M0': 0*u.rad,
                  't0': Time(rv_times[0], format='decimalyear'),
-                 'rv_error': 0.75*u.m/u.s}
+                 'rv_error': rv_error}
     ratio=p1_inputs['rv_error']/K_val
-    e = p1_inputs['e']
     p1 = Planet(r'1 $M_\oplus$', 10*u.pc, 1*u.M_sun, 0, {}, {}, keplerian_inputs=p1_inputs)
     Mp = (
         K_val
@@ -216,7 +230,11 @@ if __name__ == '__main__':
         a_dMag_ax.set_ylim([dMag_range[0], dMag_range[-1]])
 
         detectability_line = mpl.lines.Line2D([IWA_ang.to(u.arcsec).value, OWA_ang.to(u.arcsec).value], [dMag0, dMag0], color='red')
+        IWA_line = mpl.lines.Line2D([IWA_ang.to(u.arcsec).value, IWA_ang.to(u.arcsec).value], [dMag_range[0], dMag_range[-1]], color='red')
+        OWA_line = mpl.lines.Line2D([OWA_ang.to(u.arcsec).value, OWA_ang.to(u.arcsec).value], [dMag_range[0], dMag_range[-1]], color='red')
         a_dMag_ax.add_line(detectability_line)
+        a_dMag_ax.add_line(IWA_line)
+        a_dMag_ax.add_line(OWA_line)
         a_dMag_ax.scatter(planet_alpha.to(u.arcsec).value, planet_dMag, s=20, label='Planet', edgecolor='black', color=pcolor, zorder=3)
         a_dMag_ax.scatter(pop_alpha.to(u.arcsec).value, pop_dMag, s=0.1, alpha=0.5, label=f'Constructed orbits {pop_types[0]}', color='white')
         a_dMag_ax.legend(loc='upper right')
