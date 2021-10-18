@@ -183,62 +183,62 @@ if __name__ == '__main__':
         pop_pos = pop.calc_position_vectors(time_jd)
         pop_alpha, pop_dMag = pop.prop_for_imaging(time_jd)
 
-        fig, (ax, a_dMag_ax, pvt_ax) = plt.subplots(ncols=3, figsize=[15, 6])
+        fig, pvt_ax = plt.subplots(ncols=1, figsize=[15, 6])
         # Set the star up in the center
-        ax.scatter(0, 0, s=250, zorder=2, color='white')
+        # ax.scatter(0, 0, s=250, zorder=2, color='white')
 
-        # Add the planets at their current location
-        ax.scatter(planet_pos[0].to(u.AU), planet_pos[1].to(u.AU), s=20, label='Planet', zorder=3, edgecolor='black', color=pcolor)
-        ax.scatter(pop_pos[0, :].to(u.AU), pop_pos[1, :].to(u.AU), s=0.1, alpha=0.5, label=f'Constructed orbits ({pop_types[0]})', color='white')
+        # # Add the planets at their current location
+        # ax.scatter(planet_pos[0].to(u.AU), planet_pos[1].to(u.AU), s=20, label='Planet', zorder=3, edgecolor='black', color=pcolor)
+        # ax.scatter(pop_pos[0, :].to(u.AU), pop_pos[1, :].to(u.AU), s=0.1, alpha=0.5, label=f'Constructed orbits ({pop_types[0]})', color='white')
 
-        # Now set plot limits
-        ax.set_xlim([-2, 2])
-        ax.set_ylim([-2, 2])
-        ax.set_xlabel('x (AU)')
-        ax.set_ylabel('y (AU)')
-        ax.set_title(f'Ratio: {ratio:.2f}')
-        ax.legend(loc='upper right')
+        # # Now set plot limits
+        # ax.set_xlim([-2, 2])
+        # ax.set_ylim([-2, 2])
+        # ax.set_xlabel('x (AU)')
+        # ax.set_ylabel('y (AU)')
+        # ax.set_title(f'Ratio: {ratio:.2f}')
+        # ax.legend(loc='upper right')
 
-        # Add coronagraph feature
-        IWA_patch = mpatches.Circle((0,0), IWA_s, facecolor='grey', edgecolor='white', alpha=0.5, zorder=5)
-        ax.add_patch(IWA_patch)
-        # OWA
-        inner_OWA_vertices = make_circle(OWA_s)
-        outer_OWA_vertices = make_circle(7)
-        vertices = np.concatenate((outer_OWA_vertices[::1], inner_OWA_vertices[::-1]))
-        codes = np.ones( len(inner_OWA_vertices), dtype=mpath.Path.code_type) * mpath.Path.LINETO
-        codes[0] = mpath.Path.MOVETO
-        all_codes = np.concatenate((codes, codes))
-        path = mpath.Path(vertices, all_codes)
-        patch = mpatches.PathPatch(path, facecolor='grey', edgecolor='white', alpha=0.5, zorder=5)
-        ax.add_patch(patch)
+        # # Add coronagraph feature
+        # IWA_patch = mpatches.Circle((0,0), IWA_s, facecolor='grey', edgecolor='white', alpha=0.5, zorder=5)
+        # ax.add_patch(IWA_patch)
+        # # OWA
+        # inner_OWA_vertices = make_circle(OWA_s)
+        # outer_OWA_vertices = make_circle(7)
+        # vertices = np.concatenate((outer_OWA_vertices[::1], inner_OWA_vertices[::-1]))
+        # codes = np.ones( len(inner_OWA_vertices), dtype=mpath.Path.code_type) * mpath.Path.LINETO
+        # codes[0] = mpath.Path.MOVETO
+        # all_codes = np.concatenate((codes, codes))
+        # path = mpath.Path(vertices, all_codes)
+        # patch = mpatches.PathPatch(path, facecolor='grey', edgecolor='white', alpha=0.5, zorder=5)
+        # ax.add_patch(patch)
 
-        # Add completeness
+        # # Add completeness
         IWA_ang = IWA
         OWA_ang = OWA
         meet_criteria = sum((planet_dMag < dMag0) & (OWA_ang.to(u.arcsec).value > planet_alpha.to(u.arcsec).value) & (planet_alpha.to(u.arcsec).value > IWA_ang.to(u.arcsec).value))
         pdet = int(meet_criteria)
-        # ax.annotate(f"{completeness:.2f}", xy=(0, 2.1), ha='center', va='center', zorder=6, size=20)
+        # # ax.annotate(f"{completeness:.2f}", xy=(0, 2.1), ha='center', va='center', zorder=6, size=20)
 
-        # Set up correct aspect ratio
-        ax.set_aspect('equal', 'box')
+        # # Set up correct aspect ratio
+        # ax.set_aspect('equal', 'box')
 
-        # Set up the alpha vs dMag
-        a_dMag_ax.set_xlabel(r'$\alpha$ (arcsec)')
-        a_dMag_ax.set_ylabel(r'$\Delta$mag')
-        a_dMag_ax.set_xlim([0, 0.125])
-        a_dMag_ax.set_ylim([dMag_range[0], dMag_range[-1]])
+        # # Set up the alpha vs dMag
+        # a_dMag_ax.set_xlabel(r'$\alpha$ (arcsec)')
+        # a_dMag_ax.set_ylabel(r'$\Delta$mag')
+        # a_dMag_ax.set_xlim([0, 0.125])
+        # a_dMag_ax.set_ylim([dMag_range[0], dMag_range[-1]])
 
-        detectability_line = mpl.lines.Line2D([IWA_ang.to(u.arcsec).value, OWA_ang.to(u.arcsec).value], [dMag0, dMag0], color='red')
-        IWA_line = mpl.lines.Line2D([IWA_ang.to(u.arcsec).value, IWA_ang.to(u.arcsec).value], [dMag_range[0], dMag_range[-1]], color='red')
-        OWA_line = mpl.lines.Line2D([OWA_ang.to(u.arcsec).value, OWA_ang.to(u.arcsec).value], [dMag_range[0], dMag_range[-1]], color='red')
-        a_dMag_ax.add_line(detectability_line)
-        a_dMag_ax.add_line(IWA_line)
-        a_dMag_ax.add_line(OWA_line)
-        a_dMag_ax.scatter(planet_alpha.to(u.arcsec).value, planet_dMag, s=20, label='Planet', edgecolor='black', color=pcolor, zorder=3)
-        a_dMag_ax.scatter(pop_alpha.to(u.arcsec).value, pop_dMag, s=0.1, alpha=0.5, label=f'Constructed orbits {pop_types[0]}', color='white')
-        a_dMag_ax.legend(loc='upper right')
-        a_dMag_ax.set_title(f'Time: {current_time.decimalyear:.2f}')
+        # detectability_line = mpl.lines.Line2D([IWA_ang.to(u.arcsec).value, OWA_ang.to(u.arcsec).value], [dMag0, dMag0], color='red')
+        # IWA_line = mpl.lines.Line2D([IWA_ang.to(u.arcsec).value, IWA_ang.to(u.arcsec).value], [dMag_range[0], dMag_range[-1]], color='red')
+        # OWA_line = mpl.lines.Line2D([OWA_ang.to(u.arcsec).value, OWA_ang.to(u.arcsec).value], [dMag_range[0], dMag_range[-1]], color='red')
+        # a_dMag_ax.add_line(detectability_line)
+        # a_dMag_ax.add_line(IWA_line)
+        # a_dMag_ax.add_line(OWA_line)
+        # a_dMag_ax.scatter(planet_alpha.to(u.arcsec).value, planet_dMag, s=20, label='Planet', edgecolor='black', color=pcolor, zorder=3)
+        # a_dMag_ax.scatter(pop_alpha.to(u.arcsec).value, pop_dMag, s=0.1, alpha=0.5, label=f'Constructed orbits {pop_types[0]}', color='white')
+        # a_dMag_ax.legend(loc='upper right')
+        # a_dMag_ax.set_title(f'Time: {current_time.decimalyear:.2f}')
 
         # pdet axes
         pdets.append(pdet)
@@ -257,7 +257,7 @@ if __name__ == '__main__':
             else:
                 plt_if_times = if_times[if_ids]
                 plt_if_vals = np.array(if_vals)[if_ids]
-                pvt_ax.scatter(plt_if_times, plt_if_vals, marker='v', label="IF", zorder=3)
+                pvt_ax.scatter(plt_if_times, plt_if_vals, marker='v', label="Intermittent Failure", zorder=3)
         if plot_df:
             df_ids = np.where(df_times <= current_time.decimalyear)[0]
             if len(df_ids) is 0:
@@ -276,4 +276,4 @@ if __name__ == '__main__':
 
         fig.tight_layout()
         # fig.savefig(Path(f'../figures/comp_constraint/frame-{fnum}.png'), dpi=150)
-        fig.savefig(Path(f'../figures/{pop_types[0]}_if/ratio-{ratio:.2f}-frame-{fnum}.png'), dpi=150)
+        fig.savefig(Path(f'../figures/{pop_types[0]}_if/if_only_ratio-{ratio:.2f}-frame-{fnum}.png'), dpi=150)

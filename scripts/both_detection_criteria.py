@@ -197,6 +197,11 @@ if __name__ == '__main__':
         a_dMag_ax.add_line(OWA_line)
         detectability_line = mpl.lines.Line2D([IWA_ang.to(u.arcsec).value, OWA_ang.to(u.arcsec).value], [dMag0, dMag0], color='red')
         a_dMag_ax.add_line(detectability_line)
+        if fnum==0:
+            a_dMag_ax.annotate(r'$\Delta$mag$_0$', xy=((IWA_ang+OWA_ang).to(u.arcsec).value/2, dMag0+0.5), ha='center', va='center')
+            a_dMag_ax.annotate('IWA', xy=(IWA_ang.to(u.arcsec).value-0.006, 22.5), ha='center', va='center')
+            a_dMag_ax.annotate('OWA', xy=(OWA_ang.to(u.arcsec).value-0.006, 22.5), ha='center', va='center')
+            a_dMag_ax.annotate('Detectable region', xy=((IWA_ang+OWA_ang).to(u.arcsec).value/2, 20), ha='center', va='center')
         # p1_alphas.append(p1_alpha.to(u.arcsec).value)
         # p1_dMags.append(p1_dMag)
         # p2_alphas.append(p2_alpha.to(u.arcsec).value)

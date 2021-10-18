@@ -1,6 +1,4 @@
 %!TEX TS-program = pdflatex
-% video compile
-% ffmpeg -r 15 -f image2 -s 1920x1080 -i frame-%d.png -vcodec libx264 -crf 25 -pix_fmt yuv420p filename.mp4
 
 \documentclass[aspectratio=169]{beamer}
 
@@ -140,7 +138,7 @@
 \makeatother
 \graphicspath{{./}{figures/}}
 
-\beamertemplategridbackground[10pt]
+%\beamertemplategridbackground[10pt]
 
 % TikZ stuff
 \tikzset{
@@ -168,6 +166,7 @@
   \end{frame}
 }
 \usepackage{colortbl}
+\def\code#1{\texttt{#1}}
 
 \begin{document}
 
@@ -182,7 +181,7 @@
 \setbeamertemplate{background}{ \setbeamercolor{normal text}{bg=white} }
 \addtobeamertemplate{headline}{}{\MyLogo}
 \setbeamertemplate{navigation symbols}{\insertframenumber{}/\inserttotalframenumber}
-\beamertemplategridbackground[1cm]
+%\beamertemplategridbackground[1cm]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Intro}
@@ -202,8 +201,14 @@
 };
 \tikzoverlay[text width = 5cm] at (8.35cm, 1.65cm){
     \includegraphics[width=6cm]{figures/exoplanet_art.jpeg}
+    \begin{tiny}
+        \begin{center}
+    exoplanets.nasa.gov
+        \end{center}
+        
+    \end{tiny}
 };
-\footlineextra{https://exoplanets.nasa.gov/system/internal\_resources/details/original/852\_Super\_Earth.jpeg}
+%\footlineextra{https://exoplanets.nasa.gov/system/internal\_resources/details/original/852\_Super\_Earth.jpeg}
 }
 
 \frame{
@@ -219,6 +224,7 @@
 \tikzoverlay[text width = 8cm] at (0cm-3pt, 3cm+4.5pt){
     \includegraphics[width=14cm]{figures/all_planets.pdf}
 };
+\footlineextra{Data from NExScI}
 }
 
 \frame{
@@ -252,6 +258,7 @@
 %\end{itemize}
 %};
 \tikzoverlay[text width = 14cm] at (0cm, 2.2cm+4.5pt){
+    %\animategraphics[controls, width=14cm]{10}{rv_example/frame-}{0}{1}
     \animategraphics[controls, width=14cm]{10}{rv_example/frame-}{0}{99}
 };
 }
@@ -266,7 +273,8 @@
     %\item[\textbullet] Many sources of error, primarily stellar variability
 %\end{itemize}
 %};
-\tikzoverlay[text width = 6cm] at (0cm-4.5pt, 2cm+4.5pt){
+\tikzoverlay[text width = 6cm] at (0cm, 2.2cm+4.5pt){
+    %\animategraphics[controls, width=14cm]{20}{error_example/frame-}{0}{1}
     \animategraphics[controls, width=14cm]{20}{error_example/frame-}{0}{99}
 };
 %\tikzoverlay[text width = 6cm] at (9.2cm, .5cm+4.9pt){
@@ -278,6 +286,7 @@
 \frame{
     \frametitle{Mass/inclination ambiguity}
 \tikzoverlay[text width = 6cm] at (1cm, 3cm+4.5pt){
+    %\animategraphics[loop, controls, width=12cm]{10}{mass_inclination_comparision/frame-}{0}{1}
     \animategraphics[loop, controls, width=12cm]{10}{mass_inclination_comparision/frame-}{0}{99}
 };
 }
@@ -286,7 +295,7 @@
 \section{Direct imaging}
 \subsection{Direct imaging}
 
-\frame{
+\frame[label=geoconstraint]{
     \frametitle{Geometric constraint}
 \tikzoverlay[text width = 6cm] at (-1cm, 3cm+4.5pt){
     \animategraphics[loop, controls, width=12cm]{10}{geometric_detection_criteria/frame-}{0}{99}
@@ -300,7 +309,9 @@
         \boxed{\textrm{IWA} < \alpha < \textrm{OWA}}
     \end{align*}
 };
+\footlineextra{\hyperlink{coronagraphbackup}{\beamerreturnbutton{Backup}}}
 }
+
 \frame{
     \frametitle{Photometric constraint}
 \tikzoverlay[text width = 6cm] at (-1cm, 3cm+4.5pt){
@@ -313,11 +324,11 @@
     \begin{align*}
         \Delta \textrm{mag} = -2.5 \log_{10}F_R
     \end{align*}
-
     \begin{align*}
             \boxed{\Delta \textrm{mag} < \Delta \textrm{mag}_0}
     \end{align*}
 };
+\footlineextra{\hyperlink{lambertbackup}{\beamerreturnbutton{Backup}}}
 }
 
 
@@ -388,6 +399,7 @@
 \end{align*}
 };
 \tikzoverlay[text width = 7cm] at (0cm-3pt, 2.2cm+4.5pt){
+    %\animategraphics[controls, width=14cm]{10}{pdet/frame-}{0}{1}
     \animategraphics[controls, width=14cm]{10}{pdet/frame-}{0}{99}
 };
 }
@@ -420,8 +432,9 @@
     \includegraphics[width=8cm]{figures/initial_work.png}
 };
 }
-\frame{
+\frame[label=radvelmain]{
 \frametitle{Fitting RV curves}
+\framesubtitle{ \hyperlink{radvelbackup}{\beamerreturnbutton{Backup}} }
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
 \begin{enumerate}
     \item[\textbullet] Want to start with RV data instead of sampling orbital elements directly
@@ -498,13 +511,13 @@
 
 \frame{
     \frametitle{Converting RadVel outputs}
-\tikzoverlay[text width = 14cm] at (0cm, 3.3cm+4.5pt){
-\begin{enumerate}
-    \item[\textbullet] To calculate $P_{\textrm{det}}$ we need more than just what RadVel provides
-        since we need to propagate the orbits in time
-    %\item[\textbullet] Solve for some orbital elements with standard orbital mechanics
-\end{enumerate}
-};
+%\tikzoverlay[text width = 14cm] at (0cm, 3.3cm+4.5pt){
+%\begin{enumerate}
+    %\item[\textbullet] To calculate $P_{\textrm{det}}$ we need more than just what RadVel provides
+        %since we need to propagate the orbits in time
+    %%\item[\textbullet] Solve for some orbital elements with standard orbital mechanics
+%\end{enumerate}
+%};
 \tikzoverlay[text width=10cm] at (2cm, 2.0cm){
 \begin{table}[h!]
     \begin{adjustbox}{max width=1\textwidth}
@@ -537,7 +550,7 @@
     \frametitle{Resolving mass/inclination ambiguity}
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
 \begin{itemize}
-    \item[\textbullet] Have everything necessary for propagation except inclination
+    %\item[\textbullet] Have everything necessary for propagation except inclination
     \item[\textbullet] Assume that inclinations are distributed isotropically in the universe, which
         creates a sinusoidal distribution in $[0, \pi)$ \parencite{Savransky2011a}
     %\item[\textbullet] Remove inclinations that would result in hydrogen burning mass ($0.08
@@ -637,6 +650,7 @@
 \frame{
     \frametitle{Method 1: max likelihood visualization}
 \tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
+    %\animategraphics[loop, controls, width=14cm]{20}{ML_vis/frame-}{0}{1}
     \animategraphics[loop, controls, width=14cm]{20}{ML_vis/frame-}{0}{99}
 };
 }
@@ -694,6 +708,7 @@ then use it 50,000 times
 \frame{
     \frametitle{Method 2: max KDE visualization}
 \tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
+    %\animategraphics[loop, controls, width=14cm]{20}{MKDE_vis/frame-}{0}{1}
     \animategraphics[loop, controls, width=14cm]{20}{MKDE_vis/frame-}{0}{99}
 };
 }
@@ -765,6 +780,7 @@ then use it 50,000 times
 \frame{
     \frametitle{Method 3: credible interval visualization}
 \tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
+    %\animategraphics[loop, controls, width=14cm]{20}{CI_vis/frame-}{0}{1}
     \animategraphics[loop, controls, width=14cm]{20}{CI_vis/frame-}{0}{99}
 };
 }
@@ -822,6 +838,7 @@ then use it 50,000 times
 \frame{
     \frametitle{Method 4: multivariate Gaussian visualization}
 \tikzoverlay[text width = 10cm] at (0cm-3pt, 3.1cm+4.5pt){
+    %\animategraphics[loop, controls, width=14cm]{20}{MG_vis/frame-}{0}{1}
     \animategraphics[loop, controls, width=14cm]{20}{MG_vis/frame-}{0}{99}
 };
 }
@@ -831,10 +848,10 @@ then use it 50,000 times
 \frame{
     \frametitle{Comparing construction method against ``true'' planets}
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-    \begin{itemize}
-        \item[\textbullet] Need an actual planet to compare the construction methods against to see
-            how well they do at predicting when the planet is detectable
-        \item[\textbullet] Study process
+    %\begin{itemize}
+        %\item[\textbullet] Need an actual planet to compare the construction methods against to see
+            %how well they do at predicting when the planet is detectable
+        %\item[\textbullet] Study process
             \begin{enumerate}
                 \item[1)] Create a simulated ``true'' planet with known orbital elements and assume
                     a 1$\sigma $ RV error
@@ -845,7 +862,7 @@ then use it 50,000 times
                     detectability 
                 \item[6)] Repeat for many ``true'' planets with different parameters
             \end{enumerate}
-    \end{itemize}
+    %\end{itemize}
 };
 }
 
@@ -858,12 +875,12 @@ then use it 50,000 times
             %\hrule
     %\end{itemize}
 %};
-\tikzoverlay[text width = 14cm] at (0cm-3pt, 3cm+4.5pt){
+\tikzoverlay[text width = 14cm] at (1cm, 3cm+4.5pt){
 \includegraphics[width=12cm]{ratio_example/frame-99}
 };
 }
 
-\frame{
+\frame[label=lambert2]{
     \frametitle{``True'' planet elements}
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
     %\begin{itemize}
@@ -907,11 +924,13 @@ then use it 50,000 times
             26.5
     \end{itemize}
 };
+\footlineextra{\hyperlink{lambertbackup}{\beamerreturnbutton{Backup}}}
 }
 
 \frame{
     \frametitle{Successful orbit construction}
 \tikzoverlay[text width = 10cm] at (0cm-3pt, 2.6cm+4.5pt){
+    %\animategraphics[loop, controls, width=14cm]{100}{CI_if/ratio-0.50-frame-}{0}{1}
     \animategraphics[loop, controls, width=14cm]{100}{CI_if/ratio-0.50-frame-}{0}{364}
 };
 }
@@ -942,11 +961,13 @@ then use it 50,000 times
 %};
 %}
 
-\frame{
+\frame[label=intermittent_failure_main]{
     \frametitle{Intermittent failure example}
-\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+\tikzoverlay[text width = 14cm] at (0cm, 2.6cm+4.5pt){
+    %\animategraphics[controls, width=14cm]{100}{ML_if/ratio-0.50-frame-}{0}{1}
     \animategraphics[controls, width=14cm]{100}{ML_if/ratio-0.50-frame-}{0}{364}
 };
+\footlineextra{\hyperlink{intermittent_failure_rules}{\beamerbutton{Rules}}}
 }
 
 \frame{
@@ -956,31 +977,72 @@ then use it 50,000 times
     %\item[1)] Probability of detection curve flattens to the point where a full orbital period passes without any extrema
 %\end{enumerate}
 %};
-\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
-    \animategraphics[controls, width=14cm]{50}{CI_if/ratio-1.00-frame-}{0}{999}
+\tikzoverlay[text width = 14cm] at (0cm, 2.6cm+4.5pt){
+    %\animategraphics[controls, width=14cm]{200}{CI_if/ratio-1.00-frame-}{0}{1}
+    \animategraphics[controls, width=14cm]{200}{CI_if/ratio-1.00-frame-}{0}{999}
 };
-%\includemedia[
-  %width=0.9\linewidth,height=0.675\linewidth, %use this for embedded
-  %%windowed=1000x500, %use this for floating window
-  %activate=pageopen,
-  %addresource=./figures/CI_if/output.mp4, %must be h.264 encoded
-  %flashvars={
-     %source=./figures/CI_if/output.mp4 
-    %&autoPlay=true
-    %&loop=true
-%},
-  %passcontext
-%]{}{VPlayer.swf}
 }
 
 \frame{
-    \frametitle{Full study results}
+    \frametitle{No failure, always detectable}
+%\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+%\begin{enumerate}
+    %\item[1)] Probability of detection curve flattens to the point where a full orbital period passes without any extrema
+%\end{enumerate}
+%};
+\tikzoverlay[text width = 14cm] at (0cm, 2.6cm+4.5pt){
+    %\animategraphics[controls, width=14cm]{100}{ML_if/ratio-1.00-frame-}{0}{1}
+    \animategraphics[controls, width=14cm]{100}{ML_if/ratio-1.00-frame-}{0}{599}
+};
+}
+
+\frame{
+    \frametitle{Max likelihood results}
+\tikzoverlay[text width = 10cm] at (8cm-3pt, 3.0cm+4.5pt){
+\includegraphics[height=7cm]{./figures/ML_results.png}
+};
+\tikzoverlay[text width = 10cm] at (0cm-3pt, 1.0cm+4.5pt){
+\includegraphics[width=7cm]{./figures/bar_plot_legend.png}
+};
+}
+
+\frame{
+    \frametitle{Max KDE results}
+\tikzoverlay[text width = 10cm] at (8cm-3pt, 3.0cm+4.5pt){
+\includegraphics[height=7cm]{./figures/MKDE_results.png}
+};
+\tikzoverlay[text width = 10cm] at (0cm-3pt, 1.0cm+4.5pt){
+\includegraphics[width=7cm]{./figures/bar_plot_legend.png}
+};
+}
+
+\frame{
+    \frametitle{Credible interval results}
+\tikzoverlay[text width = 10cm] at (8cm-3pt, 3.0cm+4.5pt){
+\includegraphics[height=7cm]{./figures/CI_results.png}
+};
+\tikzoverlay[text width = 10cm] at (0cm-3pt, 1.0cm+4.5pt){
+\includegraphics[width=7cm]{./figures/bar_plot_legend.png}
+};
+}
+
+\frame{
+    \frametitle{Multivariate Gaussian results}
+\tikzoverlay[text width = 10cm] at (8cm-3pt, 3.0cm+4.5pt){
+\includegraphics[height=7cm]{./figures/MG_results.png}
+};
+\tikzoverlay[text width = 10cm] at (0cm-3pt, 1.0cm+4.5pt){
+\includegraphics[width=7cm]{./figures/bar_plot_legend.png}
+};
+}
+
+\frame{
+    \frametitle{Construction method analysis}
 \tikzoverlay[text width = 9cm] at (-0.8cm, 3cm+4.5pt){
-    \begin{itemize}
-    \item[\textbullet] 20 years of propagation
-    \item[\textbullet] ``No failure (always detectable)'' is not a useful metric
-    \end{itemize}
-    Conclusions
+    %\begin{itemize}
+    %\item[\textbullet] 20 years of propagation
+    %\item[\textbullet] ``No failure (always detectable)'' is not a useful metric
+    %\end{itemize}
 \begin{enumerate}
     \item[1)] Max KDE/Likelihood perform very poorly
     \item[2)] Credible interval slightly outperforms multivariate Gaussian at ratio of 0.1
@@ -988,84 +1050,90 @@ then use it 50,000 times
     \item[4)] As variation in orbital elements increases (CI$>$MG$>$ML/KDE), the rate of dispersion failure increases
 \end{enumerate}
 };
-\tikzoverlay[text width = 10cm] at (8.5cm-3pt, 3.5cm+4.5pt){
-\includegraphics[height=8cm]{./figures/construction_method_bars_including_always_detectable.pdf}
+\tikzoverlay[text width = 10cm] at (8.5cm-3pt, 3cm+4.5pt){
+\includegraphics[height=7cm]{./figures/construction_method_bars_including_always_detectable.pdf}
 };
 }
 
-%\frame{
-    %\frametitle{Intermittent failure metrics}
-%\tikzoverlay[text width = 14cm] at (-0.8cm, 3.2cm+4.5pt){
-    %\begin{itemize}
-    %\item[\textbullet] Intermittent failure can happen a single time or many during propagation
-    %\item[\textbullet] Set up two metrics
-        %\begin{enumerate}
-            %\item[1)] Time of first intermittent failure, the time between start of propagation and the
-                %first intermittent failure
-            %\item[2)] Intermittent failure rate, the number of intermittent failures divided by the
-                %number of time steps where the true planet is not detectable
-        %\end{enumerate}
-    %\end{itemize}
-%};
-%TODO create graphic with the different metrics labeled
-%}
 \frame{
-    \frametitle{Intermittent failure results}
+    \frametitle{Intermittent failure metrics}
+\tikzoverlay[text width = 14cm] at (0cm, 2.1cm+4.5pt){
+\includegraphics[width=14cm]{./figures/ML_if/if_only_ratio-0.50-frame-364.png}
+};
+}
+
+\frame{
+    \frametitle{Intermittent failure analysis}
 \tikzoverlay[text width = 10cm] at (1.1cm-3pt, 3.1cm+4.5pt){
 \includegraphics[height=7.5cm]{./figures/violin_plots.pdf}
 };
 }
 
-\frame{
-    \frametitle{Summary of work}
-    \begin{enumerate}
-        \item[1)] Identified 4 methods of constructing orbits from RV fit information
-        \item[2)] Trade off between intermittent and dispersion failure
-        \item[3)] Using a single set of orbital elements performs poorly
-        \item[4)] For low ratios more variation in orbital elements is prefered
-        \item[5)] For medium ratios (0.5 and up) multivariate Gaussian performs the best
-        \item[6)] In cases with intermittent failure, it is overwhelmingly likely to happen within a
-            few orbital periods
-        \item[7)] At low ratios orbit construction that creates intermittent failure is more damaging than
-            at higher ratios
-    \end{enumerate}
-}
+%\frame{
+    %\frametitle{Summary of work}
+    %\begin{enumerate}
+        %\item[1)] Identified 4 methods of constructing orbits from RV fit information
+        %\item[2)] Trade off between intermittent and dispersion failure
+        %\item[3)] Using a single set of orbital elements performs poorly
+        %\item[4)] For low ratios more variation in orbital elements is prefered
+        %\item[5)] For medium ratios (0.5 and up) multivariate Gaussian performs the best
+        %\item[6)] In cases with intermittent failure, it is overwhelmingly likely to happen within a
+            %few orbital periods
+        %\item[7)] At low ratios orbit construction that creates intermittent failure is more damaging than
+            %at higher ratios
+    %\end{enumerate}
+%}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Future work}
 \subsection{Future work}
+
 \frame{
-\frametitle{Generalize the multivariate Gaussian}
+\frametitle{Outline}
 \begin{itemize}
-    \item[\textbullet] Want to adapt it to increase variation as the ratio decreases
-    \item[\textbullet] Expect that to improve performance at low ratios (similar to credible
-        interval)
+    \item[\textbullet] Improvements on current work
+        \begin{itemize}
+            \item[\textbullet] Photometry
+            \item[\textbullet] Investigate failure modes improvements
+            \item[\textbullet] Generalize the multivariate Gaussian method for better low ratio
+                performance
+        \end{itemize}
+    \item[\textbullet] Verification using EXOSIMS
+    \item[\textbullet] Multi-planet system handling
 \end{itemize}
 }
 
 \frame{
-\frametitle{Improved photometry}
+\frametitle{Improvements}
 \begin{itemize}
-    \item[\textbullet] Run simulations with more realistic photometry
-        \begin{enumerate}
-            \item[1)] Classify planets using Kopparapu bins \parencite{Kopparapu2018b}
-            \item[2)] Use different photometry calculations based on planet classification, likely
+    \item[\textbullet] Photometry
+        \begin{itemize}
+            \item[\textbullet] Classify planets using Kopparapu bins \parencite{Kopparapu2018b}
+            \item[\textbullet] Use different photometry calculations based on planet classification, likely
                 the color classification grid from \textcite{Batalha2018a} for Jovian planets,
-                unsure of reliable rocky planet photometry model
-            \item[3)] Run the failure mode analysis again
-        \end{enumerate}
+                investigate reliable rocky planet photometry models
+        \end{itemize}
+    \item[\textbullet] Failure mode improvements
+        \begin{itemize}
+            \item[\textbullet] Want to eliminate ``no failure, always detectable''
+        \end{itemize}
+    \item[\textbullet] Generalize multivariate Gaussian
+        \begin{itemize}
+            \item[\textbullet] Increase variation for low ratios
+            \item[\textbullet] Potentially incorporate random sampling
+        \end{itemize}
 \end{itemize}
 }
 
 \frame{
-\frametitle{Precursor RV target optimization and validation}
+\frametitle{Validation with EXOSIMS}
 \begin{itemize}
     \item[\textbullet] Create EXOSIMS SimulatedUniverse module that provides synthetic RV data that can be
         fitted with RadVel
-    \item[\textbullet] Implement the multivariate Gaussian construction method in EXOSIMS
+    \item[\textbullet] Implement the generalized construction method in EXOSIMS
     \item[\textbullet] Use the $P_{\textrm{det}}$ metric in the target list cost function and
-        simulate missions to see the effect of this procedure on exoplanet yield
+        simulate missions to quantify the effect of this process on exoplanet yield
 \end{itemize}
 }
 
@@ -1073,8 +1141,8 @@ then use it 50,000 times
 \frametitle{Multi-planet RV signals}
 \begin{itemize}
     \item[\textbullet] Set up this process to work with planetary systems with multiple planets
-    \item[\textbullet] Would need to study the problem of identifying how many planets make up the
-        RV curve
+    \item[\textbullet] Need to differentiate between star system probability of detection and
+        individual planet probability of detection
     \item[\textbullet] Might require a number of major assumptions to simulate more detailed
         analysis than can be automated (i.e. assume I already know the number of planets before
         fitting with RadVel)
@@ -1123,14 +1191,35 @@ then use it 50,000 times
 
 
 \frame{
-    \frametitle{Coursework}
-
+    \frametitle{Coursework and TA}
+    \begin{itemize}
+        \item[\textbullet] MAE 5780 - Feedback Control Systems
+        \item[\textbullet] MAE 5730 - Intermediate Dynamics and Vibrations
+        \item[\textbullet] MAE 6700 - Advanced Dynamics
+        \item[\textbullet] ECE 5210 - Theory of Linear Systems
+        \item[\textbullet] (TA) MAE 5730 - Feedback Control Systems
+        \item[\textbullet] MAE 6579 - Advanced Astrodynamics
+        \item[\textbullet] MAE 6810 - Methods of Applied Math I
+        \item[\textbullet] MAE 6780 - Multi-variable Control Theory
+        \item[\textbullet] ASTRO 6525 - Multi-wavelength Astronomy (In progress)
+    \end{itemize}
 }
 
 \frame{
     \frametitle{Acknowledgements}
-
+    \begin{itemize}
+        \item[\textbullet] Funded by NASA Grant Nos. NN16PJ24C (Science Investigation Team of the
+            Nancy Grace Roman Space Telescope Coronagraphic Instrument)
+        \item[\textbullet]  Funding through NASA Cooperative Agreement awarded to the New York Space Grant Consortium
+        \item[\textbullet] Astropy (astropy.org)
+        \item[\textbullet] RadVel \parencite{Fulton2018}
+        \item[\textbullet] Imaging Mission Database (plandb.sioslab.com)
+        \item[\textbullet] EXOSIMS contributors: Christian Delacroix, Daniel Garrett, Dean
+            Keithly, Corey Spohn, Gabriel Soto, and Dmitry Savransky, with contributions by Rhonda Morgan,
+            Michael Turmon, Walker Dula, Patrick Lowrance, Neil Zimmerman, and Ewan Douglas.
+    \end{itemize}
 }
+
 {
 \subsection{References}
 \frame[allowframebreaks]{
@@ -1141,6 +1230,89 @@ then use it 50,000 times
 %%backup slides:
 \section{Backup}
 \subsection{Backup}
+
+\frame[label=coronagraphbackup]{
+    \frametitle{Lyot Coronagraph}
+\framesubtitle{ \hyperlink{geoconstraint}{\beamerreturnbutton{Return}} }
+\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+    \begin{itemize}
+        \item[\textbullet] Coronagraph mask sets IWA and OWA
+        \item[\textbullet] Deformable mirrors for wavefront control set the largest control radius
+    \end{itemize}
+};
+\tikzoverlay[text width = 14cm] at (2cm, 1.5cm+4.5pt){
+    \includegraphics[width=10cm]{figures/APLC.png}
+    \begin{tiny}
+        \begin{center}
+            \textcite{NDiaye2015}
+        \end{center}
+    \end{tiny}
+};
+%\tikzoverlay[text width = 14cm] at (6cm, 0cm+4.5pt){
+    %\includegraphics[width=5cm]{figures/occultingmask.jpeg}
+    %\begin{tiny}
+        %\begin{center}
+            %jpl.nasa.gov
+        %\end{center}
+    %\end{tiny}
+%};
+
+}
+
+\frame[label=radvelbackup]{
+    \frametitle{RadVel likelihood}
+\framesubtitle{ \hyperlink{radvelmain}{\beamerreturnbutton{Return}} }
+\tikzoverlay[text width = 14cm] at (0cm, 3.1cm+4.5pt){
+    \begin{align*}
+        v_r &= K \left[ \cos\left( \nu +\omega_s \right) +e \cos\left( \omega_s \right)  \right] \\
+        \mathcal{V}_r &= \sum_{k}^{N_{\textrm{pl}}} v_{r,k} + \gamma + \dot{\gamma }\left( t-t_0
+        \right) + \ddot{\gamma}\left( t-t_0 \right)^2 \\
+            \ln \mathcal{L}_i \left( \theta | \mathcal{D}_i \right) &= -\frac{1}{2}\sum_{j}^{}
+        \frac{\left( \mathcal{V}_{r,j}\left( t, \theta  \right) -d_j \right)^2}{e_j^2+\sigma_i^2} -
+        \ln \sqrt{2 \pi \left( e_j^2 + \sigma_i^2 \right) } 
+    \end{align*}
+    \begin{itemize}
+        \item[\textbullet] $\theta $ - Vector of Keplerian parameters
+        \item[\textbullet] $\mathcal{D}_i$ - Data set
+        \item[\textbullet] $d_j$ - Each RV measurement
+        \item[\textbullet] $e_j$ - Measurement uncertainty associated with each measurement
+        \item[\textbullet] $\sigma_j$ - Gaussian noise term to account for
+            astrophysical/instrumental noise 
+    \end{itemize}
+};
+}
+
+\frame[label=radvelbackup2]{
+    \frametitle{RadVel MCMC}
+\framesubtitle{ \hyperlink{radvelmain}{\beamerreturnbutton{Return}} }
+\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+    \begin{itemize}
+        \item[\textbullet] Utilizes \code{emcee} python package
+        \item[\textbullet] Affine invariant ensemble sampling algorithm\textcite{Goodman2010}
+    \end{itemize}
+};
+}
+
+\frame[label=lambertbackup]{
+    \frametitle{Lambertian scattering}
+    \framesubtitle{ \hyperlink{lambert}{\beamerreturnbutton{Return to constraint}}
+    \hyperlink{lambert2}{\beamerreturnbutton{Return to planet elements}} }
+\tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
+    \begin{itemize}
+        \item[\textbullet] A Lambertian surface has the same radiance (or flux reflected by a
+            surface) when viewed from any angle. Meaning apparent brightness is constant over its
+            illuminated surface.
+        \item[\textbullet] Phase function: $\Phi(\beta) = \frac{1}{\pi }\left( \sin \beta +\left(
+            \pi -\beta \right) \cos \beta  \right) $
+        \item[\textbullet] Flux ratio: $F_R = p \Phi\left( \beta  \right) \left( \frac{R_p}{r}^2 \right) $
+        \item[\textbullet] $p$ - Ratio of reflected planetary flux at full phase to the flux from a
+            perfect lambert disk \textcite{Batalha2018a}
+    \end{itemize}
+};
+\tikzoverlay[text width = 14cm] at (4cm, -1cm+4.5pt){
+    \includegraphics[width=6cm]{figures/lambert/phi.png}
+};
+}
 
 \frame{
 \frametitle{Completeness, $C$}
@@ -1156,19 +1328,20 @@ then use it 50,000 times
 \end{align*}
 };
 \tikzoverlay[text width = 7cm] at (7cm, 3.1cm+4.5pt){
-    \animategraphics[loop, controls, width=7cm]{10}{completeness/frame-}{0}{9}
+    \animategraphics[loop, controls, width=7cm]{10}{completeness/frame-}{0}{99}
 };
 \footlineextra{\textcite{Brown2004c}, \textcite{Brown2005d}, \textcite{Garrett2016}}
 }
 \frame{
 \frametitle{Completeness, $C$}
 \tikzoverlay[text width = 12cm] at (0cm, 3.1cm+4.5pt){
-    \animategraphics[loop, controls, width=14cm]{10}{comp_constraint/frame-}{0}{9}
+    \animategraphics[loop, controls, width=14cm]{10}{comp_constraint/frame-}{0}{99}
 };
 }
 
-\frame{
-    \frametitle{Intermittent failure}
+\frame[label=intermittent_failure_rules]{
+    \frametitle{Intermittent failure rules}
+    \framesubtitle{\hyperlink{intermittent_failure_main}{\beamerbutton{Return}}}
 \tikzoverlay[text width = 14cm] at (0cm, 3cm+4.5pt){
 \begin{enumerate}
     \item[1)] The true planet is not detectable;
@@ -1183,16 +1356,12 @@ then use it 50,000 times
 \frame{
     \frametitle{Intermittent failure metrics}
 \tikzoverlay[text width = 14cm] at (-0.8cm, 3.2cm+4.5pt){
-    \begin{itemize}
-    \item[\textbullet] Intermittent failure can happen a single time or many during propagation
-    \item[\textbullet] Set up two metrics
-        \begin{enumerate}
-            \item[1)] Time of first intermittent failure, the time between start of propagation and the
-                first intermittent failure
-            \item[2)] Intermittent failure rate, the number of intermittent failures divided by the
-                number of time steps where the true planet is not detectable
-        \end{enumerate}
-    \end{itemize}
+    \begin{enumerate}
+        \item[1)] Time of first intermittent failure, the time between start of propagation and the
+            first intermittent failure
+        \item[2)] Intermittent failure rate, the number of intermittent failures divided by the
+            number of time steps where the true planet is not detectable
+    \end{enumerate}
 };
 %TODO create graphic with the different metrics labeled
 }

@@ -1,0 +1,73 @@
+%% Creator: Inkscape 1.1 (1:1.1+202105261517+ce6663b3b7), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'inclination.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{501.03945923bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.71512796)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{inclination.pdf}}%
+    \put(0.20927186,0.27844395){\color[rgb]{0.09019608,0.67058824,0.20392157}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Longitude of ascending node\end{tabular}}}}%
+    \put(0.56359495,0.4179602){\color[rgb]{0.37647059,0.15686275,1}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Argument of periapsis\end{tabular}}}}%
+    \put(0.28677985,0.46193174){\color[rgb]{0.76078431,0.03921569,0.03921569}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}True anomaly\end{tabular}}}}%
+    \put(0.60802386,0.12151258){\color[rgb]{0,0.49019608,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Inclination\end{tabular}}}}%
+    \put(0.49672206,0.06529381){\color[rgb]{0.9254902,0.25098039,0.25098039}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Ascending node\end{tabular}}}}%
+    \put(0.9291931,0.2796059){\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}Referencedirection\end{tabular}}}}%
+    \put(0.34712633,0.69465684){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Celestial body\end{tabular}}}}%
+    \put(0.21654059,0.18255232){\rotatebox{-8.50482183}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Plane of reference\end{tabular}}}}}%
+    \put(0.31626765,0.02741293){\rotatebox{21.13394082}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Orbit\end{tabular}}}}}%
+    \put(0.36345133,0.3473008){\color[rgb]{0.09019608,0.67058824,0.20392157}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Ω\end{tabular}}}}%
+    \put(0.53365719,0.380538){\color[rgb]{0.37647059,0.15686275,1}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}ω\end{tabular}}}}%
+    \put(0.49634419,0.44691471){\color[rgb]{0.76078431,0.03921569,0.03921569}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}ν\end{tabular}}}}%
+    \put(0.58969232,0.15604621){\color[rgb]{0,0.49019608,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textit{i}\end{tabular}}}}%
+    \put(0.53264738,0.10121913){\color[rgb]{0.9254902,0.25098039,0.25098039}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}☊\end{tabular}}}}%
+    \put(0.93658764,0.31852499){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}♈\end{tabular}}}}%
+  \end{picture}%
+\endgroup%
